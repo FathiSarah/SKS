@@ -9,7 +9,7 @@ import static main.Game.SCALE;
 public abstract class Entity {
 
     protected float x, y, width, height;
-    protected Rectangle2D.Float hitBox
+    protected Rectangle2D.Float hitBox;
     protected int speed;
 
     protected boolean isAlive = true;
