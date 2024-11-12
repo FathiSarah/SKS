@@ -1,7 +1,15 @@
-package Main;
+package main;
+
+import levels.LevelManager;
+import entities.Player;
 
 import java.awt.*;
 
+import static utils.LoadSave.LEVEL_ONE_HITBOX;
+
+/**
+ * Main class of the game, used to start the game
+ */
 public class Game implements Runnable {
 
     private GameWindow gameWindow;
@@ -9,6 +17,19 @@ public class Game implements Runnable {
     private Thread gameThread;
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
+
+    private Player player;
+    private LevelManager levelManager;
+
+    public final static int TILE_DEFAULT_SIZE = 32;
+    public final static float SCALE = 1.5f;
+    public final static int TILES_IN_WIDTH = 40;
+    public final static int TILES_IN_HEIGHT = 27;
+    public final static int TILES_SIZE = (int)(TILE_DEFAULT_SIZE * SCALE);
+    public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
+    public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+
+
 
     // Need to add the static variables for the size of the tiles, the scale and the size of the game window.
 
@@ -31,6 +52,8 @@ public class Game implements Runnable {
      * Initialize the classes needed for the game to run. (level, player, etc)
      */
     private void initClasses() {
+        levelManager = new LevelManager(this);
+        player = new Player(200, 1000, (int)(128 * SCALE), (int)(128 * SCALE), levelManager);
     }
 
     /**
@@ -46,6 +69,8 @@ public class Game implements Runnable {
      * Update the game logic (player/player's hitbox position, animation sprites, etc).
      */
     public void update(){
+        player.update();
+
     }
 
     /**
@@ -53,7 +78,10 @@ public class Game implements Runnable {
      * @param g
      */
     public void render( Graphics g){
+        levelManager.draw(g, LEVEL_ONE_HITBOX);
+       // levelManager.draw(g, LEVEL_ONE);
 
+        player.render(g);
     }
 
 
@@ -108,6 +136,14 @@ public class Game implements Runnable {
 
     //Will be called when the window loses focus, to stop the player from moving/pause the game or something similar
     public void WindowFocusLost() {
+    }
+
+    /**
+     * Get the player object.
+     * @return
+     */
+    public Player getPlayer() {
+        return player;
     }
 
 
