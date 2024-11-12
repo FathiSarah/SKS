@@ -14,9 +14,9 @@ public class Weapon{
         this.name = name;
     }
 
-    public boolean equipWeapon() {
-        if ()
-    }
+//    public boolean equipWeapon() {
+//        if ()
+//    }
 
     public boolean removeWeapon(Player player) {
         if (player.killNPC()) {
