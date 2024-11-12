@@ -23,6 +23,9 @@ public class Player extends Entity{
     public static final float CHAR_SCALE = 0.9f;
 
     private LevelManager levelManager;
+  
+    private boolean weaponInInventory = false;
+    private boolean keyInInventory = false;
 
 
     private int flipX = 0;
@@ -179,4 +182,26 @@ public class Player extends Entity{
     public void setDown(boolean down) {
         this.down = down;
     }
+  
+    public void getWeapon(KeyEvent e) {
+        e.getKeyCode();
+        if (keyboardInputs.isEPressed()) {
+            weaponInInventory = true;
+        }
+    }
+
+    public void getKey(KeyEvent e) {
+        e.getKeyCode();
+        if (keyboardInputs.isEPressed()) {
+            keyInInventory = true;
+        }
+    }
+
+    public boolean killNPC() {
+        if (weaponInInventory) {
+            System.out.println("Player killed NPC");
+            // removeWeapon();
+            return true;
+        }
+        return false;
 }

@@ -146,5 +146,4 @@ public class Game implements Runnable {
         return player;
     }
 
-
 }
