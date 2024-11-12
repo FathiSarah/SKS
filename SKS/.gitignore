@@ -32,3 +32,4 @@ bin/
 workspace.xml
 usage.statistics.xml
 
+*.iml

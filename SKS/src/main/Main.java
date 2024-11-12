@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 /**
  * Main class of the game, used to start the game
