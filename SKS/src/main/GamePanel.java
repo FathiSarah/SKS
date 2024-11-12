@@ -1,25 +1,57 @@
 package main;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import inputs.MouseInputs;
+import inputs.KeyBoardInputs;
+
 import javax.swing.JPanel;
+import java.awt.*;
 
+import static main.Game.GAME_HEIGHT;
+import static main.Game.GAME_WIDTH;
 
+/**
+ * This class creates a JPanel that we'll use to display our game.
+ * It sets the size of the panel and enables keyboard and mouse inputs.
+ * It is also the class that will render the game visuals.
+ */
 public class GamePanel extends JPanel {
 
-	private Game game;
-	public GamePanel(Game game) { // initializing game variable to use position below
-		this.game = game;
-		this.setDoubleBuffered(true);
+    private MouseInputs mouseInputs;
+    private Game game;
 
-	}
+    /**
+     * Constructor for the GamePanel class.
+     * @param game The game object that will be rendered on the panel.
+     */
+    public GamePanel(Game game) {
+        mouseInputs = new MouseInputs();
+        this.game = game;
 
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g); 
+        setPanelSize();
+        addKeyListener(new KeyBoardInputs(GamePanel.this));
+        addMouseListener(mouseInputs);
+        addMouseMotionListener(mouseInputs);
+    }
 
-		Graphics2D g2 = (Graphics2D)g; // type casting and G2D is more powerful
+    /**
+     * Set the size of the panel.
+     */
+    public void setPanelSize() {
+        setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
 
-		g2.fillRect(game.getPlayerX(), game.getPlayerY(), 200, 50);
-		g2.dispose();
-	}
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        game.render(g);
+    }
+
+    /**
+     * Get the game object.
+     * @return The game object.
+     */
+    public Game getGame() {
+        return game;
+    }
 }
