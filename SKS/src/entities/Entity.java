@@ -4,16 +4,16 @@ package entities;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import static main.Game.SCALE;
-
 public abstract class Entity {
 
     protected float x, y, width, height;
-    protected Rectangle2D.Float hitBox
+    protected Rectangle2D.Float hitBox;
     protected int speed;
 
     protected boolean isAlive = true;
     protected boolean isMoving = false;
+
+    protected Player player;
 
 
     public Entity(float x, float y, float width, float height) {

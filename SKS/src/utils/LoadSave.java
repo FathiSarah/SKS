@@ -1,9 +1,9 @@
 package utils;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.imageio.ImageIO;
 
 /**
  * This class is responsible for loading and saving the resources we need (images, sounds, level data, etc.).
@@ -21,7 +21,7 @@ public class LoadSave {
      */
     public static BufferedImage loadImage(String path) {
         BufferedImage image = null;
-        InputStream is = LoadSave.class.getResourceAsStream("../" + path);
+        InputStream is = LoadSave.class.getResourceAsStream("../res/" + path);
 
         try {
             image = ImageIO.read(is);

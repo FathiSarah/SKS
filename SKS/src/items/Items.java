@@ -1,26 +1,26 @@
-package weapons;
+package items;
 
 import entities.Player;
 
-public class Weapon{
+public class Items{
 
-    private int x, y;
+    private float x, y;
     private String name;
-    private boolean isEquiped = false;
+    protected boolean isPickedUp = false;
 
-    public Weapon(int x, int y, String name) {
+    public Items(float x, float y, String name) {
         this.x = x;
         this.y = y;
         this.name = name;
     }
 
-    public boolean equipWeapon() {
-        if ()
-    }
+//    public boolean equipWeapon() {
+//        if ()
+//    }
 
     public boolean removeWeapon(Player player) {
         if (player.killNPC()) {
-            isEquiped = false;
+            isPickedUp = false;
             return true;
         }
         return false;

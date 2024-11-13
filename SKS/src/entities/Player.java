@@ -1,13 +1,12 @@
 package entities;
 
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import levels.LevelManager;
 import main.Game;
-import utils.LoadSave;
-
-import java.awt.image.BufferedImage;
-import java.awt.Graphics;
-
 import static utils.Constants.PlayerConstants.*;
+import utils.LoadSave;
 import static utils.Methods.canMoveHere;
 
 public class Player extends Entity{
@@ -184,17 +183,17 @@ public class Player extends Entity{
     }
   
     public void getWeapon(KeyEvent e) {
-        e.getKeyCode();
-        if (keyboardInputs.isEPressed()) {
-            weaponInInventory = true;
-        }
+    //     e.getKeyCode();
+    //     if (keyboardInputs.isEPressed()) {
+    //         weaponInInventory = true;
+    //     }
     }
 
     public void getKey(KeyEvent e) {
-        e.getKeyCode();
-        if (keyboardInputs.isEPressed()) {
-            keyInInventory = true;
-        }
+        // e.getKeyCode();
+        // if (keyboardInputs.isEPressed()) {
+        //     keyInInventory = true;
+        // }
     }
 
     public boolean killNPC() {
@@ -204,4 +203,5 @@ public class Player extends Entity{
             return true;
         }
         return false;
+    }
 }
