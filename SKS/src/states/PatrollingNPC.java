@@ -5,7 +5,7 @@ import entities.NPCs;
 public class PatrollingNPC extends NPCs {
    
     public PatrollingNPC(int x, int y, String name) {
-        super(x, y, name);
+        super(x, y, 50, 100, name);
         this.currentState = NPC_state.PATROL;
     }
 

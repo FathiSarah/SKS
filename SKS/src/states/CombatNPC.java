@@ -5,7 +5,7 @@ import entities.NPCs;
 public class CombatNPC extends NPCs{
     
     public CombatNPC(int x, int y, String name) {
-        super(x, y, name);
+        super(x, y, 50,100, name);
         nPC_type = NPC_type.COMBATIVE;
     }
 
