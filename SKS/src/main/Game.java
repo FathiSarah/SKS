@@ -5,6 +5,7 @@ import entities.Player;
 
 import java.awt.*;
 
+import static utils.LoadSave.LEVEL_ONE;
 import static utils.LoadSave.LEVEL_ONE_HITBOX;
 
 /**
@@ -53,7 +54,7 @@ public class Game implements Runnable {
      */
     private void initClasses() {
         levelManager = new LevelManager(this);
-        player = new Player(200, 1000, (int)(128 * SCALE), (int)(128 * SCALE), levelManager);
+        player = new Player(175 * SCALE, 670 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager);
     }
 
     /**
@@ -78,8 +79,8 @@ public class Game implements Runnable {
      * @param g
      */
     public void render( Graphics g){
-        levelManager.draw(g, LEVEL_ONE_HITBOX);
-       // levelManager.draw(g, LEVEL_ONE);
+       levelManager.draw(g, LEVEL_ONE_HITBOX);
+       //levelManager.draw(g, LEVEL_ONE);
 
         player.render(g);
     }
