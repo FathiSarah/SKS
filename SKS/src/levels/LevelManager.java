@@ -23,7 +23,6 @@ public class LevelManager {
         BufferedImage lvlToDraw = loadImage(level);
 
         g.drawImage(lvlToDraw, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
-
     }
 
     public BufferedImage getCollisionMap() {

@@ -1,5 +1,6 @@
 package main;
 
+import entities.NPCs;
 import levels.LevelManager;
 import entities.Player;
 
@@ -21,6 +22,7 @@ public class Game implements Runnable {
 
     private Player player;
     private LevelManager levelManager;
+    private NPCs npc;
 
     public final static int TILE_DEFAULT_SIZE = 32;
     public final static float SCALE = 1.5f;
@@ -55,6 +57,7 @@ public class Game implements Runnable {
     private void initClasses() {
         levelManager = new LevelManager(this);
         player = new Player(175 * SCALE, 670 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager);
+        npc = new NPCs(100 * SCALE, 100 * SCALE, (int)(31 * SCALE), (int)(29 * SCALE), "NPC3");
     }
 
     /**
@@ -71,7 +74,7 @@ public class Game implements Runnable {
      */
     public void update(){
         player.update();
-
+        npc.update();
     }
 
     /**
@@ -79,10 +82,11 @@ public class Game implements Runnable {
      * @param g
      */
     public void render( Graphics g){
-       levelManager.draw(g, LEVEL_ONE_HITBOX);
-       //levelManager.draw(g, LEVEL_ONE);
+       //levelManager.draw(g, LEVEL_ONE_HITBOX);
+       levelManager.draw(g, LEVEL_ONE);
 
         player.render(g);
+        npc.render(g);
     }
 
 

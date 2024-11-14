@@ -5,7 +5,7 @@ import entities.NPCs;
 public class Father extends NPCs {
 
     public Father(int x, int y, String name) {
-        super(x, y, name);
+        super(x, y, 50,100, name);
         this.nPC_type = NPC_type.COMBATIVE;
         this.currentState = NPC_state.IDLE;
     }
