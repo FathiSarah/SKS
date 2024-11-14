@@ -1,6 +1,7 @@
 package main;
 
 import entities.Player;
+import entities.interactables.Key;
 import java.awt.*;
 import levels.LevelManager;
 import static utils.LoadSave.LEVEL_ONE_HITBOX;
@@ -17,6 +18,7 @@ public class Game implements Runnable {
     private final int UPS_SET = 200;
 
     private Player player;
+    private Key key;
     private LevelManager levelManager;
 
     public final static int TILE_DEFAULT_SIZE = 32;
@@ -51,7 +53,8 @@ public class Game implements Runnable {
      */
     private void initClasses() {
         levelManager = new LevelManager(this);
-        player = new Player(200, 1000, (int)(128 * SCALE), (int)(128 * SCALE), levelManager);
+        player = new Player(175 * SCALE, 670 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager);
+         key = new Key(450 , 750, 50, 20, "Key");
     }
 
     /**
@@ -76,10 +79,11 @@ public class Game implements Runnable {
      * @param g
      */
     public void render( Graphics g){
-        levelManager.draw(g, LEVEL_ONE_HITBOX);
-       // levelManager.draw(g, LEVEL_ONE);
+       levelManager.draw(g, LEVEL_ONE_HITBOX);
+       //levelManager.draw(g, LEVEL_ONE);
 
         player.render(g);
+        key.render(g);
     }
 
 

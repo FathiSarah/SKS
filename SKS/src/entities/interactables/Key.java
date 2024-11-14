@@ -1,11 +1,20 @@
 package entities.interactables;
 
-import items.Items;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import main.Game;
+import static utils.LoadSave.loadImage;
 
 public class Key extends Items {
 
+    public Key(float x, float y, int width, int height, String name) {
+        super(x, y, width, height, name);
+        initHitBox(x, y, 50 * Game.SCALE, 15* Game.SCALE);
+    }
 
-    public Key(float x, float y, int width, int height) {
-        super(x, y, "Key");
+    public void render(Graphics g) {
+        BufferedImage key = loadImage("key.png");
+        g.drawImage(key, (int) x, (int) y, (int) width, (int) height, null);
+        drawHitBox(g);
     }
 }

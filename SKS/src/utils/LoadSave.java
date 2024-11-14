@@ -12,7 +12,7 @@ public class LoadSave {
 
     public static final String CHARACTER_ATLAS = "CharAtlas.png";
     public static final String LEVEL_ONE = "level1.png";
-    public static final String LEVEL_ONE_HITBOX = "level1_hitbox.png";
+    public static final String LEVEL_ONE_HITBOX = "level1_hitBox.png";
 
     /**
      * Load an image from the resources' folder.
