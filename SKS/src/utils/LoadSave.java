@@ -21,7 +21,7 @@ public class LoadSave {
      */
     public static BufferedImage loadImage(String path) {
         BufferedImage image = null;
-        InputStream is = LoadSave.class.getResourceAsStream("../" + path);
+        InputStream is = LoadSave.class.getResourceAsStream("../res/" + path);
 
         try {
             image = ImageIO.read(is);
