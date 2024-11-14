@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 
 import static utils.Constants.PlayerConstants.*;
-import static utils.Methods.canMoveHere;
+import static utils.Methods.*;
 
 public class Player extends Entity{
 
@@ -21,7 +21,6 @@ public class Player extends Entity{
     private float playerSpeed = 2.0f;
     private float xOffset = 48 * Game.SCALE;
     private float yOffset = 64 * Game.SCALE;
-    public static final float CHAR_SCALE = 0.9f;
 
     private LevelManager levelManager;
   
@@ -37,7 +36,7 @@ public class Player extends Entity{
         super(x, y, width, height);
         this.levelManager = levelManager;
         loadAnimations();
-        initHitBox(x, y, 35 * Game.SCALE * CHAR_SCALE, 64 * Game.SCALE * CHAR_SCALE);
+        initHitBox(x, y, 35 * Game.SCALE, 64 * Game.SCALE);
     }
 
     public void update(){
@@ -99,6 +98,9 @@ public class Player extends Entity{
     }
 
     private void updatePos() {
+        while (!isEntityOnFloor(hitBox, levelManager.getCollisionMap())) {
+            hitBox.y += 1;
+        }
         moving = false;
 
         if(!left && !right && !up && !down) {
@@ -114,6 +116,7 @@ public class Player extends Entity{
         }
         if (!left && right) {
             xSpeed += playerSpeed;
+
             flipX = 0;
             flipW = 1;
         }

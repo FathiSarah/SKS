@@ -2,6 +2,7 @@ package utils;
 
 import main.Game;
 
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class Methods {
@@ -38,5 +39,17 @@ public class Methods {
 
         return red == 174 && green == 50 && blue == 34;
 
+    }
+
+    public static boolean isEntityOnFloor(Rectangle2D.Float hitBox, BufferedImage CollisionMap) {
+        float scaledX = hitBox.x / Game.SCALE;
+        float scaledY = hitBox.y / Game.SCALE;
+        int scaledWidth = (int) (hitBox.width / Game.SCALE);
+        int scaledHeight = (int) (hitBox.height / Game.SCALE);
+
+        if (!isSolid(scaledX, scaledY + scaledHeight + 1, CollisionMap) && !isSolid(scaledX + scaledWidth, scaledY + scaledHeight + 1, CollisionMap)) {
+            return false;
+        }
+        return true;
     }
 }
