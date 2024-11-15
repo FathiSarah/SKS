@@ -5,6 +5,7 @@ import entities.interactables.Key;
 import entities.interactables.Knife;
 import java.awt.*;
 import levels.LevelManager;
+import static utils.LoadSave.LEVEL_ONE;
 import static utils.LoadSave.LEVEL_ONE_HITBOX;
 
 /**
@@ -83,6 +84,8 @@ public class Game implements Runnable {
      */
     public void render( Graphics g){
        levelManager.draw(g, LEVEL_ONE_HITBOX);
+       //levelManager.draw(g, LEVEL_ONE);
+       levelManager.draw(g, LEVEL_ONE);
        //levelManager.draw(g, LEVEL_ONE);
 
         player.render(g);
