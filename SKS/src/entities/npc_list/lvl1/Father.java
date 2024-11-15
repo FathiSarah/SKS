@@ -1,11 +1,12 @@
 package entities.npc_list.lvl1;
 
 import entities.NPCs;
+import levels.LevelManager;
 
 public class Father extends NPCs {
 
-    public Father(int x, int y, String name) {
-        super(x, y, 50,100, name);
+    public Father(int x, int y, String name, LevelManager levelManager) {
+        super(x, y, 50,100, name, levelManager);
         this.nPC_type = NPC_type.COMBATIVE;
         this.currentState = NPC_state.IDLE;
     }
