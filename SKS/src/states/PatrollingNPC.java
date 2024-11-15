@@ -1,11 +1,12 @@
 package states;
 
 import entities.NPCs;
+import levels.LevelManager;
 
 public class PatrollingNPC extends NPCs {
    
-    public PatrollingNPC(int x, int y, String name) {
-        super(x, y, name);
+    public PatrollingNPC(int x, int y, String name, LevelManager levelManager) {
+        super(x, y, 50, 100, name, levelManager);
         this.currentState = NPC_state.PATROL;
     }
 

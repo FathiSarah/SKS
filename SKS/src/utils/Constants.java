@@ -52,4 +52,30 @@ public class Constants {
             }
         }
     }
+
+    /**
+     * Constants to decide the enemy action and the according sprite
+     */
+    public static class EnemyConstants {
+
+        public static final int ATTACK = 0;
+        public static final int DEATH = 1;
+        public static final int IDLE = 2;
+        public static final int WALK = 3;
+
+
+        public static int GetSpriteAmount(int enemy_action) {
+            switch (enemy_action) {
+                case DEATH:
+                    return 8;
+                case WALK:
+                    return 6;
+                case ATTACK:
+                case IDLE:
+                    return 4;
+                default:
+                    return 0;
+            }
+        }
+    }
 }

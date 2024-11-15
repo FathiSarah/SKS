@@ -13,6 +13,9 @@ public class LoadSave {
     public static final String CHARACTER_ATLAS = "CharAtlas.png";
     public static final String LEVEL_ONE = "level1.png";
     public static final String LEVEL_ONE_HITBOX = "level1_hitBox.png";
+    public static final String ENEMY1_ATLAS = "Enemy1Atlas.png";
+    public static final String ENEMY2_ATLAS = "Enemy2Atlas.png";
+    public static final String ENEMY3_ATLAS = "Enemy3Atlas.png";
 
     /**
      * Load an image from the resources' folder.

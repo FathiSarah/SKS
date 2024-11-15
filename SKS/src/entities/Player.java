@@ -10,6 +10,9 @@ import static utils.Constants.PlayerConstants.*;
 import utils.LoadSave;
 import static utils.Methods.*;
 
+/**
+ * Child class of Entity, used to create the player in the game.
+ */
 public class Player extends Entity{
 
     private BufferedImage[][] animations;
@@ -32,7 +35,14 @@ public class Player extends Entity{
     private int flipX = 0;
     private int flipW = 1;
 
-
+    /**
+     * Constructor for Player.
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param levelManager
+     */
     public Player(float x, float y, int width, int height, LevelManager levelManager) {
         super(x, y, width, height);
         this.levelManager = levelManager;
@@ -40,6 +50,9 @@ public class Player extends Entity{
         initHitBox(x, y, 35 * Game.SCALE, 64 * Game.SCALE);
     }
 
+    /**
+     * Method that updates everything related to the player (it's position, animation, etc.)
+     */
     public void update(Key key) {
         this.key = key;
         updatePos();
@@ -52,11 +65,18 @@ public class Player extends Entity{
         this.knife = knife;
     }
 
+    /**
+     * Method that renders the player on the screen.
+     * @param g
+     */
     public void render(Graphics g){
         g.drawImage(animations[playerAction][aniIndex], (int)(hitBox.x - xOffset) + flipX, (int)(hitBox.y - yOffset), (int)width * flipW, (int)height, null);
         drawHitBox(g);
     }
 
+    /**
+     * Method that handles the rotation of sprites, depending on the animation and the number of sprites this animation have.
+     */
     private void updateAnimationTick(){
         aniTick++;
         if(aniTick >= aniSpeed){
@@ -68,6 +88,9 @@ public class Player extends Entity{
         }
     }
 
+    /**
+     * Method that sets the animation of the player depending on the player's actions.
+     */
     private void setAnimation(){
         int startAni = playerAction;
 
@@ -99,11 +122,17 @@ public class Player extends Entity{
 
     }
 
+    /**
+     * Method that resets the animation tick and index. Used when the player changes animation.
+     */
     private void resetAniTick() {
         aniTick = 0;
         aniIndex = 0;
     }
 
+    /**
+     * Method that updates the player's position.
+     */
     private void updatePos() {
         while (!isEntityOnFloor(hitBox, levelManager.getCollisionMap())) {
             hitBox.y += 1;
@@ -145,6 +174,9 @@ public class Player extends Entity{
         }
     }
 
+    /**
+     * Method that loads the different animations of the player into an array.
+     */
     private void loadAnimations() {
 
         BufferedImage image = LoadSave.loadImage(LoadSave.CHARACTER_ATLAS);

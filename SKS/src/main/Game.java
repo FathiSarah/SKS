@@ -1,5 +1,8 @@
 package main;
 
+
+import entities.NPCs;
+import levels.LevelManager;
 import entities.Player;
 import entities.interactables.Key;
 import entities.interactables.Knife;
@@ -7,6 +10,8 @@ import java.awt.*;
 import levels.LevelManager;
 import static utils.LoadSave.LEVEL_ONE;
 import static utils.LoadSave.LEVEL_ONE_HITBOX;
+
+import static entities.NPCs.NPC_SCALE;
 
 /**
  * Main class of the game, used to start the game
@@ -23,6 +28,8 @@ public class Game implements Runnable {
     private Key key;
     private Knife knife;
     private LevelManager levelManager;
+    private NPCs npc, npc2, npc3;
+
 
     public final static int TILE_DEFAULT_SIZE = 32;
     public final static float SCALE = 1f;
@@ -59,6 +66,9 @@ public class Game implements Runnable {
         key = new Key(450 , 750, 50, 20, "Key");
         knife = new Knife(350, 750, 50, 20, "Knife");
         player = new Player(175 * SCALE, 670 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager);
+        npc = new NPCs(800 * SCALE, 500 * SCALE, (int)(31 * SCALE * NPC_SCALE), (int)(29 * SCALE * NPC_SCALE), "NPC1", levelManager);
+        npc2 = new NPCs(950 * SCALE, 670 * SCALE, (int)(31 * SCALE * NPC_SCALE), (int)(29 * SCALE * NPC_SCALE), "NPC2", levelManager);
+        npc3 = new NPCs(400 * SCALE, 450 * SCALE, (int)(31 * SCALE * NPC_SCALE), (int)(29 * SCALE * NPC_SCALE), "NPC3", levelManager);
     }
 
     /**
@@ -76,6 +86,9 @@ public class Game implements Runnable {
     public void update(){
         player.update(key);
         player.update(knife);
+        npc.update();
+        npc2.update();
+        npc3.update();
     }
 
     /**
@@ -96,6 +109,9 @@ public class Game implements Runnable {
             knife.render(g);
         }
 
+        npc.render(g);
+        npc2.render(g);
+        npc3.render(g);
     }
 
 

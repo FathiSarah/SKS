@@ -1,5 +1,8 @@
 package levels;
 
+/**
+ * Class used to store level data.
+ */
 public class Level {
 
     private int[][] levelData;
