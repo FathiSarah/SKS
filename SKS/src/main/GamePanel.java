@@ -1,11 +1,9 @@
 package main;
 
-import inputs.MouseInputs;
 import inputs.KeyboardInputs;
-
-import javax.swing.JPanel;
+import inputs.MouseInputs;
 import java.awt.*;
-
+import javax.swing.JPanel;
 import static main.Game.GAME_HEIGHT;
 import static main.Game.GAME_WIDTH;
 

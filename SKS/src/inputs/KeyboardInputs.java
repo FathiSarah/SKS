@@ -1,15 +1,16 @@
 package inputs;
 
-import main.GamePanel;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import main.GamePanel;
 
 public class KeyboardInputs implements KeyListener {
     private GamePanel gamePanel;
 
 
+
     public KeyboardInputs(GamePanel gamePanel) {
+
         this.gamePanel = gamePanel;
     }
 
@@ -41,11 +42,8 @@ public class KeyboardInputs implements KeyListener {
             gamePanel.getGame().getPlayer().setRunning(true);
         }
         if (e.getKeyCode() == KeyEvent.VK_E) {
-            //Equip method
+            gamePanel.getGame().getPlayer().setEquip(true);
         }
-
-
-
     }
 
     @Override
@@ -69,12 +67,7 @@ public class KeyboardInputs implements KeyListener {
             gamePanel.getGame().getPlayer().setJumping(false);
         }
         if (e.getKeyCode() ==  KeyEvent.VK_E) {
-            //Equip method
+            gamePanel.getGame().getPlayer().setEquip(false);
         }
-    }
-
-    public boolean isEPressed() {
-        //return gamePanel.getGame().getPlayer().isEPressed();
-        return true;
     }
 }

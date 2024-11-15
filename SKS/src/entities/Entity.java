@@ -3,12 +3,12 @@ package entities;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-
 import static main.Game.SCALE;
 
 /**
  * Entity class that will be the base class for all entities in the game.
  */
+
 public abstract class Entity {
 
     protected float x, y, width, height;
@@ -17,6 +17,9 @@ public abstract class Entity {
 
     protected boolean isAlive = true;
     protected boolean isMoving = false;
+
+    protected Player player;
+
 
     /**
      * Constructor for the Entity class.

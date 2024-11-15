@@ -1,14 +1,13 @@
 package entities;
 
+import entities.interactables.Key;
+import entities.interactables.Knife;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import levels.LevelManager;
 import main.Game;
-import utils.LoadSave;
-
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.awt.Graphics;
-
 import static utils.Constants.PlayerConstants.*;
+import utils.LoadSave;
 import static utils.Methods.*;
 
 /**
@@ -21,6 +20,7 @@ public class Player extends Entity{
     private int playerAction = IDLE_1;
     private boolean moving = false, attacking = false, jumping = false, running = false, crouching = false;
     private boolean left, right, up, down;
+    private boolean equip = false;
     private float playerSpeed = 2.0f;
     private float xOffset = 48 * Game.SCALE;
     private float yOffset = 64 * Game.SCALE;
@@ -28,8 +28,9 @@ public class Player extends Entity{
     private LevelManager levelManager;
   
     private boolean weaponInInventory = false;
-    private boolean keyInInventory = false;
 
+    private Key key;
+    private Knife knife;
 
     private int flipX = 0;
     private int flipW = 1;
@@ -52,10 +53,16 @@ public class Player extends Entity{
     /**
      * Method that updates everything related to the player (it's position, animation, etc.)
      */
-    public void update(){
+    public void update(Key key) {
+        this.key = key;
         updatePos();
         setAnimation();
         updateAnimationTick();
+        manageKeyPickup();
+    }
+
+    public void update(Knife knife) {
+        this.knife = knife;
     }
 
     /**
@@ -148,7 +155,7 @@ public class Player extends Entity{
 
             flipX = 0;
             flipW = 1;
-        }
+        } 
         if (up && !down) { ySpeed -= playerSpeed; }
         if (!up && down) { ySpeed += playerSpeed; }
 
@@ -218,19 +225,9 @@ public class Player extends Entity{
     public void setDown(boolean down) {
         this.down = down;
     }
-  
-    public void getWeapon(KeyEvent e) {
-//        e.getKeyCode();
-//        if (keyboardInputs.isEPressed()) {
-//            weaponInInventory = true;
-//        }
-    }
 
-    public void getKey(KeyEvent e) {
-//        e.getKeyCode();
-//        if (keyboardInputs.isEPressed()) {
-//            keyInInventory = true;
-//        }
+    public void setEquip(boolean equip) {
+        this.equip = equip;
     }
 
     public boolean killNPC() {
@@ -240,5 +237,18 @@ public class Player extends Entity{
             return true;
         }
         return false;
+    }
+
+    public void manageKeyPickup() {
+        if (key != null && !key.isPickedUp && hitBox.intersects(key.getHitBox()) && equip) {
+            System.out.println("Key picked up!");
+            key.isPickedUp = true;
+            key = null;
+        }
+        if (knife != null && !knife.isPickedUp && hitBox.intersects(knife.getHitBox()) && equip) {
+            System.out.println("Knife picked up!");
+            knife.isPickedUp = true;
+            knife = null;
+        }
     }
 }

@@ -1,11 +1,13 @@
 package main;
 
+
 import entities.NPCs;
 import levels.LevelManager;
 import entities.Player;
-
+import entities.interactables.Key;
+import entities.interactables.Knife;
 import java.awt.*;
-
+import levels.LevelManager;
 import static utils.LoadSave.LEVEL_ONE;
 import static utils.LoadSave.LEVEL_ONE_HITBOX;
 
@@ -23,6 +25,8 @@ public class Game implements Runnable {
     private final int UPS_SET = 200;
 
     private Player player;
+    private Key key;
+    private Knife knife;
     private LevelManager levelManager;
     private NPCs npc, npc2, npc3;
 
@@ -59,6 +63,8 @@ public class Game implements Runnable {
      */
     private void initClasses() {
         levelManager = new LevelManager(this);
+        key = new Key(450 , 750, 50, 20, "Key");
+        knife = new Knife(350, 750, 50, 20, "Knife");
         player = new Player(175 * SCALE, 670 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager);
         npc = new NPCs(800 * SCALE, 500 * SCALE, (int)(31 * SCALE * NPC_SCALE), (int)(29 * SCALE * NPC_SCALE), "NPC1", levelManager);
         npc2 = new NPCs(950 * SCALE, 670 * SCALE, (int)(31 * SCALE * NPC_SCALE), (int)(29 * SCALE * NPC_SCALE), "NPC2", levelManager);
@@ -78,7 +84,8 @@ public class Game implements Runnable {
      * Update the game logic (player/player's hitbox position, animation sprites, etc).
      */
     public void update(){
-        player.update();
+        player.update(key);
+        player.update(knife);
         npc.update();
         npc2.update();
         npc3.update();
@@ -90,9 +97,18 @@ public class Game implements Runnable {
      */
     public void render( Graphics g){
        levelManager.draw(g, LEVEL_ONE_HITBOX);
+       //levelManager.draw(g, LEVEL_ONE);
        levelManager.draw(g, LEVEL_ONE);
+       //levelManager.draw(g, LEVEL_ONE);
 
         player.render(g);
+        if (key != null && key.isPickedUp() == false) {
+            key.render(g);
+        }
+        if (knife != null && knife.isPickedUp() == false) {
+            knife.render(g);
+        }
+
         npc.render(g);
         npc2.render(g);
         npc3.render(g);
