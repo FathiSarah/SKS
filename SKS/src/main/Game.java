@@ -2,6 +2,7 @@ package main;
 
 import entities.Player;
 import entities.interactables.Key;
+import entities.interactables.Knife;
 import java.awt.*;
 import levels.LevelManager;
 import static utils.LoadSave.LEVEL_ONE_HITBOX;
@@ -19,6 +20,7 @@ public class Game implements Runnable {
 
     private Player player;
     private Key key;
+    private Knife knife;
     private LevelManager levelManager;
 
     public final static int TILE_DEFAULT_SIZE = 32;
@@ -53,8 +55,9 @@ public class Game implements Runnable {
      */
     private void initClasses() {
         levelManager = new LevelManager(this);
+        key = new Key(450 , 750, 50, 20, "Key");
+        knife = new Knife(350, 750, 50, 20, "Knife");
         player = new Player(175 * SCALE, 670 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager);
-         key = new Key(450 , 750, 50, 20, "Key");
     }
 
     /**
@@ -70,8 +73,8 @@ public class Game implements Runnable {
      * Update the game logic (player/player's hitbox position, animation sprites, etc).
      */
     public void update(){
-        player.update();
-
+        player.update(key);
+        player.update(knife);
     }
 
     /**
@@ -83,7 +86,13 @@ public class Game implements Runnable {
        //levelManager.draw(g, LEVEL_ONE);
 
         player.render(g);
-        key.render(g);
+        if (key != null && key.isPickedUp() == false) {
+            key.render(g);
+        }
+        if (knife != null && knife.isPickedUp() == false) {
+            knife.render(g);
+        }
+
     }
 
 

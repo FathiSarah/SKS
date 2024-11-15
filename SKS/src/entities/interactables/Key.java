@@ -13,8 +13,10 @@ public class Key extends Items {
     }
 
     public void render(Graphics g) {
-        BufferedImage key = loadImage("key.png");
-        g.drawImage(key, (int) x, (int) y, (int) width, (int) height, null);
-        drawHitBox(g);
+        if (!isPickedUp) {
+            BufferedImage keyImage = loadImage("key.png");
+            g.drawImage(keyImage, (int) x, (int) y, (int) width, (int) height, null);
+            drawHitBox(g);
+        }
     }
 }

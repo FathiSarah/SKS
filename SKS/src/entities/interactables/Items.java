@@ -2,12 +2,15 @@ package entities.interactables;
 
 import entities.Entity;
 import entities.Player;
+import inputs.KeyboardInputs;
 
 public class Items extends Entity{
 
-    protected  float x, y;
+    protected float x, y;
     protected String name;
-    protected boolean isPickedUp = false;
+    public boolean isPickedUp = false;
+    private KeyboardInputs keyboardInputs;
+    private boolean equip;
 
     public Items(float x, float y, float width, float height, String name) {
         super(x, y, width, height);
@@ -16,8 +19,13 @@ public class Items extends Entity{
         this.name = name;
     }
 
-   public boolean equipWeapon() {
-    return false;
+    public boolean checkPickUpItem() {
+        if (!isPickedUp && getHitBox().intersects(player.getHitBox())) {
+            System.out.println("Key picked up");
+            isPickedUp = true;
+            return true;
+        }
+        return false;
     }
 
     public boolean removeWeapon(Player player) {
@@ -29,4 +37,7 @@ public class Items extends Entity{
     }
 
 
+    public boolean isPickedUp() {
+        return isPickedUp;
+    }
 }
