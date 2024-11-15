@@ -5,8 +5,20 @@ import main.Game;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * This class contains methods that are used in multiple classes.
+ */
 public class Methods {
 
+    /**
+     * Method used to check if an entity can move to a certain position.
+     * @param x x-coordinate of the entity.
+     * @param y y-coordinate of the entity.
+     * @param width width of the entity.
+     * @param height height of the entity.
+     * @param CollisionMap The collision map of the level.
+     * @return True if the entity can move to the position, false otherwise.
+     */
     public static boolean canMoveHere(float x, float y, float width, float height, BufferedImage CollisionMap) {
         float scaledX = x / Game.SCALE;
         float scaledY = y / Game.SCALE;
@@ -19,6 +31,13 @@ public class Methods {
         return false;
     }
 
+    /**
+     * Method used to check if a certain position is solid (i.e. if the pixel is of a certain color, telling us it's a wall or a floor)
+     * @param x x-coordinate of the position.
+     * @param y y-coordinate of the position.
+     * @param CollisionMap The collision map of the level.
+     * @return True if the position is solid, false otherwise.
+     */
     private static boolean isSolid(float x, float y,  BufferedImage CollisionMap) {
         if (x < 0 || x >= Game.GAME_WIDTH) {
             return true;
@@ -41,6 +60,12 @@ public class Methods {
 
     }
 
+    /**
+     * Method used to check if an entity is on the floor or in the air.
+     * @param hitBox The hitbox of the entity.
+     * @param CollisionMap The collision map of the level.
+     * @return True if the entity is on the floor, false otherwise.
+     */
     public static boolean isEntityOnFloor(Rectangle2D.Float hitBox, BufferedImage CollisionMap) {
         float scaledX = hitBox.x / Game.SCALE;
         float scaledY = hitBox.y / Game.SCALE;

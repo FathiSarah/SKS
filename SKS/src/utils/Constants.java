@@ -53,6 +53,9 @@ public class Constants {
         }
     }
 
+    /**
+     * Constants to decide the enemy action and the according sprite
+     */
     public static class EnemyConstants {
 
         public static final int ATTACK = 0;
