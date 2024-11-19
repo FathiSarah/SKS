@@ -88,6 +88,7 @@ public class Game implements Runnable {
 
     /**
      * Update the game logic (player/player's hitbox position, animation sprites, etc).
+     *
      */
     public void update(){
 
