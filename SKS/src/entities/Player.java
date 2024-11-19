@@ -241,6 +241,10 @@ public class Player extends Entity{
 
     public void setAction(boolean action) { this.action = action; }
 
+    public boolean getKeyIsPickedUp() {
+        return key.isPickedUp;
+    }
+
     public boolean killNPC() {
         if (weaponInInventory) {
             System.out.println("Player killed NPC");
