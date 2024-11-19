@@ -3,8 +3,10 @@ package entities;
 import entities.interactables.Key;
 import entities.interactables.Knife;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import levels.LevelManager;
+
+import levels.*;
 import main.Game;
 import static utils.Constants.PlayerConstants.*;
 import utils.LoadSave;
@@ -18,14 +20,16 @@ public class Player extends Entity{
     private BufferedImage[][] animations;
     private int aniTick, aniIndex, aniSpeed = 15;
     private int playerAction = IDLE_1;
-    private boolean moving = false, attacking = false, jumping = false, running = false, crouching = false;
+    private boolean moving = false, attacking = false, jumping = false, running = false, crouching = false, action = false;
     private boolean left, right, up, down;
     private boolean equip = false;
     private float playerSpeed = 2.0f;
     private float xOffset = 48 * Game.SCALE;
     private float yOffset = 64 * Game.SCALE;
+    private LevelBase currentlevel = new LevelOne();
 
     private LevelManager levelManager;
+    private Game game;
   
     private boolean weaponInInventory = false;
 
@@ -43,9 +47,10 @@ public class Player extends Entity{
      * @param height
      * @param levelManager
      */
-    public Player(float x, float y, int width, int height, LevelManager levelManager) {
+    public Player(float x, float y, int width, int height, LevelManager levelManager, Game game) {
         super(x, y, width, height);
         this.levelManager = levelManager;
+        this.game = game;
         loadAnimations();
         initHitBox(x, y, 35 * Game.SCALE, 64 * Game.SCALE);
     }
@@ -53,16 +58,20 @@ public class Player extends Entity{
     /**
      * Method that updates everything related to the player (it's position, animation, etc.)
      */
-    public void update(Key key) {
-        this.key = key;
+    public void update() {
         updatePos();
         setAnimation();
         updateAnimationTick();
         manageKeyPickup();
+        takeStairs(game.getActiveLevel());
     }
 
     public void update(Knife knife) {
         this.knife = knife;
+    }
+
+    public void update(Key key) {
+        this.key = key;
     }
 
     /**
@@ -170,7 +179,7 @@ public class Player extends Entity{
             hitBox.y += ySpeed;
             moving = true;
         } else {
-            System.out.println("Collision detected at: (" + (x + xSpeed) + ", " + (y + ySpeed) + ")");
+            System.out.println("Collision detected at: (" + (hitBox.x + xSpeed) + ", " + (hitBox.y + ySpeed) + ")");
         }
     }
 
@@ -230,6 +239,8 @@ public class Player extends Entity{
         this.equip = equip;
     }
 
+    public void setAction(boolean action) { this.action = action; }
+
     public boolean killNPC() {
         if (weaponInInventory) {
             System.out.println("Player killed NPC");
@@ -244,11 +255,33 @@ public class Player extends Entity{
             System.out.println("Key picked up!");
             key.isPickedUp = true;
             key = null;
+            setEquip(false);
         }
         if (knife != null && !knife.isPickedUp && hitBox.intersects(knife.getHitBox()) && equip) {
             System.out.println("Knife picked up!");
             knife.isPickedUp = true;
             knife = null;
+            setEquip(false);
         }
+    }
+
+    private void takeStairs(LevelBase currentLevel) {
+        if (action) {
+            System.out.println("Action triggered for stairs.");
+            System.out.println("hitBox.x: " + hitBox.x + ", hitBox.y: " + hitBox.y);
+            System.out.println("hitBox.width: " + (hitBox.x + hitBox.width) + ", hitBox.height: " + (hitBox.y+hitBox.height));
+            currentLevel.handleStairs(this); // Call to level-specific logic
+            setAction(false); // Reset action after use
+        }
+    }
+
+
+
+    public void setLevelManager(LevelManager levelManager) {
+        this.levelManager = levelManager;
+    }
+
+    public void setHitBox(float x, float y, float width, float height) {
+        hitBox = new Rectangle2D.Float(x, y, width, height);
     }
 }

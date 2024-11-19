@@ -2,13 +2,15 @@ package main;
 
 
 import entities.NPCs;
+import levels.LevelBase;
+import levels.LevelFactory;
 import levels.LevelManager;
 import entities.Player;
 import entities.interactables.Key;
 import entities.interactables.Knife;
 import java.awt.*;
-import levels.LevelManager;
-import states.PatrollingNPC;
+
+import entities.PatrollingNPC;
 
 import static utils.LoadSave.LEVEL_ONE;
 import static utils.LoadSave.LEVEL_ONE_HITBOX;
@@ -41,6 +43,9 @@ public class Game implements Runnable {
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
+    private LevelBase activeLevel;
+    private int currentLevel = 1;
+
 
 
     // Need to add the static variables for the size of the tiles, the scale and the size of the game window.
@@ -65,12 +70,10 @@ public class Game implements Runnable {
      */
     private void initClasses() {
         levelManager = new LevelManager(this);
-        key = new Key(450 , 750, 50, 20, "Key");
-        knife = new Knife(350, 750, 50, 20, "Knife");
-        player = new Player(175 * SCALE, 670 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager);
-        npc = new PatrollingNPC(800 * SCALE, 500 * SCALE, (int)(31 * SCALE * NPC_SCALE), (int)(29 * SCALE * NPC_SCALE), "NPC1", levelManager);
-        npc2 = new PatrollingNPC(950 * SCALE, 670 * SCALE, (int)(31 * SCALE * NPC_SCALE), (int)(29 * SCALE * NPC_SCALE), "NPC2", levelManager);
-        npc3 = new PatrollingNPC(400 * SCALE, 450 * SCALE, (int)(31 * SCALE * NPC_SCALE), (int)(29 * SCALE * NPC_SCALE), "NPC3", levelManager);
+
+        player = new Player(250 * SCALE, 700 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager, this);
+
+        loadLevel(currentLevel);
     }
 
     /**
@@ -86,34 +89,24 @@ public class Game implements Runnable {
      * Update the game logic (player/player's hitbox position, animation sprites, etc).
      */
     public void update(){
-        player.update(key);
-        player.update(knife);
-        npc.update();
-        npc2.update();
-        npc3.update();
+        player.update();
+        activeLevel.update(player);
     }
+
+    public void loadLevel(int LevelNumber) {
+        activeLevel = LevelFactory.createLevel(LevelNumber);
+        activeLevel.initialize(player, levelManager);
+    }
+
 
     /**
      * Render the game visuals.
      * @param g
      */
     public void render( Graphics g){
-       levelManager.draw(g, LEVEL_ONE_HITBOX);
-       //levelManager.draw(g, LEVEL_ONE);
-       levelManager.draw(g, LEVEL_ONE);
-       //levelManager.draw(g, LEVEL_ONE);
+       activeLevel.render(g);
 
-        player.render(g);
-        if (key != null && key.isPickedUp() == false) {
-            key.render(g);
-        }
-        if (knife != null && knife.isPickedUp() == false) {
-            knife.render(g);
-        }
-
-        npc.render(g);
-        npc2.render(g);
-        npc3.render(g);
+       player.render(g);
     }
 
 
@@ -176,6 +169,10 @@ public class Game implements Runnable {
      */
     public Player getPlayer() {
         return player;
+    }
+
+    public LevelBase getActiveLevel() {
+        return activeLevel;
     }
 
 }

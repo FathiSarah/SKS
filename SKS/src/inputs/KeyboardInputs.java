@@ -16,6 +16,12 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if (e.getKeyChar() == 'r' || e.getKeyChar() == 'R') {
+            gamePanel.getGame().getPlayer().setAction(true);
+        }
+        if (e.getKeyChar() == 'e' || e.getKeyChar() == 'E') {
+            gamePanel.getGame().getPlayer().setEquip(true);
+        }
     }
 
     @Override
@@ -41,9 +47,8 @@ public class KeyboardInputs implements KeyListener {
         if (e.getKeyCode() ==  KeyEvent.VK_SHIFT) {
             gamePanel.getGame().getPlayer().setRunning(true);
         }
-        if (e.getKeyCode() == KeyEvent.VK_E) {
-            gamePanel.getGame().getPlayer().setEquip(true);
-        }
+
+
     }
 
     @Override
@@ -66,8 +71,12 @@ public class KeyboardInputs implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_M) {
             gamePanel.getGame().getPlayer().setJumping(false);
         }
+        if (e.getKeyCode() ==  KeyEvent.VK_SHIFT) {
+            gamePanel.getGame().getPlayer().setRunning(false);
+        }
         if (e.getKeyCode() ==  KeyEvent.VK_E) {
             gamePanel.getGame().getPlayer().setEquip(false);
         }
+
     }
 }

@@ -1,6 +1,5 @@
-package states;
+package entities;
 
-import entities.NPCs;
 import levels.LevelManager;
 import main.Game;
 import static utils.Methods.canMoveHere;
@@ -28,8 +27,6 @@ public class PatrollingNPC extends NPCs {
             hitBox.y += 1;
         }
         elapsedTime = System.nanoTime() - startTime;
-
-        System.out.println("Current Action: " + getNPCAction() + ", Elapsed Time: " + elapsedTime);
 
         switch (getNPCAction()) {
             case IDLE:
