@@ -1,15 +1,19 @@
 package utils;
 
-import main.Game;
-
+import entities.Player;
+import entities.interactables.Key;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import main.Game;
 
 /**
  * This class contains methods that are used in multiple classes.
  */
 public class Methods {
 
+    private static Player player;
+    private static Key key;
+    private static Game game;
     /**
      * Method used to check if an entity can move to a certain position.
      * @param x x-coordinate of the entity.
@@ -56,8 +60,18 @@ public class Methods {
         int green = (pixelColor >> 8) & 0xff;
         int blue = (pixelColor) & 0xff;
 
-        return red == 174 && green == 50 && blue == 34;
+        if (red == 174 && green == 50 && blue == 34) {
+            return true;
+        }
+        else if (red == 0 && green == 255 && blue == 25 && !player.getKeyIsPickedUp()) {
+            return true;
+        }
+        return false;
+    }
 
+    // singleton pattern
+    public static void setPlayer(Player playerInstance) {
+        player = playerInstance;
     }
 
     /**

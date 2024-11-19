@@ -2,7 +2,7 @@ package main;
 
 
 import entities.NPCs;
-import levels.LevelManager;
+import static entities.NPCs.NPC_SCALE;
 import entities.Player;
 import entities.interactables.Key;
 import entities.interactables.Knife;
@@ -10,8 +10,7 @@ import java.awt.*;
 import levels.LevelManager;
 import static utils.LoadSave.LEVEL_ONE;
 import static utils.LoadSave.LEVEL_ONE_HITBOX;
-
-import static entities.NPCs.NPC_SCALE;
+import utils.Methods;
 
 /**
  * Main class of the game, used to start the game
@@ -63,9 +62,10 @@ public class Game implements Runnable {
      */
     private void initClasses() {
         levelManager = new LevelManager(this);
-        key = new Key(450 , 750, 50, 20, "Key");
+        key = new Key(250 , 750, 50, 20, "Key");
         knife = new Knife(350, 750, 50, 20, "Knife");
         player = new Player(175 * SCALE, 670 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager);
+        Methods.setPlayer(player);
         npc = new NPCs(800 * SCALE, 500 * SCALE, (int)(31 * SCALE * NPC_SCALE), (int)(29 * SCALE * NPC_SCALE), "NPC1", levelManager);
         npc2 = new NPCs(950 * SCALE, 670 * SCALE, (int)(31 * SCALE * NPC_SCALE), (int)(29 * SCALE * NPC_SCALE), "NPC2", levelManager);
         npc3 = new NPCs(400 * SCALE, 450 * SCALE, (int)(31 * SCALE * NPC_SCALE), (int)(29 * SCALE * NPC_SCALE), "NPC3", levelManager);
