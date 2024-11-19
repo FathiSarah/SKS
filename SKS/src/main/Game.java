@@ -6,6 +6,7 @@ import entities.NPCs;
 import levels.LevelBase;
 import levels.LevelFactory;
 import levels.LevelManager;
+
 import entities.Player;
 import entities.interactables.Key;
 import entities.interactables.Knife;
@@ -15,8 +16,7 @@ import entities.PatrollingNPC;
 
 import static utils.LoadSave.LEVEL_ONE;
 import static utils.LoadSave.LEVEL_ONE_HITBOX;
-
-import static entities.NPCs.NPC_SCALE;
+import utils.Methods;
 
 /**
  * Main class of the game, used to start the game
@@ -72,9 +72,13 @@ public class Game implements Runnable {
     private void initClasses() {
         levelManager = new LevelManager(this);
 
+
+
         player = new Player(250 * SCALE, 700 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager, this);
 
+
         loadLevel(currentLevel);
+
     }
 
     /**
