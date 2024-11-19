@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.nio.Buffer;
 
 import static utils.Constants.EnemyConstants.*;
-import static utils.Methods.canMoveHere;
+
 import static utils.Methods.isEntityOnFloor;
 
 /**
@@ -40,8 +40,8 @@ public class NPCs extends Entity {
     protected NPC_type nPC_type;
     protected Direction currentDirection;
 
-    protected String name;
     protected int nextAction = 1500;
+    private String name;
 
     protected long startTime = System.nanoTime();
     protected long elapsedTime = 0;
@@ -54,7 +54,7 @@ public class NPCs extends Entity {
     private float yOffset = 6 * Game.SCALE;
     public static final float NPC_SCALE = 1.8f;
 
-    private LevelManager levelManager;
+    protected LevelManager levelManager;
 
     /**
      * Constructor for NPCs.
@@ -62,19 +62,17 @@ public class NPCs extends Entity {
      * @param y y-coordinate of the NPC.
      * @param width Width of the NPC.
      * @param height Height of the NPC.
-     * @param name Name of the NPC.
      * @param levelManager LevelManager object.
      */
     public NPCs(float x, float y, int width, int height, String name, LevelManager levelManager) {
         super(x, y, width, height);
         this.speed = 2;
-        this.name = name;
         this.currentState = NPC_state.IDLE;
         this.currentDirection = Direction.RIGHT;
-        this.nPC_type = NPC_type.FEARFUL;
         this.levelManager = levelManager;
+        this.name = name;
         loadAnimations();
-        initHitBox(x, y, 18 * Game.SCALE * NPC_SCALE, 25 * Game.SCALE * NPC_SCALE);
+
     }
 
     /**
@@ -85,60 +83,16 @@ public class NPCs extends Entity {
         updateMove();
     }
 
-    private void updateMove() {
+    protected void updateMove() {
         while (!isEntityOnFloor(hitBox, levelManager.getCollisionMap())) {
             hitBox.y += 1;
         }
 
-        switch (NPCAction) {
-            case IDLE:
-                break;
-            case WALK:
-                if (currentDirection == Direction.RIGHT) {
-                    if(canMoveHere(hitBox.x + speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
-                        hitBox.x += speed * 0.2;
-                    } else {
-                        switchDirection();
-                        startTime = System.nanoTime();
-                    }
-                } else {
-                    if (canMoveHere(hitBox.x - speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
-                        hitBox.x -= speed * 0.2;
-                    } else {
-                        switchDirection();
-                        startTime = System.nanoTime();
-                    }
-                }
-
-                elapsedTime = System.nanoTime() - startTime;
-
-                if (elapsedTime > nextAction * 1000000L) {
-                    newState(IDLE);
-
-                    if(elapsedTime > nextAction * 3 * 1000000L) {
-                        newState(WALK);
-                        switchDirection();
-                        startTime = System.nanoTime();
-                    }
-
-
-
-                }
-                break;
-//            case CHASE:
-//                if (player.getX() > x) {
-//                    hitBox.x += speed;
-//                    currentDirection = Direction.RIGHT;
-//                } else {
-//                    hitBox.x -= speed;
-//                    currentDirection = Direction.LEFT;
-//                }
-//                break;
-        }
+        this.NPCAction = IDLE;
     }
 
     protected void newState(int newState) {
-        NPCAction = newState;
+        this.NPCAction = newState;
         aniIndex = 0;
         aniTick = 0;
     }
@@ -217,7 +171,7 @@ public class NPCs extends Entity {
         return false;
     }
 
-    public void getNPC_type() {
-        this.nPC_type = nPC_type;
+    public int getNPCAction() {
+        return NPCAction;
     }
 }
