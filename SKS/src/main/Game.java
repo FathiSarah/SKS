@@ -1,6 +1,7 @@
 package main;
 
 
+import Gamestates.Gamestate;
 import entities.NPCs;
 import levels.LevelBase;
 import levels.LevelFactory;
@@ -93,8 +94,18 @@ public class Game implements Runnable {
      * Update the game logic (player/player's hitbox position, animation sprites, etc).
      */
     public void update(){
-        player.update();
-        activeLevel.update(player);
+
+        switch(Gamestate.state) {
+            case MENU:
+
+                break;
+            case PLAYING:
+                player.update();
+                activeLevel.update(player);
+                break;
+            default:
+                break;
+        }
     }
 
     public void loadLevel(int LevelNumber) {
@@ -108,9 +119,17 @@ public class Game implements Runnable {
      * @param g
      */
     public void render( Graphics g){
-       activeLevel.render(g);
+        switch(Gamestate.state) {
+            case MENU:
+                break;
+            case PLAYING:
+                activeLevel.render(g);
+                player.render(g);
+                break;
+            default:
+                break;
+        }
 
-       player.render(g);
     }
 
 
