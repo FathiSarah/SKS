@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import main.Game;
 import static utils.LoadSave.loadImage;
 
-public class Knife extends Items {
+public class Knife extends Weapons {
     
     public Knife(float x, float y, int width, int height, String name) {
         super(x, y, width, height, name);
