@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.List;
 import levels.*;
 import main.Game;
 import static utils.Constants.PlayerConstants.*;
@@ -41,6 +42,7 @@ public class Player extends Entity{
     private NPCs npc;
     private Rectangle attackHitBox;
     private boolean attackHitBoxStatus = false;
+    private LevelOne levelOne;
 
     private int flipX = 0;
     private int flipW = 1;
@@ -70,10 +72,7 @@ public class Player extends Entity{
         updateAnimationTick();
         manageKeyPickup();
         takeStairs(game.getActiveLevel());
-        if (attackHitBox != null && attackHitBoxStatus == true) {
-            attackHitBox.x = (int) hitBox.x + 35;
-            attackHitBox.y = (int) hitBox.y + 7;
-        }
+        hitboxLR();
         if (attacking) {
             performAttack();
             killNPC();
@@ -96,7 +95,7 @@ public class Player extends Entity{
         g.drawImage(animations[playerAction][aniIndex], (int)(hitBox.x - xOffset) + flipX, (int)(hitBox.y - yOffset), (int)width * flipW, (int)height, null);
         drawHitBox(g);
         if (attackHitBox != null && attackHitBoxStatus == true) {
-            g.setColor(Color.GREEN); // Set color for the hitbox
+            g.setColor(Color.GREEN);
             g.drawRect(attackHitBox.x, attackHitBox.y, attackHitBox.width, attackHitBox.height);
         }
     }
@@ -266,11 +265,19 @@ public class Player extends Entity{
     public boolean killNPC() {
         if (weaponInInventory && attacking)  {
             if (knife != null && knife.getAttacking()) {
-                this.performAttack();
-                System.out.println("Player killed NPC");
-                knife.setResetAttack();
-                return true;
+                List<NPCs> npcs = game.getActiveLevel().getNPCs();
+                for (int i = 0; i < npcs.size(); i++) {
+                    NPCs npc = npcs.get(i);
+                    if (attackHitBox.intersects(npc.getHitBox())) {
+                        npcs.remove(i);
+                        npc.setAlive(false);
+                        this.performAttack();
+                        System.out.println("Player killed NPC");
+                        knife.setResetAttack();
+                        return true;
+                    }
                 }
+            }
         }
         return false;
     }
@@ -300,6 +307,17 @@ public class Player extends Entity{
         weaponInInventory = false;
         attackHitBox = null;
         attackHitBoxStatus = false;
+    }
+
+    public void hitboxLR() {
+        if (attackHitBox != null && attackHitBoxStatus) {
+            if (flipW == -1) {
+                attackHitBox.x = (int) hitBox.x - 35;
+            } 
+            else {
+                attackHitBox.x = (int) hitBox.x + 35;
+            }
+        }
     }
 
     // public Weapons getCurrentWeapon() {

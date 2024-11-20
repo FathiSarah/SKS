@@ -3,7 +3,6 @@ package entities;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import static main.Game.SCALE;
 
 /**
  * Entity class that will be the base class for all entities in the game.
@@ -72,6 +71,10 @@ public abstract class Entity {
     public boolean Alive() {
         return isAlive;
     }
+
+    public void setAlive(boolean alive) {
+        alive = isAlive;
+        }
 
     public boolean Moving() {
         return isMoving;
