@@ -5,6 +5,8 @@ import static entities.NPCs.NPC_SCALE;
 import entities.interactables.Key;
 import entities.interactables.Knife;
 import entities.interactables.Stairs;
+
+import utils.Methods;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
