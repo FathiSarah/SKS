@@ -1,15 +1,12 @@
 package main;
 
 
+import Gamestates.GameMenu;
 import Gamestates.Gamestate;
-import entities.NPCs;
+import Gamestates.Playing;
 import levels.LevelBase;
 import levels.LevelFactory;
-import levels.LevelManager;
 
-import entities.Player;
-import entities.interactables.Key;
-import entities.interactables.Knife;
 import java.awt.*;
 
 import entities.PatrollingNPC;
@@ -29,11 +26,9 @@ public class Game implements Runnable {
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
 
-    private Player player;
-    private Key key;
-    private Knife knife;
-    private LevelManager levelManager;
-    private NPCs npc, npc2, npc3;
+    private Playing playing;
+    private GameMenu menu;
+
 
 
     public final static int TILE_DEFAULT_SIZE = 32;
@@ -70,15 +65,8 @@ public class Game implements Runnable {
      * Initialize the classes needed for the game to run. (level, player, etc)
      */
     private void initClasses() {
-        levelManager = new LevelManager(this);
-
-
-
-        player = new Player(250 * SCALE, 700 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager, this);
-
-
-        loadLevel(currentLevel);
-
+        menu = new GameMenu(this);
+        playing = new Playing(this);
     }
 
     /**
@@ -98,20 +86,14 @@ public class Game implements Runnable {
 
         switch(Gamestate.state) {
             case MENU:
-
+                menu.update();
                 break;
             case PLAYING:
-                player.update();
-                activeLevel.update(player);
+                playing.update();
                 break;
             default:
                 break;
         }
-    }
-
-    public void loadLevel(int LevelNumber) {
-        activeLevel = LevelFactory.createLevel(LevelNumber);
-        activeLevel.initialize(player, levelManager);
     }
 
 
@@ -122,10 +104,10 @@ public class Game implements Runnable {
     public void render( Graphics g){
         switch(Gamestate.state) {
             case MENU:
+                menu.draw(g);
                 break;
             case PLAYING:
-                activeLevel.render(g);
-                player.render(g);
+                playing.draw(g);
                 break;
             default:
                 break;
@@ -185,18 +167,18 @@ public class Game implements Runnable {
 
     //Will be called when the window loses focus, to stop the player from moving/pause the game or something similar
     public void WindowFocusLost() {
-    }
-
-    /**
-     * Get the player object.
-     * @return
-     */
-    public Player getPlayer() {
-        return player;
+//        if(Gamestate.state == Gamestate.PLAYING)
+//            playing.getPlayer().resetDirBooleans();
     }
 
     public LevelBase getActiveLevel() {
         return activeLevel;
+    }
+    public GameMenu getMenu() {
+        return menu;
+    }
+    public Playing getPlaying() {
+        return playing;
     }
 
 }

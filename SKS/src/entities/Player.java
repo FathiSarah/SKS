@@ -1,5 +1,6 @@
 package entities;
 
+import Gamestates.Playing;
 import entities.interactables.Key;
 import entities.interactables.Knife;
 import java.awt.Graphics;
@@ -29,7 +30,7 @@ public class Player extends Entity{
     private LevelBase currentlevel = new LevelOne();
 
     private LevelManager levelManager;
-    private Game game;
+    private Playing playing;
   
     private boolean weaponInInventory = false;
 
@@ -47,10 +48,10 @@ public class Player extends Entity{
      * @param height
      * @param levelManager
      */
-    public Player(float x, float y, int width, int height, LevelManager levelManager, Game game) {
+    public Player(float x, float y, int width, int height, LevelManager levelManager, Playing playing) {
         super(x, y, width, height);
         this.levelManager = levelManager;
-        this.game = game;
+        this.playing = playing;
         loadAnimations();
         initHitBox(x, y, 35 * Game.SCALE, 64 * Game.SCALE);
     }
@@ -63,7 +64,7 @@ public class Player extends Entity{
         setAnimation();
         updateAnimationTick();
         manageKeyPickup();
-        takeStairs(game.getActiveLevel());
+        takeStairs(playing.getActiveLevel());
     }
 
     public void update(Knife knife) {
