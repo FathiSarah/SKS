@@ -1,16 +1,11 @@
 package entities;
 
-import levels.Level;
-import levels.LevelManager;
-import main.Game;
-import utils.LoadSave;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
-
+import levels.LevelManager;
+import main.Game;
 import static utils.Constants.EnemyConstants.*;
-
+import utils.LoadSave;
 import static utils.Methods.isEntityOnFloor;
 import static utils.Methods.isOnSameLevel;
 
@@ -199,20 +194,6 @@ public class NPCs extends Entity {
                 aniIndex = 0;
             }
         }
-    }
-
-    public void detectPlayer() {
-        if (Math.abs(this.x - player.getX()) < 100) {
-            currentState = NPC_state.CHASE;
-        }
-    }
-
-    public boolean seesPlayer() {
-        if (player.getX() > x && player.getX() < x + width) {
-
-            return true;
-        }
-        return false;
     }
 
     public int getNPCAction() {

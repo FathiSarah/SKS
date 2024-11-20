@@ -2,6 +2,8 @@ package inputs;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import Gamestates.Gamestate;
 import main.GamePanel;
 
 public class KeyboardInputs implements KeyListener {
@@ -17,35 +19,23 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         if (e.getKeyChar() == 'r' || e.getKeyChar() == 'R') {
-            gamePanel.getGame().getPlayer().setAction(true);
+            gamePanel.getGame().getPlaying().getPlayer().setAction(true);
         }
         if (e.getKeyChar() == 'e' || e.getKeyChar() == 'E') {
-            gamePanel.getGame().getPlayer().setEquip(true);
+            gamePanel.getGame().getPlaying().getPlayer().setEquip(true);
         }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_Z) {
-            gamePanel.getGame().getPlayer().setUp(true);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_Q) {
-            gamePanel.getGame().getPlayer().setLeft(true);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            gamePanel.getGame().getPlayer().setDown(true);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            gamePanel.getGame().getPlayer().setRight(true);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_P) {
-            gamePanel.getGame().getPlayer().setAttacking(true);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_M) {
-            gamePanel.getGame().getPlayer().setJumping(true);
-        }
-        if (e.getKeyCode() ==  KeyEvent.VK_SHIFT) {
-            gamePanel.getGame().getPlayer().setRunning(true);
+        switch(Gamestate.state) {
+            case MENU:
+                gamePanel.getGame().getMenu().keyPressed(e);
+                break;
+            case PLAYING:
+                gamePanel.getGame().getPlaying().keyPressed(e);
+                break;
+            default:
         }
         if (e.getKeyCode() == KeyEvent.VK_G){
             gamePanel.getGame().getPlayer().setHidden(true);
@@ -56,29 +46,14 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_Z) {
-            gamePanel.getGame().getPlayer().setUp(false);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_Q){
-            gamePanel.getGame().getPlayer().setLeft(false);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            gamePanel.getGame().getPlayer().setDown(false);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            gamePanel.getGame().getPlayer().setRight(false);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_P) {
-            gamePanel.getGame().getPlayer().setAttacking(false);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_M) {
-            gamePanel.getGame().getPlayer().setJumping(false);
-        }
-        if (e.getKeyCode() ==  KeyEvent.VK_SHIFT) {
-            gamePanel.getGame().getPlayer().setRunning(false);
-        }
-        if (e.getKeyCode() ==  KeyEvent.VK_E) {
-            gamePanel.getGame().getPlayer().setEquip(false);
+        switch(Gamestate.state) {
+            case MENU:
+                gamePanel.getGame().getMenu().keyReleased(e);
+                break;
+            case PLAYING:
+                gamePanel.getGame().getPlaying().keyReleased(e);
+                break;
+            default:
         }
         if (e.getKeyCode() == KeyEvent.VK_G){
             gamePanel.getGame().getPlayer().setHidden(false);

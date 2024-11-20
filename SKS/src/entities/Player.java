@@ -1,12 +1,19 @@
 package entities;
 
+
 import entities.interactables.HidingPlaces;
+
+import Gamestates.Playing;
+
 import entities.interactables.Key;
 import entities.interactables.Knife;
+import entities.interactables.Weapons;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-
+import java.util.List;
 import levels.*;
 import main.Game;
 import static utils.Constants.PlayerConstants.*;
@@ -30,13 +37,21 @@ public class Player extends Entity{
     private LevelBase currentlevel = new LevelOne();
 
     private LevelManager levelManager;
-    private Game game;
+    private Playing playing;
   
     private boolean weaponInInventory = false;
 
     private Key key;
     private Knife knife;
+
     private HidingPlaces hidingPlaces;
+
+    private Weapons currentWeapon;
+    private NPCs npc;
+    private Rectangle attackHitBox;
+    private boolean attackHitBoxStatus = false;
+    private LevelOne levelOne;
+
 
     private int flipX = 0;
     private int flipW = 1;
@@ -49,10 +64,10 @@ public class Player extends Entity{
      * @param height
      * @param levelManager
      */
-    public Player(float x, float y, int width, int height, LevelManager levelManager, Game game) {
+    public Player(float x, float y, int width, int height, LevelManager levelManager, Playing playing) {
         super(x, y, width, height);
         this.levelManager = levelManager;
-        this.game = game;
+        this.playing = playing;
         loadAnimations();
         initHitBox(x, y, 35 * Game.SCALE, 64 * Game.SCALE);
     }
@@ -66,7 +81,14 @@ public class Player extends Entity{
         updateAnimationTick();
         manageKeyPickup();
         hiding();
-        takeStairs(game.getActiveLevel());
+
+        takeStairs(playing.getActiveLevel());
+       
+        hitboxLR();
+        if (attacking) {
+            performAttack();
+            killNPC();
+        }
     }
 
     public void update(Knife knife) {
@@ -88,6 +110,10 @@ public class Player extends Entity{
     public void render(Graphics g){
         g.drawImage(animations[playerAction][aniIndex], (int)(hitBox.x - xOffset) + flipX, (int)(hitBox.y - yOffset), (int)width * flipW, (int)height, null);
         drawHitBox(g);
+        if (attackHitBox != null && attackHitBoxStatus == true) {
+            g.setColor(Color.GREEN);
+            g.drawRect(attackHitBox.x, attackHitBox.y, attackHitBox.width, attackHitBox.height);
+        }
     }
 
     /**
@@ -253,10 +279,21 @@ public class Player extends Entity{
     }
 
     public boolean killNPC() {
-        if (weaponInInventory) {
-            System.out.println("Player killed NPC");
-            // removeWeapon();
-            return true;
+        if (weaponInInventory && attacking)  {
+            if (knife != null && knife.getAttacking()) {
+                List<NPCs> npcs = game.getActiveLevel().getNPCs();
+                for (int i = 0; i < npcs.size(); i++) {
+                    NPCs npc = npcs.get(i);
+                    if (attackHitBox.intersects(npc.getHitBox())) {
+                        npcs.remove(i);
+                        npc.setAlive(false);
+                        this.performAttack();
+                        System.out.println("Player killed NPC");
+                        knife.setResetAttack();
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
@@ -266,13 +303,46 @@ public class Player extends Entity{
             System.out.println("Key picked up!");
             key.isPickedUp = true;
             key = null;
-            setEquip(false);
         }
-        if (knife != null && !knife.isPickedUp && hitBox.intersects(knife.getHitBox()) && equip) {
+        if (knife != null && !knife.isPickedUp() && hitBox.intersects(knife.getHitBox()) && equip) {
             System.out.println("Knife picked up!");
             knife.isPickedUp = true;
-            knife = null;
-            setEquip(false);
+            equipWeapon(knife);
+        }
+    }
+
+    public void equipWeapon(Weapons weapon) {
+        this.currentWeapon = weapon;
+        weaponInInventory = true;
+        attackHitBox = new Rectangle((int) this.getHitBox().x + 5, (int) this.getHitBox().y + 5, 35, 50);
+        attackHitBoxStatus = true;
+    }
+
+    public void unequipWeapon(Weapons weapon) {
+        this.currentWeapon = null;
+        weaponInInventory = false;
+        attackHitBox = null;
+        attackHitBoxStatus = false;
+    }
+
+    public void hitboxLR() {
+        if (attackHitBox != null && attackHitBoxStatus) {
+            if (flipW == -1) {
+                attackHitBox.x = (int) hitBox.x - 35;
+            } 
+            else {
+                attackHitBox.x = (int) hitBox.x + 35;
+            }
+        }
+    }
+
+    // public Weapons getCurrentWeapon() {
+    //     return currentWeapon;
+    // }
+
+    public void performAttack() {
+        if (currentWeapon != null) {
+            currentWeapon.setAttacking(true);
         }
     }
 

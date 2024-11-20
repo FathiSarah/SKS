@@ -1,11 +1,10 @@
 package utils;
 
-import levels.LevelBase;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
+import levels.LevelBase;
 
 
 /**
@@ -15,7 +14,7 @@ public class LoadSave {
 
     public static final String CHARACTER_ATLAS = "CharAtlas.png";
     public static final String LEVEL_ONE = "level1.png";
-    public static final String LEVEL_ONE_HITBOX = "Level1_hitbox_final.png";
+    public static final String LEVEL_ONE_HITBOX = "level1_hitBox.png";
     public static final String ENEMY1_ATLAS = "Enemy1Atlas.png";
     public static final String ENEMY2_ATLAS = "Enemy2Atlas.png";
     public static final String ENEMY3_ATLAS = "Enemy3Atlas.png";
