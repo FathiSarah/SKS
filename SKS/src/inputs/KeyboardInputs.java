@@ -38,7 +38,7 @@ public class KeyboardInputs implements KeyListener {
             default:
         }
         if (e.getKeyCode() == KeyEvent.VK_G){
-            gamePanel.getGame().getPlayer().setHidden(true);
+            gamePanel.getGame().getPlaying().getPlayer().setHidden(true);
         }
 
 
@@ -56,7 +56,7 @@ public class KeyboardInputs implements KeyListener {
             default:
         }
         if (e.getKeyCode() == KeyEvent.VK_G){
-            gamePanel.getGame().getPlayer().setHidden(false);
+            gamePanel.getGame().getPlaying().getPlayer().setHidden(false);
         }
 
     }

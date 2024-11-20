@@ -77,12 +77,12 @@ public class PatrollingNPC extends NPCs {
 //                    setCurrentState(NPC_state.PATROL);
 //                    newState(NPC_WALK);
 //                } else {
-                if(!isOnSameLevel(this.hitBox, levelManager.getGame().getPlayer().getHitBox())) {
+                if(!isOnSameLevel(this.hitBox, levelManager.getGame().getPlaying().getPlayer().getHitBox())) {
                     setCurrentState(NPC_state.PATROL);
                     newState(NPC_WALK);
                 }
 
-                if (levelManager.getGame().getPlayer().getHitBox().x < hitBox.x) {
+                if (levelManager.getGame().getPlaying().getPlayer().getHitBox().x < hitBox.x) {
 
                     if (canMoveHere(hitBox.x - speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
                         hitBox.x -= speed * 0.2;
