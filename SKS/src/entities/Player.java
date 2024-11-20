@@ -1,6 +1,10 @@
 package entities;
 
+
+import entities.interactables.HidingPlaces;
+
 import Gamestates.Playing;
+
 import entities.interactables.Key;
 import entities.interactables.Knife;
 import entities.interactables.Weapons;
@@ -24,7 +28,7 @@ public class Player extends Entity{
     private BufferedImage[][] animations;
     private int aniTick, aniIndex, aniSpeed = 15;
     private int playerAction = IDLE_1;
-    private boolean moving = false, attacking = false, jumping = false, running = false, crouching = false, action = false;
+    private boolean moving = false, attacking = false, jumping = false, running = false, crouching = false, action = false, hidden = false;
     private boolean left, right, up, down;
     private boolean equip = false;
     private float playerSpeed = 2.0f;
@@ -39,11 +43,15 @@ public class Player extends Entity{
 
     private Key key;
     private Knife knife;
+
+    private HidingPlaces hidingPlaces;
+
     private Weapons currentWeapon;
     private NPCs npc;
     private Rectangle attackHitBox;
     private boolean attackHitBoxStatus = false;
     private LevelOne levelOne;
+
 
     private int flipX = 0;
     private int flipW = 1;
@@ -72,6 +80,7 @@ public class Player extends Entity{
         setAnimation();
         updateAnimationTick();
         manageKeyPickup();
+        hiding();
 
         takeStairs(playing.getActiveLevel());
        
@@ -80,7 +89,6 @@ public class Player extends Entity{
             performAttack();
             killNPC();
         }
-
     }
 
     public void update(Knife knife) {
@@ -89,6 +97,10 @@ public class Player extends Entity{
 
     public void update(Key key) {
         this.key = key;
+    }
+
+    public void update(HidingPlaces hidingPlaces){
+        this.hidingPlaces = hidingPlaces;
     }
 
     /**
@@ -175,12 +187,12 @@ public class Player extends Entity{
 
         float xSpeed = 0, ySpeed = 0;
 
-        if(left && !right){
+        if(left && !right && !isHidden()){
             xSpeed -= playerSpeed;
             flipX = (int)width;
             flipW = -1;
         }
-        if (!left && right) {
+        if (!left && right && !isHidden()) {
             xSpeed += playerSpeed;
 
             flipX = 0;
@@ -344,6 +356,16 @@ public class Player extends Entity{
         }
     }
 
+    private void hiding(){
+        if (action && hitBox.intersects(hidingPlaces.getHitBox()) ){
+            if(!hidden){
+                setHidden(true);
+            } else {
+                setHidden(false);
+            }
+        }
+    }
+
 
 
     public void setLevelManager(LevelManager levelManager) {
@@ -352,5 +374,13 @@ public class Player extends Entity{
 
     public void setHitBox(float x, float y, float width, float height) {
         hitBox = new Rectangle2D.Float(x, y, width, height);
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 }
