@@ -65,7 +65,9 @@ public class Playing extends State implements Statemethods{
     @Override
     public void draw(Graphics g) {
         activeLevel.render(g);
-        player.render(g);
+        if(!getPlayer().isHidden()){
+            player.render(g);
+        }
 
 
     }

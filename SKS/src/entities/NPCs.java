@@ -124,10 +124,10 @@ public class NPCs extends Entity {
     }
 
     public boolean inSight() {
-        float playerX = levelManager.getGame().getPlayer().getHitBox().x;
+        float playerX = levelManager.getGame().getPlaying().getPlayer().getHitBox().x;
 
 
-        if (isOnSameLevel(hitBox, levelManager.getGame().getPlayer().getHitBox()) && !levelManager.getGame().getPlayer().isHidden()) {
+        if (isOnSameLevel(hitBox, levelManager.getGame().getPlaying().getPlayer().getHitBox()) && !levelManager.getGame().getPlaying().getPlayer().isHidden()) {
             if (currentDirection == Direction.LEFT) {
                 if (playerX >= hitBox.x - FIELD_OF_VIEW && playerX <= hitBox.x) {
                     System.out.println("Player is in sight (LEFT)");

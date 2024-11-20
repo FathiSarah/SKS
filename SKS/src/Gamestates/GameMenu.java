@@ -45,9 +45,10 @@ public class GameMenu extends State implements Statemethods{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_ENTER)
+        if(e.getKeyCode() == KeyEvent.VK_ENTER) {
             System.out.println("ENTER");
             Gamestate.state = Gamestate.PLAYING;
+        }
 
     }
 
