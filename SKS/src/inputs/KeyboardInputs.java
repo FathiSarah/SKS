@@ -47,6 +47,9 @@ public class KeyboardInputs implements KeyListener {
         if (e.getKeyCode() ==  KeyEvent.VK_SHIFT) {
             gamePanel.getGame().getPlayer().setRunning(true);
         }
+        if (e.getKeyCode() == KeyEvent.VK_G){
+            gamePanel.getGame().getPlayer().setHidden(true);
+        }
 
 
     }
@@ -76,6 +79,9 @@ public class KeyboardInputs implements KeyListener {
         }
         if (e.getKeyCode() ==  KeyEvent.VK_E) {
             gamePanel.getGame().getPlayer().setEquip(false);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_G){
+            gamePanel.getGame().getPlayer().setHidden(false);
         }
 
     }

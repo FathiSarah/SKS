@@ -69,6 +69,14 @@ public abstract class Entity {
         return y;
     }
 
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
     public boolean Alive() {
         return isAlive;
     }

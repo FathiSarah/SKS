@@ -124,7 +124,9 @@ public class Game implements Runnable {
                 break;
             case PLAYING:
                 activeLevel.render(g);
-                player.render(g);
+                if(!getPlayer().isHidden()){
+                    player.render(g);
+                }
                 break;
             default:
                 break;
