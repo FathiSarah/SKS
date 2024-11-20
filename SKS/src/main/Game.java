@@ -3,17 +3,20 @@ package main;
 
 import Gamestates.GameMenu;
 import Gamestates.Gamestate;
+
 import Gamestates.Playing;
 import levels.LevelBase;
 import levels.LevelFactory;
 
+import entities.NPCs;
+import entities.Player;
+import entities.interactables.Key;
+import entities.interactables.Knife;
+
 import java.awt.*;
-
-import entities.PatrollingNPC;
-
-import static utils.LoadSave.LEVEL_ONE;
-import static utils.LoadSave.LEVEL_ONE_HITBOX;
-import utils.Methods;
+import levels.LevelBase;
+import levels.LevelFactory;
+import levels.LevelManager;
 
 /**
  * Main class of the game, used to start the game
