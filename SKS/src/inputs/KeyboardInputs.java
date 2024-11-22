@@ -1,19 +1,22 @@
 package inputs;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import Gamestates.Gamestate;
 import main.GamePanel;
+import entities.Entity;
+import main.GameWindow;
 
 public class KeyboardInputs implements KeyListener {
     private GamePanel gamePanel;
+    private Entity entity;
+    private GameWindow gameWindow;
 
 
 
-    public KeyboardInputs(GamePanel gamePanel) {
-
+    public KeyboardInputs(GamePanel gamePanel, GameWindow gameWindow) {
         this.gamePanel = gamePanel;
+        this.gameWindow = gameWindow;
     }
 
     @Override
@@ -23,6 +26,13 @@ public class KeyboardInputs implements KeyListener {
         }
         if (e.getKeyChar() == 'e' || e.getKeyChar() == 'E') {
             gamePanel.getGame().getPlaying().getPlayer().setEquip(true);
+        }
+        if (e.getKeyChar() == 'b' || e.getKeyChar() == 'B') {
+            Entity.debug = !Entity.debug;
+        }
+        if(e.getKeyChar() == 'f' || e.getKeyChar() == 'F') {
+            gameWindow.setFullscreen(!gameWindow.isFullscreen());
+            System.out.println("Fullscreen");
         }
     }
 
@@ -40,6 +50,8 @@ public class KeyboardInputs implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_G){
             gamePanel.getGame().getPlaying().getPlayer().setHidden(true);
         }
+
+
 
 
     }
@@ -60,4 +72,9 @@ public class KeyboardInputs implements KeyListener {
         }
 
     }
+
+    public void setGameWindow(GameWindow gameWindow) {
+        this.gameWindow = gameWindow;
+    }
+
 }

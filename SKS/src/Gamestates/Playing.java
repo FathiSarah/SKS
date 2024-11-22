@@ -24,9 +24,16 @@ public class Playing extends State implements Statemethods{
     private LevelBase activeLevel;
     private int currentLevel = 1;
 
+    private long startTime;  // To store when the timer started
+    private int elapsedTime; // Time in seconds
+    int minutes = elapsedTime / 60;
+    int seconds = elapsedTime % 60;
+    String timeString = String.format("%02d:%02d", minutes, seconds);
+
     public Playing(Game game) {
         super(game);
         initClasses();
+        startTimer();
     }
 
     private void initClasses() {
@@ -35,6 +42,11 @@ public class Playing extends State implements Statemethods{
         loadLevel(currentLevel);
 
     }
+    public void startTimer() {
+        startTime = System.currentTimeMillis(); // Record the current time in milliseconds
+    }
+
+
     public void loadLevel(int LevelNumber) {
         activeLevel = LevelFactory.createLevel(LevelNumber);
         activeLevel.initialize(player, levelManager);
@@ -59,8 +71,20 @@ public class Playing extends State implements Statemethods{
     public void update() {
         activeLevel.update(player);
         player.update();
+        updateTimer();
 
     }
+
+    public void updateTimer() {
+        long currentTime = System.currentTimeMillis(); // Current time in milliseconds
+        elapsedTime = (int) ((currentTime - startTime) / 1000); // Elapsed time in seconds
+
+        // Update the time string dynamically
+        int minutes = elapsedTime / 60;
+        int seconds = elapsedTime % 60;
+        timeString = String.format("%02d:%02d", minutes, seconds);
+    }
+
 
     @Override
     public void draw(Graphics g) {
@@ -68,8 +92,14 @@ public class Playing extends State implements Statemethods{
         if(!getPlayer().isHidden()){
             player.render(g);
         }
+        renderTimer(g);
 
+    }
 
+    public void renderTimer(Graphics g) {
+        g.setColor(Color.WHITE); // Set text color
+        g.setFont(new Font("Arial", Font.BOLD, 20)); // Set font style and size
+        g.drawString("Time: " + timeString, 10, 30); // Draw the timer at (10, 30)
     }
 
     @Override

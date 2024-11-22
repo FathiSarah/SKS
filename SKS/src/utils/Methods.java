@@ -94,13 +94,9 @@ public class Methods {
 
     public static boolean isOnSameLevel(Rectangle2D.Float npcHitBox, Rectangle2D.Float charHitBox) {
 
-        float playerY = charHitBox.y;
-        float playerHeight = charHitBox.height;
-
-        float npcTop = npcHitBox.y;
+        float playerBottom = charHitBox.y + charHitBox.height;
         float npcBottom = npcHitBox.y + npcHitBox.height;
 
-
-        return (playerY + playerHeight >= npcTop && playerY <= npcBottom);
+        return (playerBottom == npcBottom);
     }
 }

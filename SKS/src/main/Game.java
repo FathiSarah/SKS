@@ -5,6 +5,7 @@ import Gamestates.GameMenu;
 import Gamestates.Gamestate;
 
 import Gamestates.Playing;
+import inputs.KeyboardInputs;
 import levels.LevelBase;
 import levels.LevelFactory;
 
@@ -46,6 +47,16 @@ public class Game implements Runnable {
     private int currentLevel = 1;
 
 
+    public float getScaleX() {
+        return (float) gamePanel.getWidth() / GAME_WIDTH;
+    }
+
+    public float getScaleY() {
+        return (float) gamePanel.getHeight() / GAME_HEIGHT;
+    }
+
+
+
 
     // Need to add the static variables for the size of the tiles, the scale and the size of the game window.
 
@@ -59,10 +70,16 @@ public class Game implements Runnable {
 
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
-        gamePanel.requestFocus();
+        KeyboardInputs inputs = new KeyboardInputs(gamePanel, null);
+        inputs.setGameWindow(gameWindow);
+        gamePanel.addKeyListener(inputs);
+        gamePanel.requestFocusInWindow();
 
         startGameLoop();
     }
+
+
+
 
     /**
      * Initialize the classes needed for the game to run. (level, player, etc)
@@ -182,6 +199,9 @@ public class Game implements Runnable {
     }
     public Playing getPlaying() {
         return playing;
+    }
+    public GameWindow getGameWindow() {
+        return gameWindow;
     }
 
 }

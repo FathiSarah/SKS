@@ -13,6 +13,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 import levels.*;
 import main.Game;
@@ -44,7 +45,8 @@ public class Player extends Entity{
     private Key key;
     private Knife knife;
 
-    private HidingPlaces hidingPlaces;
+    private HidingPlaces hidingPlace;
+    private List<HidingPlaces> hidingPlaces = new ArrayList<>();
 
     private Weapons currentWeapon;
     private NPCs npc;
@@ -99,7 +101,7 @@ public class Player extends Entity{
         this.key = key;
     }
 
-    public void update(HidingPlaces hidingPlaces){
+    public void update(List<HidingPlaces> hidingPlaces){
         this.hidingPlaces = hidingPlaces;
     }
 
@@ -357,11 +359,15 @@ public class Player extends Entity{
     }
 
     private void hiding(){
-        if (action && hitBox.intersects(hidingPlaces.getHitBox()) ){
-            if(!hidden){
-                setHidden(true);
-            } else {
-                setHidden(false);
+        if (action){
+            for(HidingPlaces hidingPlace : hidingPlaces){
+                if(hitBox.intersects(hidingPlace.getHitBox())){
+                    if(!hidden) {
+                        setHidden(true);
+                    } else {
+                        setHidden(false);
+                    }
+                }
             }
         }
     }
