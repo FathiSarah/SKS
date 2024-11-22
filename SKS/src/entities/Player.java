@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.io.InputStream;
 import java.util.List;
 import javax.sound.sampled.AudioInputStream;
@@ -42,6 +43,10 @@ public class Player extends Entity{
 
     private Key key;
     private Knife knife;
+
+    private HidingPlaces hidingPlace;
+    private List<HidingPlaces> hidingPlaces = new ArrayList<>();
+
     private Weapons currentWeapon;
     private NPCs npc;
     private Rectangle attackHitBox;
@@ -91,6 +96,10 @@ public class Player extends Entity{
 
     public void update(Key key) {
         this.key = key;
+    }
+
+    public void update(List<HidingPlaces> hidingPlaces){
+        this.hidingPlaces = hidingPlaces;
     }
 
     /**
@@ -361,6 +370,20 @@ public class Player extends Entity{
             System.out.println("hitBox.width: " + (hitBox.x + hitBox.width) + ", hitBox.height: " + (hitBox.y+hitBox.height));
             currentLevel.handleStairs(this); // Call to level-specific logic
             setAction(false); // Reset action after use
+        }
+    }
+
+    private void hiding(){
+        if (action){
+            for(HidingPlaces hidingPlace : hidingPlaces){
+                if(hitBox.intersects(hidingPlace.getHitBox())){
+                    if(!hidden) {
+                        setHidden(true);
+                    } else {
+                        setHidden(false);
+                    }
+                }
+            }
         }
     }
 

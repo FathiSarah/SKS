@@ -11,13 +11,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import static main.Game.SCALE;
-import static utils.LoadSave.LEVEL_ONE;
-import utils.Methods;
+import static utils.LoadSave.*;
 
 public class LevelOne implements LevelBase {
     private Key key;
     private Knife knife;
-    private NPCs npc1, npc2, npc3;
+    private List<HidingPlaces> hidingPlaces = new ArrayList<>();
 
     private List<Stairs> stairs = new ArrayList<>();
     private List<NPCs> npcs = new ArrayList<>();
@@ -26,16 +25,19 @@ public class LevelOne implements LevelBase {
 
     @Override
     public void initialize(Player player, LevelManager levelManager) {
-        key = new Key(250 * SCALE, 750 * SCALE, (int)(50 * SCALE), (int)(20 * SCALE), "Key");
-        knife = new Knife(350 * SCALE, 750 * SCALE, (int)(50 * SCALE), (int)(20 * SCALE), "Knife");
+        hidingPlaces.add(new HidingPlaces(500 * SCALE, 424 * SCALE, (int) (85 * SCALE), (int) (100 * SCALE), WARDROBE));
+        hidingPlaces.add(new HidingPlaces(500 * SCALE, 550 * SCALE, (int) (65 * SCALE), (int) (100 * SCALE), FRIDGE));
+        hidingPlaces.add(new HidingPlaces(500 * SCALE, 730 * SCALE, (int) (112 * SCALE), (int) (53 * SCALE), COUCH));
+        hidingPlaces.add(new HidingPlaces(800 * SCALE, 470 * SCALE, (int) (107 * SCALE), (int) (56 * SCALE), BED));
 
-        npc1 = new PatrollingNPC(800 * SCALE, 500 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC1", levelManager);
-        npc2 = new PatrollingNPC(950 * SCALE, 670 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC2", levelManager);
-        npc3 = new PatrollingNPC(400 * SCALE, 450 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC3", levelManager);
+        key = new Key(250 * SCALE, 750 * SCALE, (int) (50 * SCALE), (int) (20 * SCALE), "Key");
+        knife = new Knife(520 * SCALE, 610 * SCALE, (int) (50 * SCALE), (int) (20 * SCALE), "Knife");
 
-        npcs.add(npc1);
-        npcs.add(npc2);
-        npcs.add(npc3);
+        npcs.add(new PatrollingNPC(530 * SCALE, 500 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC1", levelManager));
+        npcs.add(new PatrollingNPC(550 * SCALE, 670 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC2", levelManager));
+        npcs.add(new PatrollingNPC(400 * SCALE, 450 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC3", levelManager));
+
+        initStairs();
 
         Methods.setPlayer(player);
 
@@ -47,15 +49,21 @@ public class LevelOne implements LevelBase {
         player.update(key);
         player.update(knife);
 
-        npc1.update();
-        npc2.update();
-        npc3.update();
+        player.update(hidingPlaces);
 
-        initStairs();
+        for (NPCs npc : npcs) {
+            npc.update();
+        }
+
+
     }
 
     public void render(Graphics g) {
         levelManager.draw(g, LEVEL_ONE);
+
+        for (HidingPlaces hidingPlace : hidingPlaces) {
+            hidingPlace.render(g, hidingPlace.getName());
+        }
 
         if (key != null && key.isPickedUp() == false) {
             key.render(g);
@@ -81,7 +89,7 @@ public class LevelOne implements LevelBase {
 
     public void handleStairs(Player player) {
         for (Stairs stair : stairs) {
-            if(stair.isWithinBounds(player.getHitBox().x, player.getHitBox().y, player.getHitBox().width, player.getHitBox().height)) {
+            if (stair.isWithinBounds(player.getHitBox().x, player.getHitBox().y, player.getHitBox().width, player.getHitBox().height)) {
                 System.out.println("Player is within bounds");
                 player.setHitBox(stair.getTargetX(), stair.getTargetY(), player.getHitBox().width, player.getHitBox().height);
                 break;
@@ -101,4 +109,10 @@ public class LevelOne implements LevelBase {
     public List<NPCs> getNPCs() {
         return npcs;
     }
+
+    public List<HidingPlaces> getHidingPlaces() {
+        return hidingPlaces;
+    }
+
+
 }

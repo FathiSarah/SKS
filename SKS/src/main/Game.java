@@ -3,6 +3,7 @@ package main;
 
 import Gamestates.Gamestate;
 import Gamestates.Menu;
+import inputs.KeyboardInputs;
 import Gamestates.Settings;
 import entities.NPCs;
 import entities.Player;
@@ -12,6 +13,8 @@ import java.awt.*;
 import levels.LevelBase;
 import levels.LevelFactory;
 import levels.LevelManager;
+
+import static javax.swing.text.html.HTML.Tag.OPTION;
 
 /**
  * Main class of the game, used to start the game
@@ -38,11 +41,23 @@ public class Game implements Runnable {
     public final static int TILES_IN_WIDTH = 40;
     public final static int TILES_IN_HEIGHT = 27;
     public final static int TILES_SIZE = (int)(TILE_DEFAULT_SIZE * SCALE);
+    //public final static int GAME_WIDTH = (int) (800 * SCALE);
+    //public final static int GAME_HEIGHT = (int) (600 * SCALE);
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
     private LevelBase activeLevel;
     private int currentLevel = 1;
+
+
+    public float getScaleX() {
+        return (float) gamePanel.getWidth() / GAME_WIDTH;
+    }
+
+    public float getScaleY() {
+        return (float) gamePanel.getHeight() / GAME_HEIGHT;
+    }
+
 
 
 
@@ -58,31 +73,28 @@ public class Game implements Runnable {
 
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
-        gamePanel.requestFocus();
+        KeyboardInputs inputs = new KeyboardInputs(gamePanel, null);
+        inputs.setGameWindow(gameWindow);
+        gamePanel.addKeyListener(inputs);
+        gamePanel.requestFocusInWindow();
 
         startGameLoop();
 
 
     }
 
+
+
+
     /**
      * Initialize the classes needed for the game to run. (level, player, etc)
      */
     private void initClasses() {
-        levelManager = new LevelManager(this);
-
-        menu = new Menu(); //////////////////////////////////////
-
-        
-
-        settings = new Settings();
-
-        player = new Player(250 * SCALE, 700 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager, this);
-
-
-        loadLevel(currentLevel);
-
+        menu = new GameMenu(this);
+        playing = new Playing(this);
     }
+
+
 
     /**
      * Start the game loop by creating a new separate thread to run said game loop on.
@@ -105,7 +117,10 @@ public class Game implements Runnable {
                 player.update();
                 activeLevel.update(player);
                 break;
+            case OPTIONS:
+            case QUIT:
             default:
+                System.exit(0);
                 break;
         }
     }
@@ -201,6 +216,15 @@ public class Game implements Runnable {
 
     public LevelBase getActiveLevel() {
         return activeLevel;
+    }
+    public GameMenu getMenu() {
+        return menu;
+    }
+    public Playing getPlaying() {
+        return playing;
+    }
+    public GameWindow getGameWindow() {
+        return gameWindow;
     }
 
 }

@@ -1,9 +1,19 @@
 package utils;
 
+import main.Game;
+
 /**
  * Constants class to store all the constants used in the game
  */
 public class Constants {
+    public static class UI{
+        public static class Buttons{
+            public static final int B_WIDTH_DEFAULT = 140;
+            public static final int B_HEIGHT_DEFAULT = 56;
+            public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * Game.SCALE * 2);
+            public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * Game.SCALE * 2);
+        }
+    }
 
     /**
      * Constants to decide the player action and the according sprite
