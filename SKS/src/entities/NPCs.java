@@ -7,6 +7,7 @@ import main.Game;
 import static utils.Constants.EnemyConstants.*;
 import utils.LoadSave;
 import static utils.Methods.isEntityOnFloor;
+import static utils.Methods.isOnSameLevel;
 
 /**
  * Child class of Entity, used to create NPCs in the game.
@@ -31,7 +32,7 @@ public class NPCs extends Entity {
 
     protected Player player;
 
-    protected NPC_state currentState;
+    protected NPC_state currentState = NPC_state.PATROL;
     protected NPC_type nPC_type;
     protected Direction currentDirection;
 
@@ -41,13 +42,18 @@ public class NPCs extends Entity {
     protected long startTime = System.nanoTime();
     protected long elapsedTime = 0;
 
+    private static final float FIELD_OF_VIEW =  100 * Game.SCALE;
+
     // Variables for animations and character rendering
     private BufferedImage[][] animations;
     private int aniTick, aniIndex, aniSpeed = 30;
-    private int NPCAction = WALK;
+    private int NPCAction = NPC_IDLE;
     private float xOffset = 8 * Game.SCALE;
     private float yOffset = 6 * Game.SCALE;
     public static final float NPC_SCALE = 1.8f;
+
+    private int flipX = 0;
+    private int flipW = 1;
 
     protected LevelManager levelManager;
 
@@ -76,6 +82,10 @@ public class NPCs extends Entity {
     public void update() {
         updateAnimationTick();
         updateMove();
+        if(inSight()){
+            System.out.println("Player is in sight");
+        };
+        directionSprites();
     }
 
     protected void updateMove() {
@@ -83,7 +93,8 @@ public class NPCs extends Entity {
             hitBox.y += 1;
         }
 
-        this.NPCAction = IDLE;
+        currentState = NPC_state.IDLE;
+        NPCAction = NPC_IDLE;
     }
 
     protected void newState(int newState) {
@@ -101,12 +112,45 @@ public class NPCs extends Entity {
         }
     }
 
+    public void directionSprites() {
+        if (currentDirection == Direction.RIGHT) {
+            flipX = 0;
+            flipW = 1;
+        }
+        else if (currentDirection == Direction.LEFT) {
+            flipX = (int)width;
+            flipW = -1;
+        }
+    }
+
+    public boolean inSight() {
+        float playerX = levelManager.getGame().getPlaying().getPlayer().getHitBox().x;
+
+
+        if (isOnSameLevel(hitBox, levelManager.getGame().getPlaying().getPlayer().getHitBox()) && !levelManager.getGame().getPlaying().getPlayer().isHidden()) {
+            if (currentDirection == Direction.LEFT) {
+                if (playerX >= hitBox.x - FIELD_OF_VIEW && playerX <= hitBox.x) {
+                    System.out.println("Player is in sight (LEFT)");
+                    return true;
+                }
+            } else if (currentDirection == Direction.RIGHT) {
+                if (playerX >= hitBox.x && playerX <= hitBox.x + FIELD_OF_VIEW) {
+                    System.out.println("Player is in sight (RIGHT)");
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
     /**
      * Method that renders the NPC on the screen.
      * @param g Graphics object.
      */
     public void render(Graphics g) {
-        g.drawImage(animations[NPCAction][aniIndex], (int) (hitBox.x - xOffset), (int) (hitBox.y - yOffset), (int) width, (int) height, null);
+        g.drawImage(animations[NPCAction][aniIndex], (int) (hitBox.x - xOffset) + flipX, (int) (hitBox.y - yOffset), (int) width * flipW, (int) height, null);
         drawHitBox(g);
     }
 
@@ -154,5 +198,25 @@ public class NPCs extends Entity {
 
     public int getNPCAction() {
         return NPCAction;
+    }
+
+    public NPC_state getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(NPC_state currentState) {
+        this.currentState = currentState;
+    }
+
+    public void setFlipX(int flipX) {
+        this.flipX = flipX;
+    }
+
+    public void setFlipW(int flipW) {
+        this.flipW = flipW;
+    }
+
+    public String getName() {
+        return name;
     }
 }

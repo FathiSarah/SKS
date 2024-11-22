@@ -2,11 +2,14 @@ package entities;
 
 import levels.LevelManager;
 import main.Game;
-import static utils.Methods.canMoveHere;
+
+
 import static utils.Constants.EnemyConstants.*;
-import static utils.Methods.isEntityOnFloor;
+import static utils.Methods.*;
 
 public class PatrollingNPC extends NPCs {
+
+
 
     public PatrollingNPC(float x, float y, int width, int height, String name, LevelManager levelManager) {
         super(x, y, width, height, name, levelManager);
@@ -28,17 +31,27 @@ public class PatrollingNPC extends NPCs {
         }
         elapsedTime = System.nanoTime() - startTime;
 
-        switch (getNPCAction()) {
+        switch (getCurrentState()) {
             case IDLE:
+                if(inSight()) {
+                    setCurrentState(NPC_state.CHASE);
+                    newState(NPC_WALK);
+                }
                 if (elapsedTime > 5000000000L) { // Wait for 3 seconds
                     switchDirection();
-                    newState(WALK);
+                    setCurrentState(NPC_state.PATROL);
+                    newState(NPC_WALK);
                     startTime = System.nanoTime();
                 }
                 break;
-            case WALK:
-                if (elapsedTime > 2000000000L) { // Patrol for 1 second
-                    newState(IDLE);
+            case PATROL:
+                if(inSight()) {
+                    setCurrentState(NPC_state.CHASE);
+                    newState(NPC_WALK);
+                }
+                if (elapsedTime > 3000000000L) {
+                    setCurrentState(NPC_state.IDLE);// Patrol for 1 second
+                    newState(NPC_IDLE);
                     startTime = System.nanoTime();
                 } else {
                     if (currentDirection == Direction.RIGHT) {
@@ -56,6 +69,31 @@ public class PatrollingNPC extends NPCs {
                             startTime = System.nanoTime();
                         }
                     }
+                }
+                break;
+            case CHASE:
+                System.out.println("Chasing player");
+//                if (hidden or something like that) {
+//                    setCurrentState(NPC_state.PATROL);
+//                    newState(NPC_WALK);
+//                } else {
+                if(!isOnSameLevel(this.hitBox, levelManager.getGame().getPlaying().getPlayer().getHitBox())) {
+                    setCurrentState(NPC_state.PATROL);
+                    newState(NPC_WALK);
+                }
+
+                if (levelManager.getGame().getPlaying().getPlayer().getHitBox().x < hitBox.x) {
+
+                    if (canMoveHere(hitBox.x - speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
+                        hitBox.x -= speed * 0.2;
+                        currentDirection = Direction.LEFT;
+                    }
+                } else {
+                    if (canMoveHere(hitBox.x + speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
+                        hitBox.x += speed * 0.2;
+                        currentDirection = Direction.RIGHT;
+                    }
+
                 }
                 break;
         }

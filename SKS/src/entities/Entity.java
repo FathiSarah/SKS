@@ -15,10 +15,10 @@ public abstract class Entity {
     protected int speed;
 
     protected boolean isAlive = true;
-    protected boolean isMoving = false;
 
     protected Player player;
 
+    public static boolean debug = false;
 
     /**
      * Constructor for the Entity class.
@@ -38,8 +38,11 @@ public abstract class Entity {
     //Used to temporarily draw the hitbox of the entity, won't keep it in the final version
     protected void drawHitBox(Graphics g) {
         // for debugging the hitBox
-        g.setColor(Color.RED);
-        g.drawRect((int)hitBox.x, (int)hitBox.y, (int)hitBox.width, (int)hitBox.height);
+        if(debug){
+            g.setColor(Color.RED);
+            g.drawRect((int)hitBox.x, (int)hitBox.y, (int)hitBox.width, (int)hitBox.height);
+        }
+
     }
 
     /**
@@ -53,9 +56,7 @@ public abstract class Entity {
         hitBox = new Rectangle2D.Float(x, y, width, height);
     }
 
-    /**
-     * Method that gets the hitbox of the entity.
-     */
+
     public Rectangle2D.Float getHitBox() {
         return hitBox;
     }
@@ -68,6 +69,14 @@ public abstract class Entity {
         return y;
     }
 
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
     public boolean Alive() {
         return isAlive;
     }
@@ -76,7 +85,7 @@ public abstract class Entity {
         alive = isAlive;
         }
 
-    public boolean Moving() {
-        return isMoving;
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
 }

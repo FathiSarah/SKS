@@ -22,6 +22,10 @@ public class LoadSave {
     public static final String ENEMY1_ATLAS = "Enemy1Atlas.png";
     public static final String ENEMY2_ATLAS = "Enemy2Atlas.png";
     public static final String ENEMY3_ATLAS = "Enemy3Atlas.png";
+    public static final String WARDROBE = "wardrobe.png";
+    public static final String BED = "bed.png";
+    public static final String FRIDGE = "fridge.png";
+    public static final String COUCH = "couch.png";
 
     private LevelBase activeLevel;
 

@@ -91,4 +91,12 @@ public class Methods {
         }
         return true;
     }
+
+    public static boolean isOnSameLevel(Rectangle2D.Float npcHitBox, Rectangle2D.Float charHitBox) {
+
+        float playerBottom = charHitBox.y + charHitBox.height;
+        float npcBottom = npcHitBox.y + npcHitBox.height;
+
+        return (playerBottom == npcBottom);
+    }
 }
