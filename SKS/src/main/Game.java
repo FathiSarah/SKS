@@ -18,6 +18,8 @@ import levels.LevelBase;
 import levels.LevelFactory;
 import levels.LevelManager;
 
+import static javax.swing.text.html.HTML.Tag.OPTION;
+
 /**
  * Main class of the game, used to start the game
  */
@@ -39,6 +41,8 @@ public class Game implements Runnable {
     public final static int TILES_IN_WIDTH = 40;
     public final static int TILES_IN_HEIGHT = 27;
     public final static int TILES_SIZE = (int)(TILE_DEFAULT_SIZE * SCALE);
+    //public final static int GAME_WIDTH = (int) (800 * SCALE);
+    //public final static int GAME_HEIGHT = (int) (600 * SCALE);
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
@@ -72,6 +76,8 @@ public class Game implements Runnable {
         playing = new Playing(this);
     }
 
+
+
     /**
      * Start the game loop by creating a new separate thread to run said game loop on.
      * That way the game loop run independently of the rest of the program.
@@ -94,7 +100,10 @@ public class Game implements Runnable {
             case PLAYING:
                 playing.update();
                 break;
+            case OPTIONS:
+            case QUIT:
             default:
+                System.exit(0);
                 break;
         }
     }
