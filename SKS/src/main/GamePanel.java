@@ -25,8 +25,7 @@ public class GamePanel extends JPanel {
         mouseInputs = new MouseInputs(GamePanel.this);
         this.game = game;
 
-        setPanelSize();
-        addKeyListener(new KeyboardInputs(GamePanel.this));
+        setPanelSize(getWidth(), getHeight());
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
     }
@@ -34,15 +33,27 @@ public class GamePanel extends JPanel {
     /**
      * Set the size of the panel.
      */
-    public void setPanelSize() {
-        setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
-
+    public void setPanelSize(int width, int height) {
+        setPreferredSize(new Dimension(width, height));
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        // Calculate scale factors
+        float scaleX = (float) getWidth() / Game.GAME_WIDTH;
+        float scaleY = (float) getHeight() / Game.GAME_HEIGHT;
 
-        game.render(g);
+        // Cast Graphics to Graphics2D for scaling
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Apply scaling
+        g2d.scale(scaleX, scaleY);
+
+        // Render the game
+        game.render(g2d);
+
+        // Reset scaling to avoid affecting other operations
+        g2d.scale(1 / scaleX, 1 / scaleY);
     }
 
     /**

@@ -15,7 +15,7 @@ public interface LevelBase {
     public void render(java.awt.Graphics g);
     public void handleStairs(Player player);
 
-    public HidingPlaces getHidingPlaces();
+    public List<HidingPlaces> getHidingPlaces();
 
     public List<NPCs> getNPCs();
 }

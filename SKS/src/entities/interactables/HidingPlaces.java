@@ -14,11 +14,15 @@ public class HidingPlaces extends Items {
         initHitBox(x, y, width * Game.SCALE, height * Game.SCALE);
     }
 
-    public void render(Graphics g) {
-        BufferedImage hidingPlaceImage = loadImage(WARDROBE);
+    public void render(Graphics g, String name) {
+        BufferedImage hidingPlaceImage = loadImage(name);
         g.drawImage(hidingPlaceImage, (int) x, (int) y, (int) width, (int) height, null);
         drawHitBox(g);
 
+    }
+
+    public String getName() {
+        return name;
     }
 
 
