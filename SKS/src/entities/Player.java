@@ -269,7 +269,7 @@ public class Player extends Entity{
     public boolean killNPC() {
         if (weaponInInventory && attacking)  {
             if (knife != null && knife.getAttacking()) {
-                List<NPCs> npcs = game.getActiveLevel().getNPCs();
+                List<NPCs> npcs = playing.getActiveLevel().getNPCs();
                 for (int i = 0; i < npcs.size(); i++) {
                     NPCs npc = npcs.get(i);
                     if (attackHitBox.intersects(npc.getHitBox())) {

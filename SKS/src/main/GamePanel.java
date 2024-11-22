@@ -22,7 +22,7 @@ public class GamePanel extends JPanel {
      * @param game The game object that will be rendered on the panel.
      */
     public GamePanel(Game game) {
-        mouseInputs = new MouseInputs();
+        mouseInputs = new MouseInputs(GamePanel.this);
         this.game = game;
 
         setPanelSize();
