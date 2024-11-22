@@ -1,16 +1,10 @@
 package levels;
 
 import entities.*;
-
-import entities.interactables.*;
-import utils.Methods;
-
-
 import static entities.NPCs.NPC_SCALE;
 import entities.interactables.Key;
 import entities.interactables.Knife;
 import entities.interactables.Stairs;
-
 
 import utils.Methods;
 import java.awt.*;
@@ -23,7 +17,6 @@ import utils.Methods;
 public class LevelOne implements LevelBase {
     private Key key;
     private Knife knife;
-    private HidingPlaces hidingPlaces;
     private NPCs npc1, npc2, npc3;
 
     private List<Stairs> stairs = new ArrayList<>();
@@ -35,10 +28,9 @@ public class LevelOne implements LevelBase {
     public void initialize(Player player, LevelManager levelManager) {
         key = new Key(250 * SCALE, 750 * SCALE, (int)(50 * SCALE), (int)(20 * SCALE), "Key");
         knife = new Knife(350 * SCALE, 750 * SCALE, (int)(50 * SCALE), (int)(20 * SCALE), "Knife");
-        hidingPlaces = new HidingPlaces(500 * SCALE, 683 * SCALE, (int)(85 * SCALE), (int)(100 * SCALE), "WARDROBE");
 
         npc1 = new PatrollingNPC(800 * SCALE, 500 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC1", levelManager);
-        npc2 = new PatrollingNPC(550 * SCALE, 670 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC2", levelManager);
+        npc2 = new PatrollingNPC(950 * SCALE, 670 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC2", levelManager);
         npc3 = new PatrollingNPC(400 * SCALE, 450 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC3", levelManager);
 
         npcs.add(npc1);
@@ -54,7 +46,6 @@ public class LevelOne implements LevelBase {
     public void update(Player player) {
         player.update(key);
         player.update(knife);
-        player.update(hidingPlaces);
 
         npc1.update();
         npc2.update();
@@ -72,7 +63,6 @@ public class LevelOne implements LevelBase {
         if (knife != null && knife.isPickedUp() == false) {
             knife.render(g);
         }
-        hidingPlaces.render(g);
 
         for (NPCs npc : npcs) {
             if (npc.Alive()) {
@@ -110,9 +100,5 @@ public class LevelOne implements LevelBase {
 
     public List<NPCs> getNPCs() {
         return npcs;
-    }
-
-    public HidingPlaces getHidingPlaces() {
-        return hidingPlaces;
     }
 }

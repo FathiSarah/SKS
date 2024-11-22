@@ -1,18 +1,13 @@
 package main;
 
 
-import Gamestates.GameMenu;
 import Gamestates.Gamestate;
-
-import Gamestates.Playing;
-import levels.LevelBase;
-import levels.LevelFactory;
-
+import Gamestates.Menu;
+import Gamestates.Settings;
 import entities.NPCs;
 import entities.Player;
 import entities.interactables.Key;
 import entities.interactables.Knife;
-
 import java.awt.*;
 import levels.LevelBase;
 import levels.LevelFactory;
@@ -29,10 +24,14 @@ public class Game implements Runnable {
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
 
-    private Playing playing;
-    private GameMenu menu;
+    private Player player;
+    private Key key;
+    private Knife knife;
+    private LevelManager levelManager;
+    private NPCs npc, npc2, npc3;
 
-
+    private Menu menu;
+    private Settings settings;
 
     public final static int TILE_DEFAULT_SIZE = 32;
     public final static float SCALE = 1f;
@@ -62,14 +61,27 @@ public class Game implements Runnable {
         gamePanel.requestFocus();
 
         startGameLoop();
+
+
     }
 
     /**
      * Initialize the classes needed for the game to run. (level, player, etc)
      */
     private void initClasses() {
-        menu = new GameMenu(this);
-        playing = new Playing(this);
+        levelManager = new LevelManager(this);
+
+        menu = new Menu(); //////////////////////////////////////
+
+        
+
+        settings = new Settings();
+
+        player = new Player(250 * SCALE, 700 * SCALE, (int)(128 * SCALE), (int)(128 * SCALE), levelManager, this);
+
+
+        loadLevel(currentLevel);
+
     }
 
     /**
@@ -83,20 +95,24 @@ public class Game implements Runnable {
 
     /**
      * Update the game logic (player/player's hitbox position, animation sprites, etc).
-     *
      */
     public void update(){
 
         switch(Gamestate.state) {
             case MENU:
-                menu.update();
                 break;
             case PLAYING:
-                playing.update();
+                player.update();
+                activeLevel.update(player);
                 break;
             default:
                 break;
         }
+    }
+
+    public void loadLevel(int LevelNumber) {
+        activeLevel = LevelFactory.createLevel(LevelNumber);
+        activeLevel.initialize(player, levelManager);
     }
 
 
@@ -107,11 +123,14 @@ public class Game implements Runnable {
     public void render( Graphics g){
         switch(Gamestate.state) {
             case MENU:
-                menu.draw(g);
+                menu.draw(g); ///////////////////////////////////////////
                 break;
             case PLAYING:
-                playing.draw(g);
+                activeLevel.render(g);
+                player.render(g);
                 break;
+            case SETTINGS:
+            settings.draw(g);
             default:
                 break;
         }
@@ -170,18 +189,18 @@ public class Game implements Runnable {
 
     //Will be called when the window loses focus, to stop the player from moving/pause the game or something similar
     public void WindowFocusLost() {
-//        if(Gamestate.state == Gamestate.PLAYING)
-//            playing.getPlayer().resetDirBooleans();
+    }
+
+    /**
+     * Get the player object.
+     * @return
+     */
+    public Player getPlayer() {
+        return player;
     }
 
     public LevelBase getActiveLevel() {
         return activeLevel;
-    }
-    public GameMenu getMenu() {
-        return menu;
-    }
-    public Playing getPlaying() {
-        return playing;
     }
 
 }

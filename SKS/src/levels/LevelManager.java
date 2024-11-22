@@ -37,8 +37,4 @@ public class LevelManager {
     public BufferedImage getCollisionMap() {
         return collisionMap;
     }
-
-    public Game getGame() {
-        return game;
-    }
 }

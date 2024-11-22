@@ -58,20 +58,20 @@ public class Constants {
      */
     public static class EnemyConstants {
 
-        public static final int NPC_ATTACK = 0;
-        public static final int NPC_DEATH = 1;
-        public static final int NPC_IDLE = 2;
-        public static final int NPC_WALK = 3;
+        public static final int ATTACK = 0;
+        public static final int DEATH = 1;
+        public static final int IDLE = 2;
+        public static final int WALK = 3;
 
 
         public static int GetSpriteAmount(int enemy_action) {
             switch (enemy_action) {
-                case NPC_DEATH:
+                case DEATH:
                     return 8;
-                case NPC_WALK:
+                case WALK:
                     return 6;
-                case NPC_ATTACK:
-                case NPC_IDLE:
+                case ATTACK:
+                case IDLE:
                     return 4;
                 default:
                     return 0;

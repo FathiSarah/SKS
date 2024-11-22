@@ -1,10 +1,5 @@
 package entities;
 
-
-import entities.interactables.HidingPlaces;
-
-import Gamestates.Playing;
-
 import entities.interactables.Key;
 import entities.interactables.Knife;
 import entities.interactables.Weapons;
@@ -13,7 +8,11 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.util.List;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import levels.*;
 import main.Game;
 import static utils.Constants.PlayerConstants.*;
@@ -28,7 +27,7 @@ public class Player extends Entity{
     private BufferedImage[][] animations;
     private int aniTick, aniIndex, aniSpeed = 15;
     private int playerAction = IDLE_1;
-    private boolean moving = false, attacking = false, jumping = false, running = false, crouching = false, action = false, hidden = false;
+    private boolean moving = false, attacking = false, jumping = false, running = false, crouching = false, action = false;
     private boolean left, right, up, down;
     private boolean equip = false;
     private float playerSpeed = 2.0f;
@@ -37,21 +36,19 @@ public class Player extends Entity{
     private LevelBase currentlevel = new LevelOne();
 
     private LevelManager levelManager;
-    private Playing playing;
+    private Game game;
   
     private boolean weaponInInventory = false;
 
     private Key key;
     private Knife knife;
-
-    private HidingPlaces hidingPlaces;
-
     private Weapons currentWeapon;
     private NPCs npc;
     private Rectangle attackHitBox;
     private boolean attackHitBoxStatus = false;
     private LevelOne levelOne;
 
+    private Clip deathSound;
 
     private int flipX = 0;
     private int flipW = 1;
@@ -64,10 +61,10 @@ public class Player extends Entity{
      * @param height
      * @param levelManager
      */
-    public Player(float x, float y, int width, int height, LevelManager levelManager, Playing playing) {
+    public Player(float x, float y, int width, int height, LevelManager levelManager, Game game) {
         super(x, y, width, height);
         this.levelManager = levelManager;
-        this.playing = playing;
+        this.game = game;
         loadAnimations();
         initHitBox(x, y, 35 * Game.SCALE, 64 * Game.SCALE);
     }
@@ -80,10 +77,7 @@ public class Player extends Entity{
         setAnimation();
         updateAnimationTick();
         manageKeyPickup();
-        hiding();
-
-        takeStairs(playing.getActiveLevel());
-       
+        takeStairs(game.getActiveLevel());
         hitboxLR();
         if (attacking) {
             performAttack();
@@ -97,10 +91,6 @@ public class Player extends Entity{
 
     public void update(Key key) {
         this.key = key;
-    }
-
-    public void update(HidingPlaces hidingPlaces){
-        this.hidingPlaces = hidingPlaces;
     }
 
     /**
@@ -187,12 +177,12 @@ public class Player extends Entity{
 
         float xSpeed = 0, ySpeed = 0;
 
-        if(left && !right && !isHidden()){
+        if(left && !right){
             xSpeed -= playerSpeed;
             flipX = (int)width;
             flipW = -1;
         }
-        if (!left && right && !isHidden()) {
+        if (!left && right) {
             xSpeed += playerSpeed;
 
             flipX = 0;
@@ -281,13 +271,14 @@ public class Player extends Entity{
     public boolean killNPC() {
         if (weaponInInventory && attacking)  {
             if (knife != null && knife.getAttacking()) {
-                List<NPCs> npcs = playing.getActiveLevel().getNPCs();
+                List<NPCs> npcs = game.getActiveLevel().getNPCs();
                 for (int i = 0; i < npcs.size(); i++) {
                     NPCs npc = npcs.get(i);
                     if (attackHitBox.intersects(npc.getHitBox())) {
                         npcs.remove(i);
                         npc.setAlive(false);
                         this.performAttack();
+                        deathSound();
                         System.out.println("Player killed NPC");
                         knife.setResetAttack();
                         return true;
@@ -296,6 +287,19 @@ public class Player extends Entity{
             }
         }
         return false;
+    }
+
+    public void deathSound() {
+        try {
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("./res/mixkit-game-blood-pop-slide-2363.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
+            deathSound = AudioSystem.getClip();
+            deathSound.open(audioStream);
+            deathSound.start();
+        } 
+        catch (Exception e) {
+                System.out.println(e.getMessage());
+        }
     }
 
     public void manageKeyPickup() {
@@ -329,9 +333,13 @@ public class Player extends Entity{
         if (attackHitBox != null && attackHitBoxStatus) {
             if (flipW == -1) {
                 attackHitBox.x = (int) hitBox.x - 35;
+                attackHitBox.y = (int) hitBox.y + 7;
+
             } 
             else {
                 attackHitBox.x = (int) hitBox.x + 35;
+                attackHitBox.y = (int) hitBox.y + 7;
+
             }
         }
     }
@@ -356,16 +364,6 @@ public class Player extends Entity{
         }
     }
 
-    private void hiding(){
-        if (action && hitBox.intersects(hidingPlaces.getHitBox()) ){
-            if(!hidden){
-                setHidden(true);
-            } else {
-                setHidden(false);
-            }
-        }
-    }
-
 
 
     public void setLevelManager(LevelManager levelManager) {
@@ -374,13 +372,5 @@ public class Player extends Entity{
 
     public void setHitBox(float x, float y, float width, float height) {
         hitBox = new Rectangle2D.Float(x, y, width, height);
-    }
-
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
     }
 }
