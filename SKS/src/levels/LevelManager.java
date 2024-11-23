@@ -1,10 +1,8 @@
 package levels;
 
-import main.Game;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+import main.Game;
 import static main.Game.GAME_HEIGHT;
 import static main.Game.GAME_WIDTH;
 import static utils.LoadSave.*;
@@ -36,5 +34,9 @@ public class LevelManager {
 
     public BufferedImage getCollisionMap() {
         return collisionMap;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

@@ -1,16 +1,17 @@
-package Gamestates;
 
-import levels.LevelFactory;
-import main.Game;
+package gamestates;
+
 import entities.NPCs;
 import entities.Player;
 import entities.interactables.Key;
 import entities.interactables.Knife;
-import levels.LevelBase;
-import levels.LevelManager;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import levels.LevelBase;
+import levels.LevelFactory;
+import levels.LevelManager;
+import main.Game;
 
 
 public class Playing extends State implements Statemethods{
@@ -182,5 +183,3 @@ public class Playing extends State implements Statemethods{
         return this;
     }
 }
-
-

@@ -1,10 +1,16 @@
 package levels;
 
 import entities.*;
+
+import entities.interactables.*;
+import utils.Methods;
+
+
 import static entities.NPCs.NPC_SCALE;
 import entities.interactables.Key;
 import entities.interactables.Knife;
 import entities.interactables.Stairs;
+
 
 import utils.Methods;
 import java.awt.*;

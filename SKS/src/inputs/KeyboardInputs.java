@@ -20,10 +20,10 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         if (e.getKeyChar() == 'r' || e.getKeyChar() == 'R') {
-            gamePanel.getGame().getPlayer().setAction(true);
+            gamePanel.getGame().getPlaying().getPlayer().setAction(true);
         }
         if (e.getKeyChar() == 'e' || e.getKeyChar() == 'E') {
-            gamePanel.getGame().getPlayer().setEquip(true);
+            gamePanel.getGame().getPlaying().getPlayer().setEquip(true);
         }
         if (e.getKeyChar() == 'b' || e.getKeyChar() == 'B') {
             Entity.debug = !Entity.debug;
@@ -37,25 +37,25 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_Z) {
-            gamePanel.getGame().getPlayer().setUp(true);
+            gamePanel.getGame().getPlaying().getPlayer().setUp(true);
         }
         if (e.getKeyCode() == KeyEvent.VK_Q) {
-            gamePanel.getGame().getPlayer().setLeft(true);
+            gamePanel.getGame().getPlaying().getPlayer().setLeft(true);
         }
         if (e.getKeyCode() == KeyEvent.VK_S) {
-            gamePanel.getGame().getPlayer().setDown(true);
+            gamePanel.getGame().getPlaying().getPlayer().setDown(true);
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
-            gamePanel.getGame().getPlayer().setRight(true);
+            gamePanel.getGame().getPlaying().getPlayer().setRight(true);
         }
         if (e.getKeyCode() == KeyEvent.VK_P) {
-            gamePanel.getGame().getPlayer().setAttacking(true);
+            gamePanel.getGame().getPlaying().getPlayer().setAttacking(true);
         }
         if (e.getKeyCode() == KeyEvent.VK_M) {
-            gamePanel.getGame().getPlayer().setJumping(true);
+            gamePanel.getGame().getPlaying().getPlayer().setJumping(true);
         }
         if (e.getKeyCode() ==  KeyEvent.VK_SHIFT) {
-            gamePanel.getGame().getPlayer().setRunning(true);
+            gamePanel.getGame().getPlaying().getPlayer().setRunning(true);
         }
 
 
@@ -66,28 +66,28 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_Z) {
-            gamePanel.getGame().getPlayer().setUp(false);
+            gamePanel.getGame().getPlaying().getPlayer().setUp(false);
         }
         if (e.getKeyCode() == KeyEvent.VK_Q){
-            gamePanel.getGame().getPlayer().setLeft(false);
+            gamePanel.getGame().getPlaying().getPlayer().setLeft(false);
         }
         if (e.getKeyCode() == KeyEvent.VK_S) {
-            gamePanel.getGame().getPlayer().setDown(false);
+            gamePanel.getGame().getPlaying().getPlayer().setDown(false);
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
-            gamePanel.getGame().getPlayer().setRight(false);
+            gamePanel.getGame().getPlaying().getPlayer().setRight(false);
         }
         if (e.getKeyCode() == KeyEvent.VK_P) {
-            gamePanel.getGame().getPlayer().setAttacking(false);
+            gamePanel.getGame().getPlaying().getPlayer().setAttacking(false);
         }
         if (e.getKeyCode() == KeyEvent.VK_M) {
-            gamePanel.getGame().getPlayer().setJumping(false);
+            gamePanel.getGame().getPlaying().getPlayer().setJumping(false);
         }
         if (e.getKeyCode() ==  KeyEvent.VK_SHIFT) {
-            gamePanel.getGame().getPlayer().setRunning(false);
+            gamePanel.getGame().getPlaying().getPlayer().setRunning(false);
         }
         if (e.getKeyCode() ==  KeyEvent.VK_E) {
-            gamePanel.getGame().getPlayer().setEquip(false);
+            gamePanel.getGame().getPlaying().getPlayer().setEquip(false);
         }
 
     }
