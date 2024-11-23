@@ -13,7 +13,6 @@ import levels.LevelFactory;
 import levels.LevelManager;
 import main.Game;
 
-
 public class Playing extends State implements Statemethods{
     private Player player;
     private Key key;
@@ -30,10 +29,15 @@ public class Playing extends State implements Statemethods{
     int seconds = elapsedTime % 60;
     String timeString = String.format("%02d:%02d", minutes, seconds);
 
+    private boolean gameOver = false;
+    private float gameOverStart;
+    private long gameOverDuration = 3000;
+
     public Playing(Game game) {
         super(game);
         initClasses();
         startTimer();
+        gameOver();
     }
 
     private void initClasses() {
@@ -72,6 +76,7 @@ public class Playing extends State implements Statemethods{
         activeLevel.update(player);
         player.update();
         updateTimer();
+        gameOver();
 
     }
 
@@ -100,6 +105,16 @@ public class Playing extends State implements Statemethods{
         g.setColor(Color.WHITE); // Set text color
         g.setFont(new Font("Arial", Font.BOLD, 20)); // Set font style and size
         g.drawString("Time: " + timeString, 10, 30); // Draw the timer at (10, 30)
+    }
+
+    public void gameOver() {
+        if (getPlayer().checkCollisionPlayerNPCs()) {
+            gameOver = true;
+            gameOverStart = System.currentTimeMillis();
+            if (gameOver && gameOverStart >= gameOverDuration) {
+                GameState.state = GameState.state.MENU;
+            }
+        }
     }
 
     @Override

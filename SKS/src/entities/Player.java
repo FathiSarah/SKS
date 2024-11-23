@@ -88,6 +88,7 @@ public class Player extends Entity{
         hiding();
         takeStairs(playing.getActiveLevel());
         hitboxLR();
+        checkCollisionPlayerNPCs();
         if (attacking) {
             performAttack();
             killNPC();
@@ -319,11 +320,13 @@ public class Player extends Entity{
         if (key != null && !key.isPickedUp && hitBox.intersects(key.getHitBox()) && equip) {
             System.out.println("Key picked up!");
             key.isPickedUp = true;
+            key.keyPickUpSound();
             key = null;
         }
         if (knife != null && !knife.isPickedUp() && hitBox.intersects(knife.getHitBox()) && equip) {
             System.out.println("Knife picked up!");
             knife.isPickedUp = true;
+            knife.knifeEquipSound();
             equipWeapon(knife);
         }
     }
@@ -355,6 +358,16 @@ public class Player extends Entity{
 
             }
         }
+    }
+
+    public boolean checkCollisionPlayerNPCs() {
+        for (NPCs npc : playing.getActiveLevel().getNPCs()) {
+            if (hitBox.intersects(npc.getHitBox())) {
+                System.out.println("Player-NPC Collision");
+                return true;
+            }
+        }
+        return false;
     }
 
     // public Weapons getCurrentWeapon() {
