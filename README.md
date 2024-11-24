@@ -45,6 +45,7 @@ This is a Java-based game project where players can interact with various game e
 - IntelliJ IDEA (recommended for development)
 - JUnit: Used for unit testing. Make sure to include the appropriate JUnit dependency in your project.
 - JaCoCo: Code coverage tool for tracking test coverage.
+- GDD : [Game Design Document](https://docs.google.com/document/d/1OUo62EBrk1mNHxTaX_aceChuscdSlQPeAzwYNRJISFk/edit?tab=t.0#heading=h.31g0zqx0061o)
 
 ## Running Tests
 To run the tests, you can use your IDE's built-in support for JUnit, or run them from the command line:
