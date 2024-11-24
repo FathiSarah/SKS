@@ -3,15 +3,24 @@ package entities;
 
 import entities.interactables.*;
 
-import Gamestates.Playing;
 
+
+import entities.interactables.HidingPlaces;
+import entities.interactables.Key;
+import entities.interactables.Knife;
+import entities.interactables.Weapons;
+import gamestates.Playing;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import levels.*;
 import main.Game;
 import static utils.Constants.PlayerConstants.*;
@@ -37,6 +46,8 @@ public class Player extends Entity {
     private LevelManager levelManager;
     private Playing playing;
 
+    private Game game;
+
     private boolean weaponInInventory = false;
 
     private Key key;
@@ -53,12 +64,14 @@ public class Player extends Entity {
     private boolean attackHitBoxStatus = false;
     private LevelOne levelOne;
 
+    private Clip deathSound;
 
     private int flipX = 0;
     private int flipW = 1;
 
     /**
      * Constructor for Player.
+     *
      *
      * @param x
      * @param y
@@ -83,10 +96,10 @@ public class Player extends Entity {
         updateAnimationTick();
         manageKeyPickup();
         hiding();
-
         takeStairs(playing.getActiveLevel());
 
         hitboxLR();
+        checkCollisionPlayerNPCs();
         if (attacking) {
             performAttack();
             killNPC();
@@ -107,6 +120,7 @@ public class Player extends Entity {
 
     /**
      * Method that renders the player on the screen.
+     *
      *
      * @param g
      */
@@ -299,6 +313,7 @@ public class Player extends Entity {
                         npcs.remove(i);
                         npc.setAlive(false);
                         this.performAttack();
+                        deathSound();
                         System.out.println("Player killed NPC");
                         knife.setResetAttack();
                         return true;
@@ -309,19 +324,29 @@ public class Player extends Entity {
         return false;
     }
 
-    /**
-     * Method that checks if the player is colliding with the key and if the player is equipped.
-     * If so, the key is picked up and the player is equipped with the key.
-     */
+    public void deathSound() {
+        try {
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("./res/mixkit-game-blood-pop-slide-2363.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
+            deathSound = AudioSystem.getClip();
+            deathSound.open(audioStream);
+            deathSound.start();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void manageKeyPickup() {
         if (key != null && !key.isPickedUp && hitBox.intersects(key.getHitBox()) && equip) {
             System.out.println("Key picked up!");
             key.isPickedUp = true;
+            key.keyPickUpSound();
             key = null;
         }
         if (knife != null && !knife.isPickedUp() && hitBox.intersects(knife.getHitBox()) && equip) {
             System.out.println("Knife picked up!");
             knife.isPickedUp = true;
+            knife.knifeEquipSound();
             equipWeapon(knife);
         }
     }
@@ -352,10 +377,23 @@ public class Player extends Entity {
         if (attackHitBox != null && attackHitBoxStatus) {
             if (flipW == -1) {
                 attackHitBox.x = (int) hitBox.x - 35;
+                attackHitBox.y = (int) hitBox.y + 7;
+
             } else {
                 attackHitBox.x = (int) hitBox.x + 35;
+                attackHitBox.y = (int) hitBox.y + 7;
             }
         }
+    }
+
+    public boolean checkCollisionPlayerNPCs() {
+        for (NPCs npc : playing.getActiveLevel().getNPCs()) {
+            if (hitBox.intersects(npc.getHitBox())) {
+                System.out.println("Player-NPC Collision");
+                return true;
+            }
+        }
+        return false;
     }
 
     // public Weapons getCurrentWeapon() {
@@ -403,6 +441,13 @@ public class Player extends Entity {
         }
     }
 
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
 
     public void setLevelManager(LevelManager levelManager) {
         this.levelManager = levelManager;
@@ -411,14 +456,5 @@ public class Player extends Entity {
     public void setHitBox(float x, float y, float width, float height) {
         hitBox = new Rectangle2D.Float(x, y, width, height);
     }
-
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
-
 }
 

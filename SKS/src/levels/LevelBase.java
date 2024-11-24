@@ -2,9 +2,7 @@ package levels;
 
 import entities.NPCs;
 import entities.Player;
-
 import entities.interactables.HidingPlaces;
-
 import java.util.List;
 
 /**

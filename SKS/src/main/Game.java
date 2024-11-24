@@ -1,14 +1,14 @@
 package main;
 
 
-import Gamestates.GameMenu;
-import Gamestates.GameState;
-
-import Gamestates.Playing;
+import gamestates.GameMenu;
+import gamestates.GameState;
+import gamestates.Playing;
 import inputs.KeyboardInputs;
 import levels.LevelBase;
 
 import java.awt.*;
+
 
 /**
  * Main class of the game, used to start the game
@@ -105,6 +105,7 @@ public class Game implements Runnable {
                 break;
             case PLAYING:
                 playing.update();
+                menu.stopMusic();
                 break;
             case OPTIONS:
             case QUIT:

@@ -2,6 +2,10 @@ package entities.interactables;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import main.Game;
 import static utils.LoadSave.loadImage;
 
@@ -10,6 +14,7 @@ import static utils.LoadSave.loadImage;
  * Knives are used by the player to kill the enemies in the game.
  */
 public class Knife extends Weapons {
+    private Clip knifeEquipSound;
 
     /**
      * Constructor for Knife class
@@ -33,6 +38,19 @@ public class Knife extends Weapons {
             BufferedImage knifeImage = loadImage("png-transparent-drawing-black-pixel-art-sprite-online-and-offline-throwing-knife-angle-diagram.png");
             g.drawImage(knifeImage, (int) x, (int) y, (int) width, (int) height, null);
             drawHitBox(g);
+        }
+    }
+
+        public void knifeEquipSound() {
+        try {
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("./res/knife-draw-48223.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
+            knifeEquipSound = AudioSystem.getClip();
+            knifeEquipSound.open(audioStream);
+            knifeEquipSound.start();
+        }
+        catch (Exception e) {
+                System.out.println(e.getMessage());
         }
     }
 }

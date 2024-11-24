@@ -1,12 +1,11 @@
 package ui;
 
+import gamestates.GameState;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-
-import Gamestates.GameState;
-import utils.LoadSave;
 import static utils.Constants.UI.Buttons.*;
+import utils.LoadSave;
 
 /**
  * Class used to create a button in the menu.
@@ -92,7 +91,7 @@ public class MenuButton {
         return bounds;
     }
 
-    public void applyGamestate() {
+    public void applyGameState() {
         GameState.state = state;
     }
 
