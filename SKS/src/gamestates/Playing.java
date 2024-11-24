@@ -30,14 +30,13 @@ public class Playing extends State implements Statemethods{
     String timeString = String.format("%02d:%02d", minutes, seconds);
 
     private boolean gameOver = false;
-    private float gameOverStart;
-    private long gameOverDuration = 3000;
+    private long gameOverStart;
+    private final long gameOverDuration = 3000;
 
     public Playing(Game game) {
         super(game);
         initClasses();
         startTimer();
-        gameOver();
     }
 
     private void initClasses() {
@@ -77,6 +76,7 @@ public class Playing extends State implements Statemethods{
         player.update();
         updateTimer();
         gameOver();
+        allNPCsDead();
 
     }
 
@@ -98,7 +98,11 @@ public class Playing extends State implements Statemethods{
             player.render(g);
         }
         renderTimer(g);
-
+        renderWalk(g);
+        renderInteract(g);
+        renderHide(g);
+        renderAttack(g);
+        renderFullscreen(g);
     }
 
     public void renderTimer(Graphics g) {
@@ -107,13 +111,51 @@ public class Playing extends State implements Statemethods{
         g.drawString("Time: " + timeString, 10, 30); // Draw the timer at (10, 30)
     }
 
+    public void renderWalk(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Walk: Q, D", 10, 70); 
+    }
+
+    public void renderInteract(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Interact: E", 10, 100); 
+    }
+
+    public void renderHide(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Hide/Stairs: R", 10, 130); 
+    }
+
+    public void renderAttack(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Attack: P", 10, 160); 
+    }
+
+    public void renderFullscreen(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Fullscreen: F", 10, 190); 
+    }
+
     public void gameOver() {
-        if (getPlayer().checkCollisionPlayerNPCs()) {
-            gameOver = true;
-            gameOverStart = System.currentTimeMillis();
-            if (gameOver && gameOverStart >= gameOverDuration) {
-                GameState.state = GameState.state.MENU;
+        if (getPlayer().checkCollisionPlayerNPCs() && !getPlayer().isHidden()) {
+            try {
+                Thread.sleep(3000);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+
             }
+            GameState.state = GameState.state.MENU;
+        }
+    }
+
+    public void allNPCsDead() {
+        if (getActiveLevel().getNPCs().isEmpty()) {
+            GameState.state = GameState.state.MENU;
         }
     }
 
