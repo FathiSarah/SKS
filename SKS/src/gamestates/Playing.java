@@ -100,9 +100,9 @@ public class Playing extends State implements StateMethods{
         }else {
             updateTimer();
             pauseOverlay.update();
-            gameOver();
-            allNPCsDead();
         }
+        gameOver();
+        allNPCsDead();
     }
 
     /**
