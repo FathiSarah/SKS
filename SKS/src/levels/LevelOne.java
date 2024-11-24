@@ -1,23 +1,14 @@
 package levels;
 
 import entities.*;
-
-import entities.interactables.*;
-import utils.Methods;
-
-
 import static entities.NPCs.NPC_SCALE;
-import entities.interactables.Key;
-import entities.interactables.Knife;
-import entities.interactables.Stairs;
-
-
-import utils.Methods;
+import entities.interactables.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import static main.Game.SCALE;
 import static utils.LoadSave.*;
+import utils.Methods;
 
 public class LevelOne implements LevelBase {
     private Key key;
