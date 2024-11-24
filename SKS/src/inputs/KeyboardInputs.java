@@ -2,7 +2,7 @@ package inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import Gamestates.Gamestate;
+import gamestates.GameState;
 import main.GamePanel;
 import entities.Entity;
 import main.GameWindow;
@@ -38,7 +38,7 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch(Gamestate.state) {
+        switch(GameState.state) {
             case MENU:
                 gamePanel.getGame().getMenu().keyPressed(e);
                 break;
@@ -58,7 +58,7 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch(Gamestate.state) {
+        switch(GameState.state) {
             case MENU:
                 gamePanel.getGame().getMenu().keyReleased(e);
                 break;
@@ -66,9 +66,6 @@ public class KeyboardInputs implements KeyListener {
                 gamePanel.getGame().getPlaying().keyReleased(e);
                 break;
             default:
-        }
-        if (e.getKeyCode() == KeyEvent.VK_G){
-            gamePanel.getGame().getPlaying().getPlayer().setHidden(false);
         }
 
     }

@@ -7,12 +7,11 @@ import java.awt.geom.Rectangle2D;
 /**
  * Entity class that will be the base class for all entities in the game.
  */
-
 public abstract class Entity {
 
     protected float x, y, width, height;
     protected Rectangle2D.Float hitBox;
-    protected int speed;
+    protected float speed;
 
     protected boolean isAlive = true;
 
@@ -87,5 +86,9 @@ public abstract class Entity {
 
     public void setDebug(boolean debug) {
         this.debug = debug;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 }

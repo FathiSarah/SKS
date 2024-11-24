@@ -6,6 +6,10 @@ import main.Game;
  * Constants class to store all the constants used in the game
  */
 public class Constants {
+
+    /**
+     * Constats for the User Interface
+     */
     public static class UI{
         public static class Buttons{
             public static final int B_WIDTH_DEFAULT = 140;

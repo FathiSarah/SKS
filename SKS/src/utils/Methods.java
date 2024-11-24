@@ -92,6 +92,12 @@ public class Methods {
         return true;
     }
 
+    /**
+     * Method used to check if an entity is on the same level as the player.
+     * @param npcHitBox
+     * @param charHitBox
+     * @return
+     */
     public static boolean isOnSameLevel(Rectangle2D.Float npcHitBox, Rectangle2D.Float charHitBox) {
 
         float playerBottom = charHitBox.y + charHitBox.height;

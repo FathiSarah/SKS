@@ -1,25 +1,14 @@
 package main;
 
 
-import Gamestates.GameMenu;
-import Gamestates.Gamestate;
-
-import Gamestates.Playing;
+import gamestates.GameMenu;
+import gamestates.GameState;
+import gamestates.Playing;
 import inputs.KeyboardInputs;
 import levels.LevelBase;
-import levels.LevelFactory;
-
-import entities.NPCs;
-import entities.Player;
-import entities.interactables.Key;
-import entities.interactables.Knife;
 
 import java.awt.*;
-import levels.LevelBase;
-import levels.LevelFactory;
-import levels.LevelManager;
 
-import static javax.swing.text.html.HTML.Tag.OPTION;
 
 /**
  * Main class of the game, used to start the game
@@ -110,12 +99,13 @@ public class Game implements Runnable {
      */
     public void update(){
 
-        switch(Gamestate.state) {
+        switch(GameState.state) {
             case MENU:
                 menu.update();
                 break;
             case PLAYING:
                 playing.update();
+                menu.stopMusic();
                 break;
             case OPTIONS:
             case QUIT:
@@ -131,7 +121,7 @@ public class Game implements Runnable {
      * @param g
      */
     public void render( Graphics g){
-        switch(Gamestate.state) {
+        switch(GameState.state) {
             case MENU:
                 menu.draw(g);
                 break;
@@ -200,17 +190,12 @@ public class Game implements Runnable {
 //            playing.getPlayer().resetDirBooleans();
     }
 
-    public LevelBase getActiveLevel() {
-        return activeLevel;
-    }
+
     public GameMenu getMenu() {
         return menu;
     }
     public Playing getPlaying() {
         return playing;
-    }
-    public GameWindow getGameWindow() {
-        return gameWindow;
     }
 
 }

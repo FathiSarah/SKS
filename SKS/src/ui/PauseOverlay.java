@@ -1,7 +1,7 @@
 package ui;
 
-import Gamestates.Gamestate;
-import Gamestates.Playing;
+import gamestates.GameState;
+import gamestates.Playing;
 import main.Game;
 import utils.LoadSave;
 
@@ -100,7 +100,7 @@ public class PauseOverlay {
                 sfxButton.setMuted(!sfxButton.isMuted());
         } else if (isIn(e, menuB)) {
             if (menuB.isMousePressed()) {
-                Gamestate.state = Gamestate.MENU;
+                GameState.state = GameState.MENU;
                 playing.unpauseGame();
             }
         } else if (isIn(e, replayB)) {

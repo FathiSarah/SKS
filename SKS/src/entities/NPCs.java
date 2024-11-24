@@ -2,12 +2,15 @@ package entities;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import entities.interactables.Items;
 import levels.LevelManager;
 import main.Game;
 import static utils.Constants.EnemyConstants.*;
+import static utils.Methods.*;
+import static utils.Methods.canMoveHere;
+
 import utils.LoadSave;
-import static utils.Methods.isEntityOnFloor;
-import static utils.Methods.isOnSameLevel;
 
 /**
  * Child class of Entity, used to create NPCs in the game.
@@ -57,6 +60,8 @@ public class NPCs extends Entity {
 
     protected LevelManager levelManager;
 
+    private Items dropItem;
+
     /**
      * Constructor for NPCs.
      * @param x x-coordinate of the NPC.
@@ -82,12 +87,19 @@ public class NPCs extends Entity {
     public void update() {
         updateAnimationTick();
         updateMove();
-        if(inSight()){
-            System.out.println("Player is in sight");
-        };
+        if(!this.isAlive && dropItem != null){
+            dropItem.setPickedUp(false);
+            dropItem.setX(hitBox.x);
+            dropItem.setY(hitBox.y);
+        }
         directionSprites();
     }
 
+    /**
+     * Method that updates the movement of the NPC.
+     * If the NPC is not on the floor, it will keep falling until it reaches the floor.
+     * The NPC is set in Idle by default
+     */
     protected void updateMove() {
         while (!isEntityOnFloor(hitBox, levelManager.getCollisionMap())) {
             hitBox.y += 1;
@@ -97,12 +109,19 @@ public class NPCs extends Entity {
         NPCAction = NPC_IDLE;
     }
 
+    /**
+     * Method that updates the NPC's state.
+     * @param newState New state of the NPC.
+     */
     protected void newState(int newState) {
         this.NPCAction = newState;
         aniIndex = 0;
         aniTick = 0;
     }
 
+    /**
+     * Method that switches the direction the NPC is walking to.
+     */
     public void switchDirection() {
         if (currentDirection == Direction.RIGHT) {
             currentDirection = Direction.LEFT;
@@ -112,6 +131,9 @@ public class NPCs extends Entity {
         }
     }
 
+    /**
+     * Method that changes the direction of the NPC's sprites.
+     */
     public void directionSprites() {
         if (currentDirection == Direction.RIGHT) {
             flipX = 0;
@@ -123,6 +145,10 @@ public class NPCs extends Entity {
         }
     }
 
+    /**
+     * Method that checks if the player is in the NPC's field of view.
+     * @return True if the player is in the NPC's field of view, false otherwise.
+     */
     public boolean inSight() {
         float playerX = levelManager.getGame().getPlaying().getPlayer().getHitBox().x;
 
@@ -196,6 +222,25 @@ public class NPCs extends Entity {
         }
     }
 
+    protected void chasePlayer() {
+        var playerHitBox = levelManager.getGame().getPlaying().getPlayer().getHitBox();
+
+        // Determine movement direction based on player's position
+        if (playerHitBox.x < hitBox.x) {
+            if (canMoveHere(hitBox.x - speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
+                System.out.println("detected");
+                hitBox.x -= speed * 0.2;
+                currentDirection = Direction.LEFT;
+            }
+
+        } else {
+            if (canMoveHere(hitBox.x + speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
+                hitBox.x += speed * 0.2;
+                currentDirection = Direction.RIGHT;
+            }
+        }
+    }
+
     public int getNPCAction() {
         return NPCAction;
     }
@@ -219,4 +264,13 @@ public class NPCs extends Entity {
     public String getName() {
         return name;
     }
+
+    public void setDropItem(Items dropItem) {
+        this.dropItem = dropItem;
+    }
+
+    public Items getDropItem() {
+        return dropItem;
+    }
+
 }

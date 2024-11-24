@@ -2,12 +2,12 @@ package levels;
 
 import entities.NPCs;
 import entities.Player;
-
 import entities.interactables.HidingPlaces;
-
 import java.util.List;
 
-
+/**
+ * Interface used to define the methods that a level must implement.
+ */
 public interface LevelBase {
 
     public void initialize(Player player, LevelManager levelManager);
