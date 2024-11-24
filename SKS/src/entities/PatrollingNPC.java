@@ -43,7 +43,7 @@ public class PatrollingNPC extends NPCs {
                     setCurrentState(NPC_state.CHASE);
                     newState(NPC_WALK);
                 }
-                if (elapsedTime > 5000000000L) { // Wait for 3 seconds
+                if (elapsedTime > 4000000000L) { // Wait for 3 seconds
                     switchDirection();
                     setCurrentState(NPC_state.PATROL);
                     newState(NPC_WALK);
@@ -55,7 +55,7 @@ public class PatrollingNPC extends NPCs {
                     setCurrentState(NPC_state.CHASE);
                     newState(NPC_WALK);
                 }
-                if (elapsedTime > 3000000000L) {
+                if (elapsedTime > 4000000000L) {
                     setCurrentState(NPC_state.IDLE);// Patrol for 1 second
                     newState(NPC_IDLE);
                     startTime = System.nanoTime();
@@ -78,11 +78,6 @@ public class PatrollingNPC extends NPCs {
                 }
                 break;
             case CHASE:
-                System.out.println("Chasing player");
-//                if (hidden or something like that) {
-//                    setCurrentState(NPC_state.PATROL);
-//                    newState(NPC_WALK);
-//                } else {
                 if(!isOnSameLevel(this.hitBox, levelManager.getGame().getPlaying().getPlayer().getHitBox())) {
                     setCurrentState(NPC_state.PATROL);
                     newState(NPC_WALK);

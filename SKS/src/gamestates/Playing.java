@@ -19,10 +19,7 @@ import main.Game;
  */
 public class Playing extends State implements StateMethods{
     private Player player;
-    private Key key;
-    private Knife knife;
     private LevelManager levelManager;
-    private NPCs npc, npc2, npc3;
 
     private LevelBase activeLevel;
     private int currentLevel = 1;

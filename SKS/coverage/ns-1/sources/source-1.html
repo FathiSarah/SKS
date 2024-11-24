@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TestsMethods</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">tests</a>
+</div>
+
+<h1>Coverage Summary for Class: TestsMethods (tests)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TestsMethods</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package tests;
+&nbsp;
+&nbsp;import org.junit.jupiter.api.Test;
+&nbsp;import utils.Methods;
+&nbsp;
+&nbsp;import java.awt.geom.Rectangle2D;
+&nbsp;import java.awt.image.BufferedImage;
+&nbsp;
+&nbsp;import static org.junit.jupiter.api.Assertions.*;
+&nbsp;
+<b class="fc">&nbsp;class TestsMethods {</b>
+&nbsp;
+&nbsp;    @Test
+&nbsp;    void testCanMoveHere() {
+<b class="fc">&nbsp;        BufferedImage collisionMap = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);</b>
+<b class="fc">&nbsp;        collisionMap.setRGB(50, 50, (174 &lt;&lt; 16) | (50 &lt;&lt; 8) | 34); // Solid pixel</b>
+&nbsp;
+<b class="fc">&nbsp;        assertTrue(Methods.canMoveHere(10, 10, 10, 10, collisionMap), &quot;should be able to move here since it&#39;s not the defined collision color&quot;);</b>
+<b class="fc">&nbsp;        assertFalse(Methods.canMoveHere(50, 50, 10, 10, collisionMap), &quot;shouldn&#39;t be able to move here since it&#39;s the defined collision color&quot;);</b>
+<b class="fc">&nbsp;        assertFalse(Methods.canMoveHere(-10, 10, 10, 10, collisionMap), &quot;Should block movement since we are out of bounds&quot;);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;
+&nbsp;    @Test
+&nbsp;    void testIsEntityOnFloor() {
+<b class="fc">&nbsp;        BufferedImage collisionMap = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);</b>
+<b class="fc">&nbsp;        collisionMap.setRGB(30, 52, (174 &lt;&lt; 16) | (50 &lt;&lt; 8) | 34); // Solid floor pixel</b>
+&nbsp;
+<b class="fc">&nbsp;        Rectangle2D.Float hitBox = new Rectangle2D.Float(30, 41, 10, 10);</b>
+&nbsp;
+<b class="fc">&nbsp;        assertTrue(Methods.isEntityOnFloor(hitBox, collisionMap), &quot;Entity should be on the floor.&quot;);</b>
+<b class="fc">&nbsp;        hitBox.y = 10;</b>
+<b class="fc">&nbsp;        assertFalse(Methods.isEntityOnFloor(hitBox, collisionMap), &quot;Entity should not be on the floor.&quot;);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;
+&nbsp;    @Test
+&nbsp;    void testIsOnSameLevel() {
+<b class="fc">&nbsp;        Rectangle2D.Float npcHitBox = new Rectangle2D.Float(10, 20, 10, 30);</b>
+<b class="fc">&nbsp;        Rectangle2D.Float charHitBox = new Rectangle2D.Float(15, 30, 10, 20);</b>
+&nbsp;
+<b class="fc">&nbsp;        assertTrue(Methods.isOnSameLevel(npcHitBox, charHitBox), &quot;Hitboxes should be on the same y + height value&quot;);</b>
+<b class="fc">&nbsp;        charHitBox.y = 55; // y from 55 to 65</b>
+<b class="fc">&nbsp;        assertFalse(Methods.isOnSameLevel(npcHitBox, charHitBox), &quot;Hitboxes should not be on the same level vertically&quot;);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-11-24 18:56</div>
+</div>
+</body>
+</html>

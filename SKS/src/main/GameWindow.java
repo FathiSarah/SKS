@@ -62,20 +62,20 @@ public class GameWindow {
 
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         if (fullscreen) {
-            jframe.setVisible(false); // Hide frame to apply changes
-            jframe.dispose(); // Dispose frame to apply changes
-            jframe.setUndecorated(true); // Remove decorations for fullscreen
-            gd.setFullScreenWindow(jframe); // Set the frame to fullscreen mode
+            jframe.setVisible(false);
+            jframe.dispose();
+            jframe.setUndecorated(true);
+            gd.setFullScreenWindow(jframe);
         } else {
-            jframe.setVisible(false); // Hide frame to apply changes
-            jframe.dispose(); // Dispose frame to apply changes
-            gd.setFullScreenWindow(null); // Exit fullscreen mode
-            jframe.setUndecorated(false); // Restore decorations
-            jframe.pack(); // Adjust size
-            jframe.setLocationRelativeTo(null); // Center window
+            jframe.setVisible(false);
+            jframe.dispose();
+            gd.setFullScreenWindow(null);
+            jframe.setUndecorated(false);
+            jframe.pack();
+            jframe.setLocationRelativeTo(null);
         }
-        jframe.setVisible(true); // Show the frame
-        jframe.requestFocusInWindow(); // Ensure the JFrame has focus
+        jframe.setVisible(true);
+        jframe.requestFocusInWindow();
     }
 
 

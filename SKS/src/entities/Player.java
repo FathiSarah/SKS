@@ -1,14 +1,6 @@
 package entities;
 
-
 import entities.interactables.*;
-
-
-
-import entities.interactables.HidingPlaces;
-import entities.interactables.Key;
-import entities.interactables.Knife;
-import entities.interactables.Weapons;
 import gamestates.Playing;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -41,28 +33,20 @@ public class Player extends Entity {
     private float playerSpeed = 2.0f;
     private float xOffset = 48 * Game.SCALE;
     private float yOffset = 64 * Game.SCALE;
-    private LevelBase currentlevel = new LevelOne();
 
     private LevelManager levelManager;
     private Playing playing;
-
-    private Game game;
 
     private boolean weaponInInventory = false;
 
     private Key key;
     private Knife knife;
 
-    private HidingPlaces hidingPlace;
     private List<HidingPlaces> hidingPlaces = new ArrayList<>();
 
-
-
     private Weapons currentWeapon;
-    private NPCs npc;
     private Rectangle attackHitBox;
     private boolean attackHitBoxStatus = false;
-    private LevelOne levelOne;
 
     private Clip deathSound;
 

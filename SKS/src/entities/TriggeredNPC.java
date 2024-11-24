@@ -11,8 +11,7 @@ import static utils.Methods.*;
  */
 public class TriggeredNPC extends NPCs {
 
-    // Detection zone dimensions
-    private static final int DETECTION_WIDTH = 100; // Adjust as needed
+    private static final int DETECTION_WIDTH = 100;
     private static final int DETECTION_HEIGHT = 100;
 
     public TriggeredNPC(float x, float y, int width, int height, String name, LevelManager levelManager) {
@@ -20,7 +19,6 @@ public class TriggeredNPC extends NPCs {
         initHitBox(x, y, 18 * Game.SCALE * NPC_SCALE, 25 * Game.SCALE * NPC_SCALE);
         setSpeed(1.5f);
 
-        // Start idle and facing right
         setCurrentState(NPC_state.IDLE);
         currentDirection = Direction.RIGHT;
     }
@@ -35,7 +33,6 @@ public class TriggeredNPC extends NPCs {
 
         switch (getCurrentState()) {
             case IDLE:
-                // Remain idle until the player is detected
                 if (playerDetected()) {
                     setCurrentState(NPC_state.CHASE);
                     newState(NPC_WALK);
@@ -54,16 +51,13 @@ public class TriggeredNPC extends NPCs {
      * @return true if the player is detected, false otherwise
      */
     private boolean playerDetected() {
-        // Get player's hitbox
         var playerHitBox = levelManager.getGame().getPlaying().getPlayer().getHitBox();
 
-        // Calculate detection zone behind the NPC
         float detectionX = currentDirection == Direction.RIGHT ? hitBox.x - DETECTION_WIDTH : hitBox.x + hitBox.width;
         float detectionY = hitBox.y;
         float detectionWidth = DETECTION_WIDTH;
         float detectionHeight = DETECTION_HEIGHT;
 
-        // Check if player is in the detection zone
         return playerHitBox.intersects(detectionX, detectionY, detectionWidth, detectionHeight);
     }
 }

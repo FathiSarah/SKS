@@ -1,7 +1,5 @@
 package entities.interactables;
 
-import java.awt.*;
-
 /**
  * Stairs class is a subclass of Entity class. It is used to create stairs in the game.
  * Stairs are used by the player to move between floors in the game.
@@ -44,26 +42,7 @@ public class Stairs {
     public float getTargetX() {
         return targetX;
     }
-
     public float getTargetY() {
         return targetY;
     }
-
-    public float getMinX() {
-        return minX;
-    }
-
-    public float getMaxX() {
-        return maxX;
-    }
-
-    public float getMinY() {
-        return minY;
-    }
-
-    public float getMaxY() {
-        return maxY;
-    }
-
-
 }

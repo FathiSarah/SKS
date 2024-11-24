@@ -13,8 +13,6 @@ public class Items extends Entity{
     protected float x, y;
     protected String name;
     public boolean isPickedUp = false;
-    private KeyboardInputs keyboardInputs;
-    private boolean equip;
 
     /**
      * Constructor for Items class
@@ -52,15 +50,12 @@ public class Items extends Entity{
     public boolean isPickedUp() {
         return isPickedUp;
     }
-
     public void setPickedUp(boolean pickedUp) {
         isPickedUp = pickedUp;
     }
-
     public void setX(float x) {
         this.x = x;
     }
-
     public void setY(float y) {
         this.y = y;
     }

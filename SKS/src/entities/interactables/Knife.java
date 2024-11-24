@@ -41,7 +41,10 @@ public class Knife extends Weapons {
         }
     }
 
-        public void knifeEquipSound() {
+    /**
+     * knifeEquipSound method is used to play the sound when the player equips the knife
+     */
+    public void knifeEquipSound() {
         try {
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("./res/knife-draw-48223.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);

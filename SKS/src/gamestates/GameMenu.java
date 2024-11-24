@@ -24,7 +24,6 @@ public class GameMenu extends State implements StateMethods {
     private int menuX, menuY, menuWidth, menuHeight;
 
     private Clip menuMusic;
-    private GameState gameState;
 
     /**
      * Constructor for GameMenu class.
@@ -57,10 +56,7 @@ public class GameMenu extends State implements StateMethods {
         buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150 * Game.SCALE), 0, GameState.PLAYING);
         buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290 * Game.SCALE), 1, GameState.OPTIONS);
         buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (430 * Game.SCALE), 2, GameState.QUIT);
-
     }
-
-
 
     @Override
     public void update() {
@@ -69,13 +65,6 @@ public class GameMenu extends State implements StateMethods {
         }
 
     }
-
-    //public void draw(Graphics g, String level){
-       // BufferedImage lvlToDraw = loadImage(level);
-
-       // g.drawImage(lvlToDraw, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
-
-
     /**
      * Draws the main menu.
      * @param g
