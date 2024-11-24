@@ -11,19 +11,29 @@ import java.awt.image.BufferedImage;
 
 import static main.Game.GAME_HEIGHT;
 import static main.Game.GAME_WIDTH;
-import static utils.LoadSave.loadImage;
 
-public class GameMenu extends State implements Statemethods{
+/**
+ * GameMenu class is a subclass of State and implements StateMethods interface.
+ * This class is responsible for displaying the main menu of the game.
+ */
+public class GameMenu extends State implements StateMethods {
     private MenuButton[] buttons = new MenuButton[3];
     private BufferedImage backgroundImg;
     private int menuX, menuY, menuWidth, menuHeight;
 
+    /**
+     * Constructor for GameMenu class.
+     * @param game Game object
+     */
     public GameMenu(Game game) {
         super(game);
         loadButtons();
         loadBackground();
     }
 
+    /**
+     * Loads the background image for the main menu.
+     */
     private void loadBackground() {
         backgroundImg = LoadSave.loadImage(LoadSave.MENU_BACKGROUND);
         menuWidth = (int) (backgroundImg.getWidth() * Game.SCALE);
@@ -33,12 +43,17 @@ public class GameMenu extends State implements Statemethods{
 
     }
 
+    /**
+     * Loads the buttons for the main menu.
+     */
     private void loadButtons() {
-        buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150 * Game.SCALE), 0, Gamestate.PLAYING);
-        buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290 * Game.SCALE), 1, Gamestate.OPTIONS);
-        buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (430 * Game.SCALE), 2, Gamestate.QUIT);
+        buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150 * Game.SCALE), 0, GameState.PLAYING);
+        buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290 * Game.SCALE), 1, GameState.OPTIONS);
+        buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (430 * Game.SCALE), 2, GameState.QUIT);
 
     }
+
+
 
     @Override
     public void update() {
@@ -54,15 +69,17 @@ public class GameMenu extends State implements Statemethods{
        // g.drawImage(lvlToDraw, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
 
 
+    /**
+     * Draws the main menu.
+     * @param g
+     */
     @Override
     public void draw(Graphics g) {
         g.drawImage(backgroundImg, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
         for(MenuButton mb : buttons) {
             mb.draw(g);
         }
-
-
-        }
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -116,7 +133,7 @@ public class GameMenu extends State implements Statemethods{
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ENTER) {
             System.out.println("ENTER");
-            Gamestate.state = Gamestate.PLAYING;
+            GameState.state = GameState.PLAYING;
         }
 
     }

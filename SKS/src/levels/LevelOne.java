@@ -19,6 +19,9 @@ import java.util.List;
 import static main.Game.SCALE;
 import static utils.LoadSave.*;
 
+/**
+ * Class that defines the first level of the game.
+ */
 public class LevelOne implements LevelBase {
     private Key key;
     private Knife knife;
@@ -27,8 +30,15 @@ public class LevelOne implements LevelBase {
     private List<Stairs> stairs = new ArrayList<>();
     private List<NPCs> npcs = new ArrayList<>();
 
+    private NPCs npc1, npc2, npc3;
+
     private LevelManager levelManager;
 
+    /**
+     * Method used to initialize the level.
+     * @param player
+     * @param levelManager
+     */
     @Override
     public void initialize(Player player, LevelManager levelManager) {
         hidingPlaces.add(new HidingPlaces(500 * SCALE, 424 * SCALE, (int) (85 * SCALE), (int) (100 * SCALE), WARDROBE));
@@ -37,20 +47,29 @@ public class LevelOne implements LevelBase {
         hidingPlaces.add(new HidingPlaces(800 * SCALE, 470 * SCALE, (int) (107 * SCALE), (int) (56 * SCALE), BED));
 
         key = new Key(250 * SCALE, 750 * SCALE, (int) (50 * SCALE), (int) (20 * SCALE), "Key");
+
         knife = new Knife(520 * SCALE, 610 * SCALE, (int) (50 * SCALE), (int) (20 * SCALE), "Knife");
 
-        npcs.add(new PatrollingNPC(530 * SCALE, 500 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC1", levelManager));
-        npcs.add(new PatrollingNPC(550 * SCALE, 670 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC2", levelManager));
-        npcs.add(new PatrollingNPC(400 * SCALE, 450 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC3", levelManager));
+        npc1 = new PatrollingNPC(530 * SCALE, 500 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC1", levelManager);
+        npc2 = new PatrollingNPC(550 * SCALE, 670 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC2", levelManager);
+        npc3 = new PatrollingNPC(400 * SCALE, 450 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC3", levelManager);
+
+        npcs.add(npc1);
+        npcs.add(npc2);
+        npcs.add(npc3);
 
         initStairs();
 
         Methods.setPlayer(player);
-
         player.setLevelManager(levelManager);
         this.levelManager = levelManager;
     }
 
+
+    /**
+     * Method used to update the level.
+     * @param player
+     */
     public void update(Player player) {
         player.update(key);
         player.update(knife);
@@ -59,11 +78,21 @@ public class LevelOne implements LevelBase {
 
         for (NPCs npc : npcs) {
             npc.update();
+            if (!npc.Alive() && npc.getDropItem() != null) {
+                Items droppedItem = npc.getDropItem();
+                if (!droppedItem.isPickedUp()) {
+                    player.manageKeyPickup(); // Logic to pick up the item
+                }
+            }
         }
 
 
     }
 
+    /**
+     * Method used to render the level.
+     * @param g
+     */
     public void render(Graphics g) {
         levelManager.draw(g, LEVEL_ONE);
 
@@ -74,6 +103,7 @@ public class LevelOne implements LevelBase {
         if (key != null && key.isPickedUp() == false) {
             key.render(g);
         }
+
         if (knife != null && knife.isPickedUp() == false) {
             knife.render(g);
         }
@@ -86,6 +116,9 @@ public class LevelOne implements LevelBase {
 
     }
 
+    /**
+     * Method used to initialize the stairs.
+     */
     private void initStairs() {
         stairs.add(new Stairs(990 * SCALE, 1100 * SCALE, 718 * SCALE, 782 * SCALE, 1050 * SCALE, 584 * SCALE));
         stairs.add(new Stairs(1050 * SCALE, 1100 * SCALE, 584 * SCALE, 648 * SCALE, 1025 * SCALE, 718 * SCALE));
@@ -93,6 +126,10 @@ public class LevelOne implements LevelBase {
         stairs.add(new Stairs(140 * SCALE, 210 * SCALE, 459 * SCALE, 523 * SCALE, 205 * SCALE, 584 * SCALE));
     }
 
+    /**
+     * Method used to handle the use of stairs.
+     * @param player
+     */
     public void handleStairs(Player player) {
         for (Stairs stair : stairs) {
             if (stair.isWithinBounds(player.getHitBox().x, player.getHitBox().y, player.getHitBox().width, player.getHitBox().height)) {

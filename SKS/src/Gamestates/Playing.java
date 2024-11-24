@@ -13,8 +13,11 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-
-public class Playing extends State implements Statemethods{
+/**
+ * Playing class is a subclass of State and implements StateMethods interface.
+ * This class is responsible for handling the game state when the player is playing the game.
+ */
+public class Playing extends State implements StateMethods {
     private Player player;
     private Key key;
     private Knife knife;
@@ -30,35 +33,43 @@ public class Playing extends State implements Statemethods{
     int seconds = elapsedTime % 60;
     String timeString = String.format("%02d:%02d", minutes, seconds);
 
+    /**
+     * Constructor for Playing class.
+     * @param game Game object
+     */
     public Playing(Game game) {
         super(game);
         initClasses();
         startTimer();
     }
 
+    /**
+     * Initializes the classes required for the Playing state.
+     */
     private void initClasses() {
         levelManager = new LevelManager(game);
-        player = new Player(250 * Game.SCALE, 700 * Game.SCALE, (int)(128 * Game.SCALE), (int)(128 * Game.SCALE), levelManager, this);
+        player = new Player(250 * Game.SCALE, 650 * Game.SCALE, (int)(128 * Game.SCALE), (int)(128 * Game.SCALE), levelManager, this);
         loadLevel(currentLevel);
-
     }
+
+    /**
+     * Starts the timer.
+     */
     public void startTimer() {
         startTime = System.currentTimeMillis(); // Record the current time in milliseconds
     }
 
 
+    /**
+     * Loads the level based on the level number.
+     * @param LevelNumber Level number
+     */
     public void loadLevel(int LevelNumber) {
         activeLevel = LevelFactory.createLevel(LevelNumber);
         activeLevel.initialize(player, levelManager);
     }
-    //Will be called when the window loses focus, to stop the player from moving/pause the game or something similar
-//    public void WindowFocusLost() {
-//    }
 
-    /**
-     * Get the player object.
-     * @return
-     */
+
     public Player getPlayer(){
         return player;
         }
@@ -67,6 +78,9 @@ public class Playing extends State implements Statemethods{
         return activeLevel;
     }
 
+    /**
+     * Updates the game state.
+     */
     @Override
     public void update() {
         activeLevel.update(player);
@@ -75,6 +89,9 @@ public class Playing extends State implements Statemethods{
 
     }
 
+    /**
+     * Updates the timer.
+     */
     public void updateTimer() {
         long currentTime = System.currentTimeMillis(); // Current time in milliseconds
         elapsedTime = (int) ((currentTime - startTime) / 1000); // Elapsed time in seconds
@@ -86,6 +103,10 @@ public class Playing extends State implements Statemethods{
     }
 
 
+    /**
+     * Draws the game state.
+     * @param g Graphics object
+     */
     @Override
     public void draw(Graphics g) {
         activeLevel.render(g);
@@ -96,6 +117,10 @@ public class Playing extends State implements Statemethods{
 
     }
 
+    /**
+     * Renders the timer.
+     * @param g Graphics object
+     */
     public void renderTimer(Graphics g) {
         g.setColor(Color.WHITE); // Set text color
         g.setFont(new Font("Arial", Font.BOLD, 20)); // Set font style and size

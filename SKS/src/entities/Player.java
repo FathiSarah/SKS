@@ -1,13 +1,10 @@
 package entities;
 
 
-import entities.interactables.HidingPlaces;
+import entities.interactables.*;
 
 import Gamestates.Playing;
 
-import entities.interactables.Key;
-import entities.interactables.Knife;
-import entities.interactables.Weapons;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -24,7 +21,7 @@ import static utils.Methods.*;
 /**
  * Child class of Entity, used to create the player in the game.
  */
-public class Player extends Entity{
+public class Player extends Entity {
 
     private BufferedImage[][] animations;
     private int aniTick, aniIndex, aniSpeed = 15;
@@ -39,7 +36,7 @@ public class Player extends Entity{
 
     private LevelManager levelManager;
     private Playing playing;
-  
+
     private boolean weaponInInventory = false;
 
     private Key key;
@@ -47,6 +44,8 @@ public class Player extends Entity{
 
     private HidingPlaces hidingPlace;
     private List<HidingPlaces> hidingPlaces = new ArrayList<>();
+
+
 
     private Weapons currentWeapon;
     private NPCs npc;
@@ -60,6 +59,7 @@ public class Player extends Entity{
 
     /**
      * Constructor for Player.
+     *
      * @param x
      * @param y
      * @param width
@@ -85,7 +85,7 @@ public class Player extends Entity{
         hiding();
 
         takeStairs(playing.getActiveLevel());
-       
+
         hitboxLR();
         if (attacking) {
             performAttack();
@@ -101,16 +101,17 @@ public class Player extends Entity{
         this.key = key;
     }
 
-    public void update(List<HidingPlaces> hidingPlaces){
+    public void update(List<HidingPlaces> hidingPlaces) {
         this.hidingPlaces = hidingPlaces;
     }
 
     /**
      * Method that renders the player on the screen.
+     *
      * @param g
      */
-    public void render(Graphics g){
-        g.drawImage(animations[playerAction][aniIndex], (int)(hitBox.x - xOffset) + flipX, (int)(hitBox.y - yOffset), (int)width * flipW, (int)height, null);
+    public void render(Graphics g) {
+        g.drawImage(animations[playerAction][aniIndex], (int) (hitBox.x - xOffset) + flipX, (int) (hitBox.y - yOffset), (int) width * flipW, (int) height, null);
         drawHitBox(g);
         if (attackHitBox != null && attackHitBoxStatus == true) {
             g.setColor(Color.GREEN);
@@ -121,12 +122,12 @@ public class Player extends Entity{
     /**
      * Method that handles the rotation of sprites, depending on the animation and the number of sprites this animation have.
      */
-    private void updateAnimationTick(){
+    private void updateAnimationTick() {
         aniTick++;
-        if(aniTick >= aniSpeed){
+        if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if(aniIndex >= GetSpriteAmount(playerAction)){
+            if (aniIndex >= GetSpriteAmount(playerAction)) {
                 aniIndex = 0;
             }
         }
@@ -135,20 +136,20 @@ public class Player extends Entity{
     /**
      * Method that sets the animation of the player depending on the player's actions.
      */
-    private void setAnimation(){
+    private void setAnimation() {
         int startAni = playerAction;
 
-        if(moving){
+        if (moving) {
             playerAction = WALK;
         } else {
             playerAction = IDLE_1;
         }
 
-        if(attacking){
+        if (attacking) {
             playerAction = ATTACK_2;
         }
 
-        if(jumping){
+        if (jumping) {
             playerAction = JUMP;
         }
 
@@ -160,8 +161,6 @@ public class Player extends Entity{
         if (startAni != playerAction) {
             resetAniTick();
         }
-
-
 
 
     }
@@ -183,15 +182,15 @@ public class Player extends Entity{
         }
         moving = false;
 
-        if(!left && !right && !up && !down) {
-            return ;
+        if (!left && !right && !up && !down) {
+            return;
         }
 
         float xSpeed = 0, ySpeed = 0;
 
-        if(left && !right && !isHidden()){
+        if (left && !right && !isHidden()) {
             xSpeed -= playerSpeed;
-            flipX = (int)width;
+            flipX = (int) width;
             flipW = -1;
         }
         if (!left && right && !isHidden()) {
@@ -199,16 +198,18 @@ public class Player extends Entity{
 
             flipX = 0;
             flipW = 1;
-        } 
-        if (up && !down) { ySpeed -= playerSpeed; }
-        if (!up && down) { ySpeed += playerSpeed; }
+        }
+        if (up && !down) {
+            ySpeed -= playerSpeed;
+        }
+        if (!up && down) {
+            ySpeed += playerSpeed;
+        }
 
 
         BufferedImage collisionMap = levelManager.getCollisionMap();
-//        if (canMoveHere(x + xSpeed, y + ySpeed, width, height, collisionMap)) {
-//            this.x =  x + xSpeed;
-//            this.y = y + ySpeed;
-//            moving = true;
+
+
         if (canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, collisionMap)) {
             hitBox.x += xSpeed;
             hitBox.y += ySpeed;
@@ -274,14 +275,22 @@ public class Player extends Entity{
         this.equip = equip;
     }
 
-    public void setAction(boolean action) { this.action = action; }
+    public void setAction(boolean action) {
+        this.action = action;
+    }
 
     public boolean getKeyIsPickedUp() {
         return key.isPickedUp;
     }
 
+    /**
+     * Method that checks if the player is attacking and if the attack hitbox intersects with an NPC.
+     * If so, the NPC is removed from the list of NPCs in the level.
+     *
+     * @return
+     */
     public boolean killNPC() {
-        if (weaponInInventory && attacking)  {
+        if (weaponInInventory && attacking) {
             if (knife != null && knife.getAttacking()) {
                 List<NPCs> npcs = playing.getActiveLevel().getNPCs();
                 for (int i = 0; i < npcs.size(); i++) {
@@ -300,6 +309,10 @@ public class Player extends Entity{
         return false;
     }
 
+    /**
+     * Method that checks if the player is colliding with the key and if the player is equipped.
+     * If so, the key is picked up and the player is equipped with the key.
+     */
     public void manageKeyPickup() {
         if (key != null && !key.isPickedUp && hitBox.intersects(key.getHitBox()) && equip) {
             System.out.println("Key picked up!");
@@ -313,6 +326,11 @@ public class Player extends Entity{
         }
     }
 
+    /**
+     * Method that equips the player with a weapon.
+     *
+     * @param weapon
+     */
     public void equipWeapon(Weapons weapon) {
         this.currentWeapon = weapon;
         weaponInInventory = true;
@@ -327,12 +345,14 @@ public class Player extends Entity{
         attackHitBoxStatus = false;
     }
 
+    /**
+     * Method that sets the position of the attack hitbox depending on the player's direction.
+     */
     public void hitboxLR() {
         if (attackHitBox != null && attackHitBoxStatus) {
             if (flipW == -1) {
                 attackHitBox.x = (int) hitBox.x - 35;
-            } 
-            else {
+            } else {
                 attackHitBox.x = (int) hitBox.x + 35;
             }
         }
@@ -342,27 +362,38 @@ public class Player extends Entity{
     //     return currentWeapon;
     // }
 
+    /**
+     * Method used to trigger the attack action of the player.
+     *
+     * @return
+     */
     public void performAttack() {
         if (currentWeapon != null) {
             currentWeapon.setAttacking(true);
         }
     }
 
+    /**
+     * Method that triggers the use of the stairs when the action button is pressed.
+     *
+     * @param currentLevel
+     */
     private void takeStairs(LevelBase currentLevel) {
         if (action) {
-            System.out.println("Action triggered for stairs.");
-            System.out.println("hitBox.x: " + hitBox.x + ", hitBox.y: " + hitBox.y);
-            System.out.println("hitBox.width: " + (hitBox.x + hitBox.width) + ", hitBox.height: " + (hitBox.y+hitBox.height));
             currentLevel.handleStairs(this); // Call to level-specific logic
             setAction(false); // Reset action after use
         }
     }
 
-    private void hiding(){
-        if (action){
-            for(HidingPlaces hidingPlace : hidingPlaces){
-                if(hitBox.intersects(hidingPlace.getHitBox())){
-                    if(!hidden) {
+    /**
+     * Method that checks if the player is colliding with a hiding place and if the player is in the hiding place.
+     * If so, the player is hidden.
+     */
+    private void hiding() {
+        if (action) {
+            for (HidingPlaces hidingPlace : hidingPlaces) {
+                if (hitBox.intersects(hidingPlace.getHitBox())) {
+                    if (!hidden) {
                         setHidden(true);
                     } else {
                         setHidden(false);
@@ -371,7 +402,6 @@ public class Player extends Entity{
             }
         }
     }
-
 
 
     public void setLevelManager(LevelManager levelManager) {
@@ -389,4 +419,6 @@ public class Player extends Entity{
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
     }
+
 }
+
