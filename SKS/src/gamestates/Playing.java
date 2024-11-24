@@ -56,10 +56,9 @@ public class Playing extends State implements StateMethods{
      */
     private void initClasses() {
         levelManager = new LevelManager(game);
-        player = new Player(250 * Game.SCALE, 700 * Game.SCALE, (int)(128 * Game.SCALE), (int)(128 * Game.SCALE), levelManager, this);
+        player = new Player(150 * Game.SCALE, 700 * Game.SCALE, (int)(128 * Game.SCALE), (int)(128 * Game.SCALE), levelManager, this);
         loadLevel(currentLevel);
         pauseOverlay = new PauseOverlay(this);
-
     }
 
     /**
