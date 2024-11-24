@@ -14,7 +14,11 @@ import static main.Game.GAME_WIDTH;
 import ui.MenuButton;
 import utils.LoadSave;
 
-public class GameMenu extends State implements Statemethods{
+/**
+ * GameMenu class is a subclass of State and implements StateMethods interface.
+ * This class is responsible for displaying the main menu of the game.
+ */
+public class GameMenu extends State implements StateMethods {
     private MenuButton[] buttons = new MenuButton[3];
     private BufferedImage backgroundImg;
     private int menuX, menuY, menuWidth, menuHeight;
@@ -22,6 +26,10 @@ public class GameMenu extends State implements Statemethods{
     private Clip menuMusic;
     private GameState gameState;
 
+    /**
+     * Constructor for GameMenu class.
+     * @param game Game object
+     */
     public GameMenu(Game game) {
         super(game);
         loadButtons();
@@ -30,6 +38,9 @@ public class GameMenu extends State implements Statemethods{
         playMusic();
     }
 
+    /**
+     * Loads the background image for the main menu.
+     */
     private void loadBackground() {
         backgroundImg = LoadSave.loadImage(LoadSave.MENU_BACKGROUND);
         menuWidth = (int) (backgroundImg.getWidth() * Game.SCALE);
@@ -39,12 +50,17 @@ public class GameMenu extends State implements Statemethods{
 
     }
 
+    /**
+     * Loads the buttons for the main menu.
+     */
     private void loadButtons() {
         buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150 * Game.SCALE), 0, GameState.PLAYING);
         buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290 * Game.SCALE), 1, GameState.OPTIONS);
         buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (430 * Game.SCALE), 2, GameState.QUIT);
 
     }
+
+
 
     @Override
     public void update() {
@@ -60,15 +76,17 @@ public class GameMenu extends State implements Statemethods{
        // g.drawImage(lvlToDraw, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
 
 
+    /**
+     * Draws the main menu.
+     * @param g
+     */
     @Override
     public void draw(Graphics g) {
         g.drawImage(backgroundImg, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
         for(MenuButton mb : buttons) {
             mb.draw(g);
         }
-
-
-        }
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -139,7 +157,7 @@ public class GameMenu extends State implements Statemethods{
             menuMusic = AudioSystem.getClip();
             menuMusic.open(audioStream);
             menuMusic.loop(Clip.LOOP_CONTINUOUSLY);
-        } 
+        }
         catch (Exception e) {
                 System.out.println(e.getMessage());
         }

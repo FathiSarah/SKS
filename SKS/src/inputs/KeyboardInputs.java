@@ -1,6 +1,8 @@
 package inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import gamestates.GameState;
 import main.GamePanel;
 import entities.Entity;
 import main.GameWindow;
@@ -36,26 +38,17 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_Z) {
-            gamePanel.getGame().getPlaying().getPlayer().setUp(true);
+        switch(GameState.state) {
+            case MENU:
+                gamePanel.getGame().getMenu().keyPressed(e);
+                break;
+            case PLAYING:
+                gamePanel.getGame().getPlaying().keyPressed(e);
+                break;
+            default:
         }
-        if (e.getKeyCode() == KeyEvent.VK_Q) {
-            gamePanel.getGame().getPlaying().getPlayer().setLeft(true);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            gamePanel.getGame().getPlaying().getPlayer().setDown(true);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            gamePanel.getGame().getPlaying().getPlayer().setRight(true);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_P) {
-            gamePanel.getGame().getPlaying().getPlayer().setAttacking(true);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_M) {
-            gamePanel.getGame().getPlaying().getPlayer().setJumping(true);
-        }
-        if (e.getKeyCode() ==  KeyEvent.VK_SHIFT) {
-            gamePanel.getGame().getPlaying().getPlayer().setRunning(true);
+        if (e.getKeyCode() == KeyEvent.VK_G){
+            gamePanel.getGame().getPlaying().getPlayer().setHidden(true);
         }
 
 
@@ -65,29 +58,14 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_Z) {
-            gamePanel.getGame().getPlaying().getPlayer().setUp(false);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_Q){
-            gamePanel.getGame().getPlaying().getPlayer().setLeft(false);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            gamePanel.getGame().getPlaying().getPlayer().setDown(false);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            gamePanel.getGame().getPlaying().getPlayer().setRight(false);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_P) {
-            gamePanel.getGame().getPlaying().getPlayer().setAttacking(false);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_M) {
-            gamePanel.getGame().getPlaying().getPlayer().setJumping(false);
-        }
-        if (e.getKeyCode() ==  KeyEvent.VK_SHIFT) {
-            gamePanel.getGame().getPlaying().getPlayer().setRunning(false);
-        }
-        if (e.getKeyCode() ==  KeyEvent.VK_E) {
-            gamePanel.getGame().getPlaying().getPlayer().setEquip(false);
+        switch(GameState.state) {
+            case MENU:
+                gamePanel.getGame().getMenu().keyReleased(e);
+                break;
+            case PLAYING:
+                gamePanel.getGame().getPlaying().keyReleased(e);
+                break;
+            default:
         }
 
     }

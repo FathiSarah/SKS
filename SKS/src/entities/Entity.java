@@ -7,7 +7,6 @@ import java.awt.geom.Rectangle2D;
 /**
  * Entity class that will be the base class for all entities in the game.
  */
-
 public abstract class Entity {
 
     protected float x, y, width, height;

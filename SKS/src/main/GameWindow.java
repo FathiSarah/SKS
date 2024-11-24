@@ -53,6 +53,10 @@ public class GameWindow {
 
      }
 
+    /**
+     * Method used to set the fullscreen mode of the game window.
+     * @param fullscreen
+     */
     public void setFullscreen(boolean fullscreen) {
         this.fullscreen = fullscreen;
 

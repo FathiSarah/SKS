@@ -7,24 +7,30 @@ import main.Game;
 import static utils.Constants.EnemyConstants.*;
 import static utils.Methods.*;
 
+/**
+ * Child class of NPCs, used to create NPCs that patrol the level.
+ */
 public class PatrollingNPC extends NPCs {
 
 
-
+    /**
+     * Constructor for the PatrollingNPC class.
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param name
+     * @param levelManager
+     */
     public PatrollingNPC(float x, float y, int width, int height, String name, LevelManager levelManager) {
         super(x, y, width, height, name, levelManager);
         initHitBox(x, y, 18 * Game.SCALE * NPC_SCALE, 25 * Game.SCALE * NPC_SCALE);
     }
 
-//    public void switchDirection() {
-//        if (currentDirection == Direction.RIGHT) {
-//            currentDirection = Direction.LEFT;
-//        }
-//        else if (currentDirection == Direction.LEFT) {
-//            currentDirection = Direction.RIGHT;
-//        }
-//    }
 
+    /**
+     * Method that updates the movement of the NPC.
+     */
     protected void updateMove() {
         while (!isEntityOnFloor(hitBox, levelManager.getCollisionMap())) {
             hitBox.y += 1;

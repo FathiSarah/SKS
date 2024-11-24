@@ -5,8 +5,10 @@ import gamestates.GameMenu;
 import gamestates.GameState;
 import gamestates.Playing;
 import inputs.KeyboardInputs;
-import java.awt.*;
 import levels.LevelBase;
+
+import java.awt.*;
+
 
 /**
  * Main class of the game, used to start the game
@@ -188,14 +190,12 @@ public class Game implements Runnable {
 //            playing.getPlayer().resetDirBooleans();
     }
 
+
     public GameMenu getMenu() {
         return menu;
     }
     public Playing getPlaying() {
         return playing;
-    }
-    public GameWindow getGameWindow() {
-        return gameWindow;
     }
 
 }
