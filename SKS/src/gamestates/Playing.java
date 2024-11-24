@@ -5,6 +5,10 @@ import entities.NPCs;
 import entities.Player;
 import entities.interactables.Key;
 import entities.interactables.Knife;
+import levels.LevelBase;
+import levels.LevelManager;
+import ui.PauseOverlay;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -22,7 +26,9 @@ public class Playing extends State implements StateMethods{
     private Key key;
     private Knife knife;
     private LevelManager levelManager;
+    private PauseOverlay pauseOverlay;
     private NPCs npc, npc2, npc3;
+    private boolean paused = false;
 
     private LevelBase activeLevel;
     private int currentLevel = 1;
@@ -54,6 +60,8 @@ public class Playing extends State implements StateMethods{
         levelManager = new LevelManager(game);
         player = new Player(250 * Game.SCALE, 700 * Game.SCALE, (int)(128 * Game.SCALE), (int)(128 * Game.SCALE), levelManager, this);
         loadLevel(currentLevel);
+        pauseOverlay = new PauseOverlay(this);
+
     }
 
     /**
@@ -87,12 +95,16 @@ public class Playing extends State implements StateMethods{
      */
     @Override
     public void update() {
-        activeLevel.update(player);
-        player.update();
-        updateTimer();
-        gameOver();
-        allNPCsDead();
+        if(!paused) {
+            activeLevel.update(player);
+            player.update();
 
+        }else {
+            updateTimer();
+            pauseOverlay.update();
+            gameOver();
+            allNPCsDead();
+        }
     }
 
     /**
@@ -118,6 +130,9 @@ public class Playing extends State implements StateMethods{
         activeLevel.render(g);
         if(!getPlayer().isHidden()){
             player.render(g);
+
+            if(paused)
+                pauseOverlay.draw(g);
         }
         renderTimer(g);
         renderWalk(g);
@@ -187,22 +202,26 @@ public class Playing extends State implements StateMethods{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        if (paused)
+            pauseOverlay.mouseReleased(e);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (paused)
+            pauseOverlay.mousePressed(e);
+
 
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
+        if (paused)
+            pauseOverlay.mouseMoved(e);
     }
 
     @Override
@@ -227,6 +246,10 @@ public class Playing extends State implements StateMethods{
         }
         if (e.getKeyCode() ==  KeyEvent.VK_SHIFT) {
             player.setRunning(true);
+        }
+        if (e.getKeyCode() ==  KeyEvent.VK_ESCAPE) {
+            paused = !paused;
+
         }
 
 
@@ -260,6 +283,10 @@ public class Playing extends State implements StateMethods{
         }
 
 
+    }
+
+    public void unpauseGame(){
+        paused = false;
     }
 
     public Playing getInstance(){
