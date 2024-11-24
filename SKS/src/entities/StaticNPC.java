@@ -28,13 +28,12 @@ public class StaticNPC extends NPCs {
     public StaticNPC(float x, float y, int width, int height, String name, LevelManager levelManager) {
         super(x, y, width, height, name, levelManager);
         initHitBox(x, y, 18 * Game.SCALE * NPC_SCALE, 25 * Game.SCALE * NPC_SCALE);
-        setSpeed(0); // Static until chasing
+        setSpeed(0);
+        setFieldOfView(200 * Game.SCALE);
 
-        // Start in the idle state facing a default direction
         setCurrentState(NPC_state.IDLE);
         currentDirection = Direction.RIGHT;
 
-        // Initialize timing
         startTime = System.nanoTime();
     }
 

@@ -23,8 +23,6 @@ import main.Game;
  */
 public class Playing extends State implements StateMethods{
     private Player player;
-    private Key key;
-    private Knife knife;
     private LevelManager levelManager;
     private PauseOverlay pauseOverlay;
     private NPCs npc, npc2, npc3;
@@ -102,9 +100,9 @@ public class Playing extends State implements StateMethods{
         }else {
             updateTimer();
             pauseOverlay.update();
-            gameOver();
-            allNPCsDead();
         }
+        gameOver();
+        allNPCsDead();
     }
 
     /**

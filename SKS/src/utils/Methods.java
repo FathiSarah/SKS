@@ -12,8 +12,7 @@ import main.Game;
 public class Methods {
 
     private static Player player;
-    private static Key key;
-    private static Game game;
+
     /**
      * Method used to check if an entity can move to a certain position.
      * @param x x-coordinate of the entity.

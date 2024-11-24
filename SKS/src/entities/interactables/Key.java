@@ -42,7 +42,10 @@ public class Key extends Items {
         }
     }
 
-        public void keyPickUpSound() {
+    /**
+     * keyPickUpSound method is used to play the sound when the player picks up the key
+     */
+    public void keyPickUpSound() {
         try {
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("./res/mixkit-mechanical-crate-pick-up-3154.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);

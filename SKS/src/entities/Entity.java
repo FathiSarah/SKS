@@ -27,7 +27,6 @@ public abstract class Entity {
      * @param height
      */
     public Entity(float x, float y, float width, float height) {
-
         this.x = x;
         this.y = y;
         this.width = width;
@@ -59,35 +58,27 @@ public abstract class Entity {
     public Rectangle2D.Float getHitBox() {
         return hitBox;
     }
-
     public float getX() {
         return x;
     }
-
     public float getY() {
         return y;
     }
-
     public float getWidth() {
         return width;
     }
-
     public float getHeight() {
         return height;
     }
-
     public boolean Alive() {
         return isAlive;
     }
-
     public void setAlive(boolean alive) {
         alive = isAlive;
         }
-
     public void setDebug(boolean debug) {
         this.debug = debug;
     }
-
     public void setSpeed(float speed) {
         this.speed = speed;
     }

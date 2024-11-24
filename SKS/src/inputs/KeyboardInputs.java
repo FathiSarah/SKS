@@ -9,9 +9,7 @@ import main.GameWindow;
 
 public class KeyboardInputs implements KeyListener {
     private GamePanel gamePanel;
-    private Entity entity;
     private GameWindow gameWindow;
-
 
 
     public KeyboardInputs(GamePanel gamePanel, GameWindow gameWindow) {
@@ -50,10 +48,6 @@ public class KeyboardInputs implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_G){
             gamePanel.getGame().getPlaying().getPlayer().setHidden(true);
         }
-
-
-
-
     }
 
     @Override
@@ -67,7 +61,6 @@ public class KeyboardInputs implements KeyListener {
                 break;
             default:
         }
-
     }
 
     public void setGameWindow(GameWindow gameWindow) {

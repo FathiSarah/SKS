@@ -27,10 +27,13 @@ public class LoadSave {
     public static final String ENEMY1_ATLAS = "Enemy1Atlas.png";
     public static final String ENEMY2_ATLAS = "Enemy2Atlas.png";
     public static final String ENEMY3_ATLAS = "Enemy3Atlas.png";
+
     public static final String WARDROBE = "wardrobe.png";
     public static final String BED = "bed.png";
     public static final String FRIDGE = "fridge.png";
     public static final String COUCH = "couch.png";
+    public static final String OPENED_DOOR = "open_door.png";
+    public static final String CLOSED_DOOR= "closed_door.png";
 
     private LevelBase activeLevel;
 
@@ -41,21 +44,29 @@ public class LoadSave {
      */
     public static BufferedImage loadImage(String path) {
         BufferedImage image = null;
-        InputStream is = LoadSave.class.getResourceAsStream("../res/" + path);
+        InputStream is = null;
 
         try {
+            is = LoadSave.class.getResourceAsStream("../res/" + path);
+            if (is == null) {
+                System.err.println("Resource not found: " + path);
+                return null;
+            }
             image = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return image;
     }
+
 
 
 }

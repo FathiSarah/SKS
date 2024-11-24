@@ -24,34 +24,14 @@ public class Game implements Runnable {
     private Playing playing;
     private GameMenu menu;
 
-
-
     public final static int TILE_DEFAULT_SIZE = 32;
     public final static float SCALE = 1f;
     public final static int TILES_IN_WIDTH = 40;
     public final static int TILES_IN_HEIGHT = 27;
     public final static int TILES_SIZE = (int)(TILE_DEFAULT_SIZE * SCALE);
-    //public final static int GAME_WIDTH = (int) (800 * SCALE);
-    //public final static int GAME_HEIGHT = (int) (600 * SCALE);
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
-    private LevelBase activeLevel;
-    private int currentLevel = 1;
-
-
-    public float getScaleX() {
-        return (float) gamePanel.getWidth() / GAME_WIDTH;
-    }
-
-    public float getScaleY() {
-        return (float) gamePanel.getHeight() / GAME_HEIGHT;
-    }
-
-
-
-
-    // Need to add the static variables for the size of the tiles, the scale and the size of the game window.
 
     /**
      * The constructor of the Game class.

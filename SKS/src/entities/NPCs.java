@@ -23,12 +23,7 @@ public class NPCs extends Entity {
         CHASE,
     }
 
-    protected enum NPC_type {
-        COMBATIVE,
-        FEARFUL
-    }
-
-    protected enum Direction {
+    public enum Direction {
         RIGHT,
         LEFT
     }
@@ -36,16 +31,14 @@ public class NPCs extends Entity {
     protected Player player;
 
     protected NPC_state currentState = NPC_state.PATROL;
-    protected NPC_type nPC_type;
-    protected Direction currentDirection;
+    public Direction currentDirection;
 
-    protected int nextAction = 1500;
     private String name;
 
     protected long startTime = System.nanoTime();
     protected long elapsedTime = 0;
 
-    private static final float FIELD_OF_VIEW =  100 * Game.SCALE;
+    private static float FIELD_OF_VIEW =  100 * Game.SCALE;
 
     // Variables for animations and character rendering
     private BufferedImage[][] animations;
@@ -104,7 +97,6 @@ public class NPCs extends Entity {
         while (!isEntityOnFloor(hitBox, levelManager.getCollisionMap())) {
             hitBox.y += 1;
         }
-
         currentState = NPC_state.IDLE;
         NPCAction = NPC_IDLE;
     }
@@ -131,19 +123,7 @@ public class NPCs extends Entity {
         }
     }
 
-    /**
-     * Method that changes the direction of the NPC's sprites.
-     */
-    public void directionSprites() {
-        if (currentDirection == Direction.RIGHT) {
-            flipX = 0;
-            flipW = 1;
-        }
-        else if (currentDirection == Direction.LEFT) {
-            flipX = (int)width;
-            flipW = -1;
-        }
-    }
+
 
     /**
      * Method that checks if the player is in the NPC's field of view.
@@ -168,6 +148,28 @@ public class NPCs extends Entity {
         }
 
         return false;
+    }
+
+    /**
+     * Method that makes the NPC chase the player.
+     */
+    protected void chasePlayer() {
+        var playerHitBox = levelManager.getGame().getPlaying().getPlayer().getHitBox();
+
+        // Determine movement direction based on player's position
+        if (playerHitBox.x < hitBox.x) {
+            if (canMoveHere(hitBox.x - speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
+                System.out.println("detected");
+                hitBox.x -= speed * 0.2;
+                currentDirection = Direction.LEFT;
+            }
+
+        } else {
+            if (canMoveHere(hitBox.x + speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
+                hitBox.x += speed * 0.2;
+                currentDirection = Direction.RIGHT;
+            }
+        }
     }
 
 
@@ -196,9 +198,6 @@ public class NPCs extends Entity {
             image = LoadSave.loadImage(LoadSave.ENEMY3_ATLAS);
         }
 
-
-
-
         animations = new BufferedImage[4][8];
 
         for (int i = 0; i < animations.length; i++) {
@@ -222,55 +221,34 @@ public class NPCs extends Entity {
         }
     }
 
-    protected void chasePlayer() {
-        var playerHitBox = levelManager.getGame().getPlaying().getPlayer().getHitBox();
-
-        // Determine movement direction based on player's position
-        if (playerHitBox.x < hitBox.x) {
-            if (canMoveHere(hitBox.x - speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
-                System.out.println("detected");
-                hitBox.x -= speed * 0.2;
-                currentDirection = Direction.LEFT;
-            }
-
-        } else {
-            if (canMoveHere(hitBox.x + speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
-                hitBox.x += speed * 0.2;
-                currentDirection = Direction.RIGHT;
-            }
+    /**
+     * Method that changes the direction of the NPC's sprites.
+     */
+    public void directionSprites() {
+        if (currentDirection == Direction.RIGHT) {
+            flipX = 0;
+            flipW = 1;
+        }
+        else if (currentDirection == Direction.LEFT) {
+            flipX = (int)width;
+            flipW = -1;
         }
     }
 
-    public int getNPCAction() {
-        return NPCAction;
-    }
 
     public NPC_state getCurrentState() {
         return currentState;
     }
-
     public void setCurrentState(NPC_state currentState) {
         this.currentState = currentState;
     }
-
-    public void setFlipX(int flipX) {
-        this.flipX = flipX;
-    }
-
-    public void setFlipW(int flipW) {
-        this.flipW = flipW;
-    }
-
     public String getName() {
         return name;
     }
-
-    public void setDropItem(Items dropItem) {
-        this.dropItem = dropItem;
-    }
-
     public Items getDropItem() {
         return dropItem;
     }
-
+    public void setFieldOfView(float fieldOfView) {
+        FIELD_OF_VIEW = fieldOfView;
+    }
 }
