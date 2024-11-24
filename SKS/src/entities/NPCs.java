@@ -7,9 +7,10 @@ import entities.interactables.Items;
 import levels.LevelManager;
 import main.Game;
 import static utils.Constants.EnemyConstants.*;
+import static utils.Methods.*;
+import static utils.Methods.canMoveHere;
+
 import utils.LoadSave;
-import static utils.Methods.isEntityOnFloor;
-import static utils.Methods.isOnSameLevel;
 
 /**
  * Child class of Entity, used to create NPCs in the game.
@@ -217,6 +218,25 @@ public class NPCs extends Entity {
             aniIndex++;
             if(aniIndex >= GetSpriteAmount(NPCAction)){
                 aniIndex = 0;
+            }
+        }
+    }
+
+    protected void chasePlayer() {
+        var playerHitBox = levelManager.getGame().getPlaying().getPlayer().getHitBox();
+
+        // Determine movement direction based on player's position
+        if (playerHitBox.x < hitBox.x) {
+            if (canMoveHere(hitBox.x - speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
+                System.out.println("detected");
+                hitBox.x -= speed * 0.2;
+                currentDirection = Direction.LEFT;
+            }
+
+        } else {
+            if (canMoveHere(hitBox.x + speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
+                hitBox.x += speed * 0.2;
+                currentDirection = Direction.RIGHT;
             }
         }
     }

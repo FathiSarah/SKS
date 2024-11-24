@@ -11,7 +11,7 @@ public abstract class Entity {
 
     protected float x, y, width, height;
     protected Rectangle2D.Float hitBox;
-    protected int speed;
+    protected float speed;
 
     protected boolean isAlive = true;
 
@@ -86,5 +86,9 @@ public abstract class Entity {
 
     public void setDebug(boolean debug) {
         this.debug = debug;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 }

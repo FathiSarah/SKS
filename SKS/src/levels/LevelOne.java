@@ -43,7 +43,7 @@ public class LevelOne implements LevelBase {
 
         npc1 = new PatrollingNPC(530 * SCALE, 500 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC1", levelManager);
         npc2 = new PatrollingNPC(550 * SCALE, 670 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC2", levelManager);
-        npc3 = new PatrollingNPC(400 * SCALE, 450 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC3", levelManager);
+        npc3 = new TriggeredNPC(400 * SCALE, 450 * SCALE, (int) (31 * SCALE * NPC_SCALE), (int) (29 * SCALE * NPC_SCALE), "NPC3", levelManager);
 
         npcs.add(npc1);
         npcs.add(npc2);

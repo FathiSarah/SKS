@@ -87,20 +87,7 @@ public class PatrollingNPC extends NPCs {
                     setCurrentState(NPC_state.PATROL);
                     newState(NPC_WALK);
                 }
-
-                if (levelManager.getGame().getPlaying().getPlayer().getHitBox().x < hitBox.x) {
-
-                    if (canMoveHere(hitBox.x - speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
-                        hitBox.x -= speed * 0.2;
-                        currentDirection = Direction.LEFT;
-                    }
-                } else {
-                    if (canMoveHere(hitBox.x + speed, hitBox.y, hitBox.width, hitBox.height, levelManager.getCollisionMap())) {
-                        hitBox.x += speed * 0.2;
-                        currentDirection = Direction.RIGHT;
-                    }
-
-                }
+                chasePlayer();
                 break;
         }
     }
